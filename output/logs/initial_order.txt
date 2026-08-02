@@ -1,0 +1,30 @@
+﻿This is the initial evaluation order of activities computed by FET. If the generation gets stuck after a certain number of activities, please check the activity corresponding to this number+1. You might find errors in your input.
+
+The initial order of activities (id-s):
+
+No: 1, Id: 1, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 2, Id: 2, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 3, Id: 3, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 4, Id: 4, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 5, Id: 5, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 6, Id: 6, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 7, Id: 7, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 8, Id: 8, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 9, Id: 9, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 10, Id: 10, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 11, Id: 11, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 12, Id: 12, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 13, Id: 13, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 14, Id: 14, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 15, Id: 15, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 16, Id: 16, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 17, Id: 17, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 18, Id: 18, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 19, Id: 19, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 20, Id: 20, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 21, Id: 21, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
+No: 22, Id: 22, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
+No: 23, Id: 23, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
+No: 24, Id: 24, Duration: 1, Teachers: PP Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: PP1
+No: 25, Id: 25, Duration: 1, Teachers: PP Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: PP1
+End - the order of activities (id-s)

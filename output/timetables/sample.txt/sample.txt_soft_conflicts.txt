@@ -1,0 +1,10 @@
+﻿Soft conflicts of sample.txt
+Generated with FET 7.9.2 on 7/28/26 4:22 PM
+
+Number of broken soft constraints: 0
+Total soft conflicts: 0
+
+Soft conflicts list (in descending order):
+
+
+End of file.

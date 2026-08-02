@@ -1,0 +1,10 @@
+﻿Soft conflicts of fet_school_2_1785541791.xml
+Generated with FET 7.9.2 on 8/1/26 2:49 AM
+
+Number of broken soft constraints: 0
+Total soft conflicts: 0
+
+Soft conflicts list (in descending order):
+
+
+End of file.

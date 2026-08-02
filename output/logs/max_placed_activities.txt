@@ -1,0 +1,27 @@
+﻿This is the list of max placed activities, chronologically. If FET could reach maximum n-th activity, look at the n+1-st activity in the initial order of the activities
+
+At time 0 h 0 m 0 s, FET reached 1 activities placed
+At time 0 h 0 m 0 s, FET reached 2 activities placed
+At time 0 h 0 m 0 s, FET reached 3 activities placed
+At time 0 h 0 m 0 s, FET reached 4 activities placed
+At time 0 h 0 m 0 s, FET reached 5 activities placed
+At time 0 h 0 m 0 s, FET reached 6 activities placed
+At time 0 h 0 m 0 s, FET reached 7 activities placed
+At time 0 h 0 m 0 s, FET reached 8 activities placed
+At time 0 h 0 m 0 s, FET reached 9 activities placed
+At time 0 h 0 m 0 s, FET reached 10 activities placed
+At time 0 h 0 m 0 s, FET reached 11 activities placed
+At time 0 h 0 m 0 s, FET reached 12 activities placed
+At time 0 h 0 m 0 s, FET reached 13 activities placed
+At time 0 h 0 m 0 s, FET reached 14 activities placed
+At time 0 h 0 m 0 s, FET reached 15 activities placed
+At time 0 h 0 m 0 s, FET reached 16 activities placed
+At time 0 h 0 m 0 s, FET reached 17 activities placed
+At time 0 h 0 m 0 s, FET reached 18 activities placed
+At time 0 h 0 m 0 s, FET reached 19 activities placed
+At time 0 h 0 m 0 s, FET reached 20 activities placed
+At time 0 h 0 m 0 s, FET reached 21 activities placed
+At time 0 h 0 m 0 s, FET reached 22 activities placed
+At time 0 h 0 m 0 s, FET reached 23 activities placed
+At time 0 h 0 m 0 s, FET reached 24 activities placed
+At time 0 h 0 m 0 s, FET reached 25 activities placed

@@ -1,0 +1,1182 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Teachers_Timetable>
+  <Teacher name="Isaac Moemi">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+        <Activity id="2"></Activity>
+        <Subject name="Communication Skills"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+        <Activity id="1"></Activity>
+        <Subject name="Communication Skills"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Lidy Kemunto">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+        <Activity id="4"></Activity>
+        <Subject name="Entrepreneurial Skills"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+        <Activity id="3"></Activity>
+        <Subject name="Entrepreneurial Skills"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Margaret Githinji">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+        <Activity id="5"></Activity>
+        <Subject name="Digital Literacy"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+        <Activity id="6"></Activity>
+        <Subject name="Digital Literacy"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Mary Kibe">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+        <Activity id="7"></Activity>
+        <Subject name="Environmental Literacy"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Peter Mwaura Kiarie">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+        <Activity id="8"></Activity>
+        <Subject name="Occupational Safety and Health Practices"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Kevin Nyongesa">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+        <Activity id="10"></Activity>
+        <Subject name="Technical Drawing"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+        <Activity id="9"></Activity>
+        <Subject name="Technical Drawing"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Robert O Onyango">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+        <Activity id="12"></Activity>
+        <Subject name="Mathematics III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+        <Activity id="11"></Activity>
+        <Subject name="Mathematics III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+        <Activity id="13"></Activity>
+        <Subject name="Mathematics III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Solomon Wamiti">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+        <Activity id="17"></Activity>
+        <Subject name="Surveying III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+        <Activity id="16"></Activity>
+        <Subject name="Surveying III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Joseph Ndugutu">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+        <Activity id="14"></Activity>
+        <Subject name="Structures III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+        <Activity id="15"></Activity>
+        <Subject name="Structures III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Josephine M. Murungi">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+        <Activity id="18"></Activity>
+        <Subject name="General Building Construction III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+        <Activity id="19"></Activity>
+        <Subject name="General Building Construction III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+        <Activity id="20"></Activity>
+        <Subject name="General Building Construction III"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Ruth Wairimu">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+        <Activity id="24"></Activity>
+        <Subject name="Estimating and Costing II"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+        <Activity id="23"></Activity>
+        <Subject name="Estimating and Costing II"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+        <Activity id="25"></Activity>
+        <Subject name="Building Services"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+  <Teacher name="Festus Kamau">
+    <Day name="Monday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Tuesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Wednesday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+    <Day name="Thursday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+        <Activity id="21"></Activity>
+        <Subject name="Construction Management"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+        <Activity id="22"></Activity>
+        <Subject name="Construction Management"></Subject>
+        <Students name="DBC2201 - Building Construction III"></Students>
+      </Hour>
+    </Day>
+    <Day name="Friday">
+      <Hour name="08:00-08:40">
+      </Hour>
+      <Hour name="08:40-09:20">
+      </Hour>
+      <Hour name="09:20-10:00">
+      </Hour>
+      <Hour name="10:00-10:20 BREAK">
+      </Hour>
+      <Hour name="10:20-11:00">
+      </Hour>
+      <Hour name="11:00-11:40">
+      </Hour>
+      <Hour name="11:40-12:40 LUNCH">
+      </Hour>
+      <Hour name="12:40-13:20">
+      </Hour>
+    </Day>
+  </Teacher>
+</Teachers_Timetable>

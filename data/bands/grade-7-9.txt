@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fet version="6.0.0">
+  <Institution_Name>MuregiScore EduCore</Institution_Name>
+  <Comments>Grade 7-9 (Junior Secondary School) - 8 lessons/day, 40 min each, 41 lessons/week (one heavier day), break + lunch locked</Comments>
+
+  <Days_List>
+    <Number_of_Days>5</Number_of_Days>
+    <Day><Name>Monday</Name></Day>
+    <Day><Name>Tuesday</Name></Day>
+    <Day><Name>Wednesday</Name></Day>
+    <Day><Name>Thursday</Name></Day>
+    <Day><Name>Friday</Name></Day>
+  </Days_List>
+
+  <!-- 9 teaching slots + break + lunch = 11 hour-slots/day, uniform
+       across all 5 days (giving a 45/week ceiling so 41 fits within
+       it via the min/max daily constraints below). 40-min lessons. -->
+  <Hours_List>
+    <Number_of_Hours>11</Number_of_Hours>
+    <Hour><Name>08:00-08:40</Name></Hour>
+    <Hour><Name>08:40-09:20</Name></Hour>
+    <Hour><Name>09:20-10:00</Name></Hour>
+    <Hour><Name>10:00-10:20 BREAK</Name></Hour>
+    <Hour><Name>10:20-11:00</Name></Hour>
+    <Hour><Name>11:00-11:40</Name></Hour>
+    <Hour><Name>11:40-12:20</Name></Hour>
+    <Hour><Name>12:20-13:20 LUNCH</Name></Hour>
+    <Hour><Name>13:20-14:00</Name></Hour>
+    <Hour><Name>14:00-14:40</Name></Hour>
+    <Hour><Name>14:40-15:20</Name></Hour>
+  </Hours_List>
+
+  <!-- Grade 7-9 (JSS) subjects per KICD's revised curriculum -->
+  <Subjects_List>
+    <Subject><Name>English</Name></Subject>
+    <Subject><Name>Kiswahili</Name></Subject>
+    <Subject><Name>Mathematics</Name></Subject>
+    <Subject><Name>Integrated Science</Name></Subject>
+    <Subject><Name>Pre-Technical Studies</Name></Subject>
+    <Subject><Name>Social Studies</Name></Subject>
+    <Subject><Name>Religious Education</Name></Subject>
+    <Subject><Name>Creative Arts and Sports</Name></Subject>
+    <Subject><Name>Agriculture and Nutrition</Name></Subject>
+    <Subject><Name>Pastoral Programme of Instruction</Name></Subject>
+  </Subjects_List>
+
+  <Teachers_List>
+    <Teacher><Name>JSS Teacher 7</Name></Teacher>
+  </Teachers_List>
+
+  <Rooms_List>
+    <Room><Name>Grade 7 Classroom</Name><Building></Building><Capacity>45</Capacity></Room>
+  </Rooms_List>
+
+  <Students_List>
+    <Year>
+      <Name>Grade 7</Name>
+      <Number_of_Students>45</Number_of_Students>
+      <Comments></Comments>
+    </Year>
+  </Students_List>
+
+  <!-- 41 lessons/week across the 9 subjects + PPI -->
+  <Activities_List>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>English</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>1</Id><Activity_Group_Id>1</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>English</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>2</Id><Activity_Group_Id>1</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>English</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>3</Id><Activity_Group_Id>1</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>English</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>4</Id><Activity_Group_Id>1</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>English</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>5</Id><Activity_Group_Id>1</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Kiswahili</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>6</Id><Activity_Group_Id>2</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Kiswahili</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>7</Id><Activity_Group_Id>2</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Kiswahili</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>8</Id><Activity_Group_Id>2</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Kiswahili</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>9</Id><Activity_Group_Id>2</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Mathematics</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>10</Id><Activity_Group_Id>3</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Mathematics</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>11</Id><Activity_Group_Id>3</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Mathematics</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>12</Id><Activity_Group_Id>3</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Mathematics</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>13</Id><Activity_Group_Id>3</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Mathematics</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>14</Id><Activity_Group_Id>3</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Integrated Science</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>15</Id><Activity_Group_Id>4</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Integrated Science</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>16</Id><Activity_Group_Id>4</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Integrated Science</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>17</Id><Activity_Group_Id>4</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Integrated Science</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>18</Id><Activity_Group_Id>4</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Integrated Science</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>19</Id><Activity_Group_Id>4</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pre-Technical Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>20</Id><Activity_Group_Id>5</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pre-Technical Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>21</Id><Activity_Group_Id>5</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pre-Technical Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>22</Id><Activity_Group_Id>5</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pre-Technical Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>23</Id><Activity_Group_Id>5</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Social Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>24</Id><Activity_Group_Id>6</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Social Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>25</Id><Activity_Group_Id>6</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Social Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>26</Id><Activity_Group_Id>6</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Social Studies</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>27</Id><Activity_Group_Id>6</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Religious Education</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>28</Id><Activity_Group_Id>7</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Religious Education</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>29</Id><Activity_Group_Id>7</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Religious Education</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>30</Id><Activity_Group_Id>7</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Creative Arts and Sports</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>31</Id><Activity_Group_Id>8</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Creative Arts and Sports</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>32</Id><Activity_Group_Id>8</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Creative Arts and Sports</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>33</Id><Activity_Group_Id>8</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Creative Arts and Sports</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>34</Id><Activity_Group_Id>8</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Agriculture and Nutrition</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>35</Id><Activity_Group_Id>9</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Agriculture and Nutrition</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>36</Id><Activity_Group_Id>9</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Agriculture and Nutrition</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>37</Id><Activity_Group_Id>9</Activity_Group_Id><Active>true</Active></Activity>
+
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pastoral Programme of Instruction</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>38</Id><Activity_Group_Id>10</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pastoral Programme of Instruction</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>39</Id><Activity_Group_Id>10</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pastoral Programme of Instruction</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>40</Id><Activity_Group_Id>10</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>JSS Teacher 7</Teacher><Subject>Pastoral Programme of Instruction</Subject><Students>Grade 7</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>41</Id><Activity_Group_Id>10</Activity_Group_Id><Active>true</Active></Activity>
+
+  </Activities_List>
+
+  <Time_Constraints_List>
+
+    <ConstraintBasicCompulsoryTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Active>true</Active>
+    </ConstraintBasicCompulsoryTime>
+
+    <ConstraintBreakTimes>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Number_of_Break_Times>10</Number_of_Break_Times>
+      <Break_Time><Day>Monday</Day><Hour>10:00-10:20 BREAK</Hour></Break_Time>
+      <Break_Time><Day>Monday</Day><Hour>12:20-13:20 LUNCH</Hour></Break_Time>
+      <Break_Time><Day>Tuesday</Day><Hour>10:00-10:20 BREAK</Hour></Break_Time>
+      <Break_Time><Day>Tuesday</Day><Hour>12:20-13:20 LUNCH</Hour></Break_Time>
+      <Break_Time><Day>Wednesday</Day><Hour>10:00-10:20 BREAK</Hour></Break_Time>
+      <Break_Time><Day>Wednesday</Day><Hour>12:20-13:20 LUNCH</Hour></Break_Time>
+      <Break_Time><Day>Thursday</Day><Hour>10:00-10:20 BREAK</Hour></Break_Time>
+      <Break_Time><Day>Thursday</Day><Hour>12:20-13:20 LUNCH</Hour></Break_Time>
+      <Break_Time><Day>Friday</Day><Hour>10:00-10:20 BREAK</Hour></Break_Time>
+      <Break_Time><Day>Friday</Day><Hour>12:20-13:20 LUNCH</Hour></Break_Time>
+      <Active>true</Active>
+    </ConstraintBreakTimes>
+
+    <ConstraintStudentsSetNotAvailableTimes>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Students>Grade 7</Students>
+      <Number_of_Not_Available_Times>10</Number_of_Not_Available_Times>
+      <Not_Available_Time><Day>Monday</Day><Hour>10:00-10:20 BREAK</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Monday</Day><Hour>12:20-13:20 LUNCH</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Tuesday</Day><Hour>10:00-10:20 BREAK</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Tuesday</Day><Hour>12:20-13:20 LUNCH</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Wednesday</Day><Hour>10:00-10:20 BREAK</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Wednesday</Day><Hour>12:20-13:20 LUNCH</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Thursday</Day><Hour>10:00-10:20 BREAK</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Thursday</Day><Hour>12:20-13:20 LUNCH</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Friday</Day><Hour>10:00-10:20 BREAK</Hour></Not_Available_Time>
+      <Not_Available_Time><Day>Friday</Day><Hour>12:20-13:20 LUNCH</Hour></Not_Available_Time>
+      <Active>true</Active>
+    </ConstraintStudentsSetNotAvailableTimes>
+
+    <!-- 41 lessons across 5 days: max 9/day allows one heavier day,
+         min 8/day keeps every other day full (8-8-8-8-9 = 41) -->
+    <ConstraintStudentsSetMaxHoursDaily>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Maximum_Hours_Daily>9</Maximum_Hours_Daily>
+      <Students>Grade 7</Students>
+      <Active>true</Active>
+    </ConstraintStudentsSetMaxHoursDaily>
+
+    <ConstraintStudentsSetMinHoursDaily>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Minimum_Hours_Daily>8</Minimum_Hours_Daily>
+      <Students>Grade 7</Students>
+      <Active>true</Active>
+    </ConstraintStudentsSetMinHoursDaily>
+
+  </Time_Constraints_List>
+
+  <Space_Constraints_List>
+    <ConstraintBasicCompulsorySpace>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Active>true</Active>
+    </ConstraintBasicCompulsorySpace>
+  </Space_Constraints_List>
+
+</fet>

@@ -1,0 +1,222 @@
+﻿This is the initial evaluation order of activities computed by FET. If the generation gets stuck after a certain number of activities, please check the activity corresponding to this number+1. You might find errors in your input.
+
+The initial order of activities (id-s):
+
+No: 1, Id: 1, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
+No: 2, Id: 2, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
+No: 3, Id: 3, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
+No: 4, Id: 4, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
+No: 5, Id: 5, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
+No: 6, Id: 6, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
+No: 7, Id: 7, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
+No: 8, Id: 8, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 9, Id: 9, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 10, Id: 10, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 11, Id: 11, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 12, Id: 12, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 13, Id: 13, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 14, Id: 14, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 15, Id: 15, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
+No: 16, Id: 16, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
+No: 17, Id: 17, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
+No: 18, Id: 18, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
+No: 19, Id: 19, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
+No: 20, Id: 20, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
+No: 21, Id: 21, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
+No: 22, Id: 22, Duration: 1, Teachers: Form Teacher 3, Subject: Physical Education / Life Skills, Activity tags: , Students: Form 3
+No: 23, Id: 23, Duration: 1, Teachers: Form Teacher 3, Subject: Physical Education / Life Skills, Activity tags: , Students: Form 3
+No: 24, Id: 24, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
+No: 25, Id: 25, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
+No: 26, Id: 26, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
+No: 27, Id: 27, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
+No: 28, Id: 28, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
+No: 29, Id: 29, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
+No: 30, Id: 30, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
+No: 31, Id: 31, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
+No: 32, Id: 32, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
+No: 33, Id: 33, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
+No: 34, Id: 34, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
+No: 35, Id: 35, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
+No: 36, Id: 36, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
+No: 37, Id: 37, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
+No: 38, Id: 38, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
+No: 39, Id: 39, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
+No: 40, Id: 40, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
+No: 41, Id: 41, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
+No: 42, Id: 42, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
+No: 43, Id: 43, Duration: 1, Teachers: Form Teacher 3, Subject: CRE, Activity tags: , Students: Form 3
+No: 44, Id: 44, Duration: 1, Teachers: Form Teacher 3, Subject: CRE, Activity tags: , Students: Form 3
+No: 45, Id: 45, Duration: 1, Teachers: Form Teacher 3, Subject: CRE, Activity tags: , Students: Form 3
+No: 46, Id: 152, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
+No: 47, Id: 153, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
+No: 48, Id: 154, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
+No: 49, Id: 155, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
+No: 50, Id: 156, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
+No: 51, Id: 157, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
+No: 52, Id: 158, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
+No: 53, Id: 159, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
+No: 54, Id: 160, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
+No: 55, Id: 161, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
+No: 56, Id: 162, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
+No: 57, Id: 163, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
+No: 58, Id: 164, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
+No: 59, Id: 165, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
+No: 60, Id: 166, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
+No: 61, Id: 167, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
+No: 62, Id: 168, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
+No: 63, Id: 169, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
+No: 64, Id: 170, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
+No: 65, Id: 171, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
+No: 66, Id: 172, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
+No: 67, Id: 173, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
+No: 68, Id: 174, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
+No: 69, Id: 175, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
+No: 70, Id: 176, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
+No: 71, Id: 177, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
+No: 72, Id: 178, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
+No: 73, Id: 179, Duration: 1, Teachers: JSS Teacher 7, Subject: Religious Education, Activity tags: , Students: Grade 7
+No: 74, Id: 180, Duration: 1, Teachers: JSS Teacher 7, Subject: Religious Education, Activity tags: , Students: Grade 7
+No: 75, Id: 181, Duration: 1, Teachers: JSS Teacher 7, Subject: Religious Education, Activity tags: , Students: Grade 7
+No: 76, Id: 182, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
+No: 77, Id: 183, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
+No: 78, Id: 184, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
+No: 79, Id: 185, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
+No: 80, Id: 186, Duration: 1, Teachers: JSS Teacher 7, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 7
+No: 81, Id: 187, Duration: 1, Teachers: JSS Teacher 7, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 7
+No: 82, Id: 188, Duration: 1, Teachers: JSS Teacher 7, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 7
+No: 83, Id: 189, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
+No: 84, Id: 190, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
+No: 85, Id: 191, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
+No: 86, Id: 192, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
+No: 87, Id: 77, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
+No: 88, Id: 78, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
+No: 89, Id: 79, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
+No: 90, Id: 80, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
+No: 91, Id: 81, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
+No: 92, Id: 82, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
+No: 93, Id: 83, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
+No: 94, Id: 84, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
+No: 95, Id: 85, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
+No: 96, Id: 86, Duration: 1, Teachers: Senior School Teacher 10, Subject: Community Service Learning, Activity tags: , Students: Grade 10
+No: 97, Id: 87, Duration: 1, Teachers: Senior School Teacher 10, Subject: Community Service Learning, Activity tags: , Students: Grade 10
+No: 98, Id: 88, Duration: 1, Teachers: Senior School Teacher 10, Subject: Physical Education, Activity tags: , Students: Grade 10
+No: 99, Id: 89, Duration: 1, Teachers: Senior School Teacher 10, Subject: Physical Education, Activity tags: , Students: Grade 10
+No: 100, Id: 90, Duration: 1, Teachers: Senior School Teacher 10, Subject: Physical Education, Activity tags: , Students: Grade 10
+No: 101, Id: 91, Duration: 1, Teachers: Senior School Teacher 10, Subject: ICT, Activity tags: , Students: Grade 10
+No: 102, Id: 92, Duration: 1, Teachers: Senior School Teacher 10, Subject: ICT, Activity tags: , Students: Grade 10
+No: 103, Id: 93, Duration: 1, Teachers: Senior School Teacher 10, Subject: Life Skills / PRPI, Activity tags: , Students: Grade 10
+No: 104, Id: 94, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
+No: 105, Id: 95, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
+No: 106, Id: 96, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
+No: 107, Id: 97, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
+No: 108, Id: 98, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
+No: 109, Id: 99, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
+No: 110, Id: 100, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
+No: 111, Id: 101, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
+No: 112, Id: 102, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
+No: 113, Id: 103, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
+No: 114, Id: 104, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
+No: 115, Id: 105, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
+No: 116, Id: 106, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
+No: 117, Id: 107, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
+No: 118, Id: 108, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
+No: 119, Id: 109, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
+No: 120, Id: 110, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
+No: 121, Id: 111, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
+No: 122, Id: 112, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
+No: 123, Id: 113, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
+No: 124, Id: 114, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
+No: 125, Id: 115, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
+No: 126, Id: 116, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
+No: 127, Id: 117, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
+No: 128, Id: 118, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
+No: 129, Id: 119, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
+No: 130, Id: 120, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
+No: 131, Id: 121, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
+No: 132, Id: 122, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
+No: 133, Id: 123, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
+No: 134, Id: 124, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
+No: 135, Id: 125, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
+No: 136, Id: 126, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
+No: 137, Id: 127, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
+No: 138, Id: 128, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
+No: 139, Id: 129, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
+No: 140, Id: 130, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
+No: 141, Id: 131, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
+No: 142, Id: 132, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
+No: 143, Id: 133, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
+No: 144, Id: 134, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
+No: 145, Id: 135, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
+No: 146, Id: 136, Duration: 1, Teachers: Grade Teacher 4, Subject: Social Studies, Activity tags: , Students: Grade 4
+No: 147, Id: 137, Duration: 1, Teachers: Grade Teacher 4, Subject: Social Studies, Activity tags: , Students: Grade 4
+No: 148, Id: 138, Duration: 1, Teachers: Grade Teacher 4, Subject: Social Studies, Activity tags: , Students: Grade 4
+No: 149, Id: 139, Duration: 1, Teachers: Grade Teacher 4, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 4
+No: 150, Id: 140, Duration: 1, Teachers: Grade Teacher 4, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 4
+No: 151, Id: 141, Duration: 1, Teachers: Grade Teacher 4, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 4
+No: 152, Id: 142, Duration: 1, Teachers: Grade Teacher 4, Subject: Creative Arts, Activity tags: , Students: Grade 4
+No: 153, Id: 143, Duration: 1, Teachers: Grade Teacher 4, Subject: Creative Arts, Activity tags: , Students: Grade 4
+No: 154, Id: 144, Duration: 1, Teachers: Grade Teacher 4, Subject: Creative Arts, Activity tags: , Students: Grade 4
+No: 155, Id: 145, Duration: 1, Teachers: Grade Teacher 4, Subject: Religious Education, Activity tags: , Students: Grade 4
+No: 156, Id: 146, Duration: 1, Teachers: Grade Teacher 4, Subject: Religious Education, Activity tags: , Students: Grade 4
+No: 157, Id: 147, Duration: 1, Teachers: Grade Teacher 4, Subject: Religious Education, Activity tags: , Students: Grade 4
+No: 158, Id: 148, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
+No: 159, Id: 149, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
+No: 160, Id: 150, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
+No: 161, Id: 151, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
+No: 162, Id: 46, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
+No: 163, Id: 47, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
+No: 164, Id: 48, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
+No: 165, Id: 49, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
+No: 166, Id: 50, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
+No: 167, Id: 51, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
+No: 168, Id: 52, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
+No: 169, Id: 53, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
+No: 170, Id: 54, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
+No: 171, Id: 55, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
+No: 172, Id: 56, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
+No: 173, Id: 57, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
+No: 174, Id: 58, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
+No: 175, Id: 59, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
+No: 176, Id: 60, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
+No: 177, Id: 61, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
+No: 178, Id: 62, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
+No: 179, Id: 63, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
+No: 180, Id: 64, Duration: 1, Teachers: Grade Teacher 1, Subject: Creative Arts, Activity tags: , Students: Grade 1
+No: 181, Id: 65, Duration: 1, Teachers: Grade Teacher 1, Subject: Creative Arts, Activity tags: , Students: Grade 1
+No: 182, Id: 66, Duration: 1, Teachers: Grade Teacher 1, Subject: Creative Arts, Activity tags: , Students: Grade 1
+No: 183, Id: 67, Duration: 1, Teachers: Grade Teacher 1, Subject: Physical and Health Education, Activity tags: , Students: Grade 1
+No: 184, Id: 68, Duration: 1, Teachers: Grade Teacher 1, Subject: Physical and Health Education, Activity tags: , Students: Grade 1
+No: 185, Id: 69, Duration: 1, Teachers: Grade Teacher 1, Subject: Physical and Health Education, Activity tags: , Students: Grade 1
+No: 186, Id: 70, Duration: 1, Teachers: Grade Teacher 1, Subject: Religious Education, Activity tags: , Students: Grade 1
+No: 187, Id: 71, Duration: 1, Teachers: Grade Teacher 1, Subject: Religious Education, Activity tags: , Students: Grade 1
+No: 188, Id: 72, Duration: 1, Teachers: Grade Teacher 1, Subject: Religious Education, Activity tags: , Students: Grade 1
+No: 189, Id: 73, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
+No: 190, Id: 74, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
+No: 191, Id: 75, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
+No: 192, Id: 76, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
+No: 193, Id: 193, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 194, Id: 194, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 195, Id: 195, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 196, Id: 196, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 197, Id: 197, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
+No: 198, Id: 198, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 199, Id: 199, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 200, Id: 200, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 201, Id: 201, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 202, Id: 202, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
+No: 203, Id: 203, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 204, Id: 204, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 205, Id: 205, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 206, Id: 206, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 207, Id: 207, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
+No: 208, Id: 208, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 209, Id: 209, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 210, Id: 210, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 211, Id: 211, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 212, Id: 212, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
+No: 213, Id: 213, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
+No: 214, Id: 214, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
+No: 215, Id: 215, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
+No: 216, Id: 216, Duration: 1, Teachers: PP Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: PP1
+No: 217, Id: 217, Duration: 1, Teachers: PP Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: PP1
+End - the order of activities (id-s)

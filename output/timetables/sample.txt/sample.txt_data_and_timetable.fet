@@ -1,0 +1,1047 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<fet version="7.9.2">
+  <Mode>Official</Mode>
+  <Institution_Name>Kiambu National Polytechnic</Institution_Name>
+  <Comments>Weekly class timetable - 5 days, 8 slots/day, 2 locked breaks, teacher/room clash prevention, min/max lessons per subject per week</Comments>
+  <Days_List>
+    <Number_of_Days>5</Number_of_Days>
+    <Day>
+      <Name>Monday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Tuesday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Wednesday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Thursday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Friday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+  </Days_List>
+  <Hours_List>
+    <Number_of_Hours>8</Number_of_Hours>
+    <Hour>
+      <Name>08:00-08:40</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>08:40-09:20</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>09:20-10:00</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>10:00-10:20 BREAK</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>10:20-11:00</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>11:00-11:40</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>11:40-12:40 LUNCH</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>12:40-13:20</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+  </Hours_List>
+  <Subjects_List>
+    <Subject>
+      <Name>Communication Skills</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Entrepreneurial Skills</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Digital Literacy</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Environmental Literacy</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Occupational Safety and Health Practices</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Technical Drawing</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Mathematics III</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Structures III</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Surveying III</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>General Building Construction III</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Construction Management</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Estimating and Costing II</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Building Services</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+  </Subjects_List>
+  <Activity_Tags_List>
+  </Activity_Tags_List>
+  <Teachers_List>
+    <Teacher>
+      <Name>Isaac Moemi</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Lidy Kemunto</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Margaret Githinji</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Mary Kibe</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Peter Mwaura Kiarie</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Kevin Nyongesa</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Robert O Onyango</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Solomon Wamiti</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Joseph Ndugutu</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Josephine M. Murungi</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Ruth Wairimu</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Festus Kamau</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+  </Teachers_List>
+  <Students_List>
+    <Year>
+      <Name>DBC2201 - Building Construction III</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Number_of_Students>45</Number_of_Students>
+      <Comments></Comments>
+      <!-- The information regarding categories, divisions of each category, and separator is only used in the divide year automatically by categories dialog. -->
+      <Number_of_Categories>0</Number_of_Categories>
+      <First_Category_Is_Permanent>false</First_Category_Is_Permanent>
+      <Separator> </Separator>
+    </Year>
+  </Students_List>
+  <Activities_List>
+    <Activity>
+      <Teacher>Isaac Moemi</Teacher>
+      <Subject>Communication Skills</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>1</Id>
+      <Activity_Group_Id>101</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Isaac Moemi</Teacher>
+      <Subject>Communication Skills</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>2</Id>
+      <Activity_Group_Id>101</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Lidy Kemunto</Teacher>
+      <Subject>Entrepreneurial Skills</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>3</Id>
+      <Activity_Group_Id>102</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Lidy Kemunto</Teacher>
+      <Subject>Entrepreneurial Skills</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>4</Id>
+      <Activity_Group_Id>102</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Margaret Githinji</Teacher>
+      <Subject>Digital Literacy</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>5</Id>
+      <Activity_Group_Id>103</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Margaret Githinji</Teacher>
+      <Subject>Digital Literacy</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>6</Id>
+      <Activity_Group_Id>103</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Mary Kibe</Teacher>
+      <Subject>Environmental Literacy</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>7</Id>
+      <Activity_Group_Id>104</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Peter Mwaura Kiarie</Teacher>
+      <Subject>Occupational Safety and Health Practices</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>8</Id>
+      <Activity_Group_Id>105</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Kevin Nyongesa</Teacher>
+      <Subject>Technical Drawing</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>9</Id>
+      <Activity_Group_Id>106</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Kevin Nyongesa</Teacher>
+      <Subject>Technical Drawing</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>10</Id>
+      <Activity_Group_Id>106</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Robert O Onyango</Teacher>
+      <Subject>Mathematics III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>11</Id>
+      <Activity_Group_Id>107</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Robert O Onyango</Teacher>
+      <Subject>Mathematics III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>12</Id>
+      <Activity_Group_Id>107</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Robert O Onyango</Teacher>
+      <Subject>Mathematics III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>13</Id>
+      <Activity_Group_Id>107</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Joseph Ndugutu</Teacher>
+      <Subject>Structures III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>14</Id>
+      <Activity_Group_Id>108</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Joseph Ndugutu</Teacher>
+      <Subject>Structures III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>15</Id>
+      <Activity_Group_Id>108</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Solomon Wamiti</Teacher>
+      <Subject>Surveying III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>16</Id>
+      <Activity_Group_Id>109</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Solomon Wamiti</Teacher>
+      <Subject>Surveying III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>17</Id>
+      <Activity_Group_Id>109</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Josephine M. Murungi</Teacher>
+      <Subject>General Building Construction III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>18</Id>
+      <Activity_Group_Id>110</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Josephine M. Murungi</Teacher>
+      <Subject>General Building Construction III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>19</Id>
+      <Activity_Group_Id>110</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Josephine M. Murungi</Teacher>
+      <Subject>General Building Construction III</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>20</Id>
+      <Activity_Group_Id>110</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Festus Kamau</Teacher>
+      <Subject>Construction Management</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>21</Id>
+      <Activity_Group_Id>111</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Festus Kamau</Teacher>
+      <Subject>Construction Management</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>22</Id>
+      <Activity_Group_Id>111</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Ruth Wairimu</Teacher>
+      <Subject>Estimating and Costing II</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>23</Id>
+      <Activity_Group_Id>112</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Ruth Wairimu</Teacher>
+      <Subject>Estimating and Costing II</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>24</Id>
+      <Activity_Group_Id>112</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Ruth Wairimu</Teacher>
+      <Subject>Building Services</Subject>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>25</Id>
+      <Activity_Group_Id>113</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+  </Activities_List>
+  <Buildings_List>
+  </Buildings_List>
+  <Rooms_List>
+    <Room>
+      <Name>F07</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>H2</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>F15</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>F09</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>S22</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>S20</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>F01</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>S21</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>H1</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>F03</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>LIB 1-TD ROOM</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>S06</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>S01</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>S10</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>50</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+  </Rooms_List>
+  <Time_Constraints_List>
+    <ConstraintBasicCompulsoryTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintBasicCompulsoryTime>
+    <ConstraintBreakTimes>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Number_of_Break_Times>10</Number_of_Break_Times>
+      <Break_Time>
+        <Day>Monday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Monday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Tuesday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Tuesday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Wednesday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Wednesday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Thursday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Thursday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Friday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Break_Time>
+      <Break_Time>
+        <Day>Friday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Break_Time>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintBreakTimes>
+    <ConstraintMinDaysBetweenActivities>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Consecutive_If_Same_Day>true</Consecutive_If_Same_Day>
+      <Number_of_Activities>3</Number_of_Activities>
+      <Activity_Id>11</Activity_Id>
+      <Activity_Id>12</Activity_Id>
+      <Activity_Id>13</Activity_Id>
+      <MinDays>1</MinDays>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintMinDaysBetweenActivities>
+    <ConstraintMinDaysBetweenActivities>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Consecutive_If_Same_Day>true</Consecutive_If_Same_Day>
+      <Number_of_Activities>3</Number_of_Activities>
+      <Activity_Id>18</Activity_Id>
+      <Activity_Id>19</Activity_Id>
+      <Activity_Id>20</Activity_Id>
+      <MinDays>1</MinDays>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintMinDaysBetweenActivities>
+    <ConstraintStudentsSetMaxHoursDaily>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Maximum_Hours_Daily>6</Maximum_Hours_Daily>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintStudentsSetMaxHoursDaily>
+    <ConstraintStudentsSetMinHoursDaily>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Minimum_Hours_Daily>4</Minimum_Hours_Daily>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Allow_Empty_Days>false</Allow_Empty_Days>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintStudentsSetMinHoursDaily>
+    <ConstraintStudentsSetNotAvailableTimes>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Students>DBC2201 - Building Construction III</Students>
+      <Number_of_Not_Available_Times>10</Number_of_Not_Available_Times>
+      <Not_Available_Time>
+        <Day>Monday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Monday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Tuesday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Tuesday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Wednesday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Wednesday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Thursday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Thursday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Friday</Day>
+        <Hour>10:00-10:20 BREAK</Hour>
+      </Not_Available_Time>
+      <Not_Available_Time>
+        <Day>Friday</Day>
+        <Hour>11:40-12:40 LUNCH</Hour>
+      </Not_Available_Time>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintStudentsSetNotAvailableTimes>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>1</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>10:20-11:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>2</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>3</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>4</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>11:00-11:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>5</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>6</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>7</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>8</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>9</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>11:00-11:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>10</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>10:20-11:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>11</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>10:20-11:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>12</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>13</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>11:00-11:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>14</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>12:40-13:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>15</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>11:00-11:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>16</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>10:20-11:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>17</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>12:40-13:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>18</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>19</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>20</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>12:40-13:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>21</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>22</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>11:00-11:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>23</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>24</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>12:40-13:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>25</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+  </Time_Constraints_List>
+  <Space_Constraints_List>
+    <ConstraintBasicCompulsorySpace>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintBasicCompulsorySpace>
+  </Space_Constraints_List>
+  <Timetable_Generation_Options_List>
+  </Timetable_Generation_Options_List>
+</fet>

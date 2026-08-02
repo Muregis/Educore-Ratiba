@@ -1,0 +1,2066 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<fet version="7.9.2">
+  <Mode>Official</Mode>
+  <Institution_Name>Small Primary School</Institution_Name>
+  <Comments>Whole-school combined timetable, generated 2026-07-31 23:49:51</Comments>
+  <Days_List>
+    <Number_of_Days>5</Number_of_Days>
+    <Day>
+      <Name>Monday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Tuesday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Wednesday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Thursday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+    <Day>
+      <Name>Friday</Name>
+      <Long_Name></Long_Name>
+    </Day>
+  </Days_List>
+  <Hours_List>
+    <Number_of_Hours>12</Number_of_Hours>
+    <Hour>
+      <Name>grade-1-3__08:00-08:40</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>grade-1-3__08:40-09:20</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>grade-1-3__09:20-10:00</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>grade-1-3__10:00-10:40</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>grade-1-3__10:40-11:20</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>grade-1-3__11:20-12:00</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>pp1-pp2__08:00-08:40</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>pp1-pp2__08:40-09:20</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>pp1-pp2__09:20-10:00</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>pp1-pp2__10:00-10:40</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>pp1-pp2__10:40-11:20</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+    <Hour>
+      <Name>pp1-pp2__11:20-12:00</Name>
+      <Long_Name></Long_Name>
+    </Hour>
+  </Hours_List>
+  <Subjects_List>
+    <Subject>
+      <Name>Science</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>IRE</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Physical Education</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Agriculture</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Geography</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Kiswahili</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Social Studies</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>CRE</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Mathematics</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Business Studies</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Physics</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Home Science</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Music</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+    <Subject>
+      <Name>Computer Studies</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Comments></Comments>
+    </Subject>
+  </Subjects_List>
+  <Activity_Tags_List>
+  </Activity_Tags_List>
+  <Teachers_List>
+    <Teacher>
+      <Name>John Koech</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Ruth Nyambura</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Grace Ochieng</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Naomi Maina</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Grace Muthoni</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+    <Teacher>
+      <Name>Priscilla Ochieng</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Target_Number_of_Hours>0</Target_Number_of_Hours>
+      <Qualified_Subjects>
+      </Qualified_Subjects>
+      <Comments></Comments>
+    </Teacher>
+  </Teachers_List>
+  <Students_List>
+    <Year>
+      <Name>Pp1 pp2 A</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Number_of_Students>30</Number_of_Students>
+      <Comments></Comments>
+      <!-- The information regarding categories, divisions of each category, and separator is only used in the divide year automatically by categories dialog. -->
+      <Number_of_Categories>0</Number_of_Categories>
+      <First_Category_Is_Permanent>false</First_Category_Is_Permanent>
+      <Separator> </Separator>
+    </Year>
+    <Year>
+      <Name>Pp1 pp2 B</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Number_of_Students>31</Number_of_Students>
+      <Comments></Comments>
+      <!-- The information regarding categories, divisions of each category, and separator is only used in the divide year automatically by categories dialog. -->
+      <Number_of_Categories>0</Number_of_Categories>
+      <First_Category_Is_Permanent>false</First_Category_Is_Permanent>
+      <Separator> </Separator>
+    </Year>
+    <Year>
+      <Name>Grade 1 3 A</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Number_of_Students>30</Number_of_Students>
+      <Comments></Comments>
+      <!-- The information regarding categories, divisions of each category, and separator is only used in the divide year automatically by categories dialog. -->
+      <Number_of_Categories>0</Number_of_Categories>
+      <First_Category_Is_Permanent>false</First_Category_Is_Permanent>
+      <Separator> </Separator>
+    </Year>
+    <Year>
+      <Name>Grade 1 3 B</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Number_of_Students>26</Number_of_Students>
+      <Comments></Comments>
+      <!-- The information regarding categories, divisions of each category, and separator is only used in the divide year automatically by categories dialog. -->
+      <Number_of_Categories>0</Number_of_Categories>
+      <First_Category_Is_Permanent>false</First_Category_Is_Permanent>
+      <Separator> </Separator>
+    </Year>
+  </Students_List>
+  <Activities_List>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Science</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>1</Id>
+      <Activity_Group_Id>1</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Science</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>2</Id>
+      <Activity_Group_Id>1</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Science</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>3</Id>
+      <Activity_Group_Id>1</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Science</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>4</Id>
+      <Activity_Group_Id>1</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Science</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>5</Id>
+      <Activity_Group_Id>1</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Science</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>6</Id>
+      <Activity_Group_Id>1</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>IRE</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>7</Id>
+      <Activity_Group_Id>2</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>IRE</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>8</Id>
+      <Activity_Group_Id>2</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>IRE</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>9</Id>
+      <Activity_Group_Id>2</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>10</Id>
+      <Activity_Group_Id>3</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>11</Id>
+      <Activity_Group_Id>3</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>12</Id>
+      <Activity_Group_Id>3</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>13</Id>
+      <Activity_Group_Id>3</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>14</Id>
+      <Activity_Group_Id>3</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>15</Id>
+      <Activity_Group_Id>3</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Agriculture</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>16</Id>
+      <Activity_Group_Id>4</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Agriculture</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>17</Id>
+      <Activity_Group_Id>4</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Agriculture</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>18</Id>
+      <Activity_Group_Id>4</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Agriculture</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>19</Id>
+      <Activity_Group_Id>4</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>20</Id>
+      <Activity_Group_Id>5</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>21</Id>
+      <Activity_Group_Id>5</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>22</Id>
+      <Activity_Group_Id>5</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>23</Id>
+      <Activity_Group_Id>5</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>Kiswahili</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>24</Id>
+      <Activity_Group_Id>6</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>Kiswahili</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>25</Id>
+      <Activity_Group_Id>6</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>Kiswahili</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>26</Id>
+      <Activity_Group_Id>6</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>Kiswahili</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>27</Id>
+      <Activity_Group_Id>6</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Social Studies</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>28</Id>
+      <Activity_Group_Id>7</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Social Studies</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>29</Id>
+      <Activity_Group_Id>7</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Social Studies</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>30</Id>
+      <Activity_Group_Id>7</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>John Koech</Teacher>
+      <Subject>Social Studies</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>31</Id>
+      <Activity_Group_Id>7</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>CRE</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>32</Id>
+      <Activity_Group_Id>8</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>CRE</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>33</Id>
+      <Activity_Group_Id>8</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>CRE</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>34</Id>
+      <Activity_Group_Id>8</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>CRE</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>35</Id>
+      <Activity_Group_Id>8</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>36</Id>
+      <Activity_Group_Id>9</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>37</Id>
+      <Activity_Group_Id>9</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>38</Id>
+      <Activity_Group_Id>9</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Physical Education</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>39</Id>
+      <Activity_Group_Id>9</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>40</Id>
+      <Activity_Group_Id>10</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>41</Id>
+      <Activity_Group_Id>10</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>42</Id>
+      <Activity_Group_Id>10</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>43</Id>
+      <Activity_Group_Id>10</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>44</Id>
+      <Activity_Group_Id>10</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Pp1 pp2 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>45</Id>
+      <Activity_Group_Id>10</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Mathematics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>46</Id>
+      <Activity_Group_Id>11</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Mathematics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>47</Id>
+      <Activity_Group_Id>11</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Mathematics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>48</Id>
+      <Activity_Group_Id>11</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Mathematics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>49</Id>
+      <Activity_Group_Id>11</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Mathematics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>50</Id>
+      <Activity_Group_Id>11</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Mathematics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>51</Id>
+      <Activity_Group_Id>11</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>IRE</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>52</Id>
+      <Activity_Group_Id>12</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>IRE</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>53</Id>
+      <Activity_Group_Id>12</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>IRE</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>54</Id>
+      <Activity_Group_Id>12</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>IRE</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>55</Id>
+      <Activity_Group_Id>12</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Business Studies</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>56</Id>
+      <Activity_Group_Id>13</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Business Studies</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>57</Id>
+      <Activity_Group_Id>13</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Business Studies</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>58</Id>
+      <Activity_Group_Id>13</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Physics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>59</Id>
+      <Activity_Group_Id>14</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Physics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>60</Id>
+      <Activity_Group_Id>14</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Physics</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>61</Id>
+      <Activity_Group_Id>14</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Home Science</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>62</Id>
+      <Activity_Group_Id>15</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Home Science</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>63</Id>
+      <Activity_Group_Id>15</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Home Science</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>64</Id>
+      <Activity_Group_Id>15</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Naomi Maina</Teacher>
+      <Subject>Home Science</Subject>
+      <Students>Grade 1 3 A</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>65</Id>
+      <Activity_Group_Id>15</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Science</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>66</Id>
+      <Activity_Group_Id>16</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Science</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>67</Id>
+      <Activity_Group_Id>16</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Science</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>68</Id>
+      <Activity_Group_Id>16</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Science</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>69</Id>
+      <Activity_Group_Id>16</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Science</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>70</Id>
+      <Activity_Group_Id>16</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Priscilla Ochieng</Teacher>
+      <Subject>Science</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>71</Id>
+      <Activity_Group_Id>16</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Music</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>72</Id>
+      <Activity_Group_Id>17</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Music</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>73</Id>
+      <Activity_Group_Id>17</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Music</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>74</Id>
+      <Activity_Group_Id>17</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Music</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>75</Id>
+      <Activity_Group_Id>17</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Music</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>76</Id>
+      <Activity_Group_Id>17</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Music</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>77</Id>
+      <Activity_Group_Id>17</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Ruth Nyambura</Teacher>
+      <Subject>Computer Studies</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>78</Id>
+      <Activity_Group_Id>18</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Ruth Nyambura</Teacher>
+      <Subject>Computer Studies</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>79</Id>
+      <Activity_Group_Id>18</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Ruth Nyambura</Teacher>
+      <Subject>Computer Studies</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>80</Id>
+      <Activity_Group_Id>18</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Business Studies</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>81</Id>
+      <Activity_Group_Id>19</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Business Studies</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>82</Id>
+      <Activity_Group_Id>19</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Muthoni</Teacher>
+      <Subject>Business Studies</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>83</Id>
+      <Activity_Group_Id>19</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>84</Id>
+      <Activity_Group_Id>20</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>85</Id>
+      <Activity_Group_Id>20</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+    <Activity>
+      <Teacher>Grace Ochieng</Teacher>
+      <Subject>Geography</Subject>
+      <Students>Grade 1 3 B</Students>
+      <Duration>1</Duration>
+      <Total_Duration>1</Total_Duration>
+      <Id>86</Id>
+      <Activity_Group_Id>20</Activity_Group_Id>
+      <Active>true</Active>
+      <Comments></Comments>
+    </Activity>
+  </Activities_List>
+  <Buildings_List>
+  </Buildings_List>
+  <Rooms_List>
+    <Room>
+      <Name>Room A</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>31</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>Room B</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>36</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>Room C</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>38</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>Room D</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>47</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>Room E</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>48</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+    <Room>
+      <Name>Room F</Name>
+      <Long_Name></Long_Name>
+      <Code></Code>
+      <Building></Building>
+      <Capacity>43</Capacity>
+      <Virtual>false</Virtual>
+      <Comments></Comments>
+    </Room>
+  </Rooms_List>
+  <Time_Constraints_List>
+    <ConstraintBasicCompulsoryTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintBasicCompulsoryTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>1</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>2</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>3</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>4</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>5</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>6</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>7</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>8</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>9</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>pp1-pp2__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>10</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>grade-1-3__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>11</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>12</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>13</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>14</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>15</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>16</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>17</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>18</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>19</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>20</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>21</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>22</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>23</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>24</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>25</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>26</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>27</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>28</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>29</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>30</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>31</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>32</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>33</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>34</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>35</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>36</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>37</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>38</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>39</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>40</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>pp1-pp2__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>41</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>42</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>43</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>44</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>45</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>46</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>47</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>grade-1-3__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>48</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>49</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>50</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>51</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>52</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>53</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>54</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>55</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>56</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>57</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>pp1-pp2__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>58</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>59</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>60</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>pp1-pp2__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>61</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>62</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>63</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>grade-1-3__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>64</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>65</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>66</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>67</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>68</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>69</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>70</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>71</Activity_Id>
+      <Day>Thursday</Day>
+      <Hour>pp1-pp2__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>72</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>73</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>74</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>75</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>76</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>77</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>78</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>79</Activity_Id>
+      <Day>Wednesday</Day>
+      <Hour>grade-1-3__10:00-10:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>80</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>grade-1-3__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>81</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>grade-1-3__08:00-08:40</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>82</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>pp1-pp2__10:40-11:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>83</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>84</Activity_Id>
+      <Day>Friday</Day>
+      <Hour>pp1-pp2__09:20-10:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>85</Activity_Id>
+      <Day>Tuesday</Day>
+      <Hour>pp1-pp2__08:40-09:20</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+    <ConstraintActivityPreferredStartingTime>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Activity_Id>86</Activity_Id>
+      <Day>Monday</Day>
+      <Hour>grade-1-3__11:20-12:00</Hour>
+      <Permanently_Locked>false</Permanently_Locked>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintActivityPreferredStartingTime>
+  </Time_Constraints_List>
+  <Space_Constraints_List>
+    <ConstraintBasicCompulsorySpace>
+      <Weight_Percentage>100</Weight_Percentage>
+      <Active>true</Active>
+      <Comments></Comments>
+    </ConstraintBasicCompulsorySpace>
+  </Space_Constraints_List>
+  <Timetable_Generation_Options_List>
+  </Timetable_Generation_Options_List>
+</fet>
