@@ -8,6 +8,8 @@ declare(strict_types=1);
 // unit-testable and reusable (e.g. by a future CLI/cron job).
 // ============================================================
 
+require_once __DIR__ . '/../config/config.php';
+
 /**
  * Runs pre-flight checks (plan section 4d) BEFORE any FET run is
  * attempted. Returns an array of human-readable problem strings;

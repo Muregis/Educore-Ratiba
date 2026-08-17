@@ -1,0 +1,26 @@
+# Environment variables
+.env
+
+# Database
+*.sql
+!db/schema.sql
+
+# FET Engine output
+output/
+data/last_run*.log
+
+# Vendor
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

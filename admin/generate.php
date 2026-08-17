@@ -2,6 +2,7 @@
 declare(strict_types=1);
 session_start();
 require_once __DIR__ . '/../db/db.php';
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/generate_engine.php';
 
 $schoolId = requireLoginAndGetSchoolId();
@@ -9,9 +10,9 @@ $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
 
-// ---- CONFIG - matches the existing index.php / client.php paths ----
-$engine = 'C:/laragon/www/fet-timetable/engine/fet-cl.exe';
-$projectOutputRoot = 'C:/laragon/www/fet-timetable/output/schools/' . $schoolId;
+// ---- CONFIG - use hybrid config system for online/offline support ----
+$engine = Config::get('paths.engine');
+$projectOutputRoot = Config::get('paths.output') . '/schools/' . $schoolId;
 
 $preflightProblems = [];
 $generationResult = null;
@@ -30,7 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
         $htmlRelativePath = null;
 
         if ($result['success'] && $result['html_output_path'] !== null) {
-            $htmlRelativePath = str_replace('C:/laragon/www/fet-timetable/', '', $result['html_output_path']);
+            $basePath = dirname(__DIR__);
+            $htmlRelativePath = str_replace($basePath . '/', '', $result['html_output_path']);
             $htmlRelativePath = str_replace('\\', '/', $htmlRelativePath);
         }
 

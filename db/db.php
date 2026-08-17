@@ -3,31 +3,46 @@ declare(strict_types=1);
 
 // Load centralized error handler (must be first)
 require_once __DIR__ . '/error_handler.php';
+require_once __DIR__ . '/../config/config.php';
 
 // ============================================================
 // db/db.php — database connection and helper functions
 // ============================================================
 
 /**
- * Returns a PDO instance connected to the fet_timetable database.
- * Uses Laragon's default MySQL credentials (adjust if needed).
+ * Returns a PDO instance connected to the database.
+ * Supports both MySQL and PostgreSQL (Supabase).
+ * Uses configuration from config.php for hybrid online/offline support.
  */
 function db(): PDO
 {
     static $pdo = null;
     
     if ($pdo === null) {
-        $host = 'localhost';
-        $dbname = 'fet_timetable';
-        $username = 'root';
-        $password = '';
+        $host = Config::get('database.host', 'localhost');
+        $dbname = Config::get('database.name', 'fet_timetable');
+        $username = Config::get('database.user', 'root');
+        $password = Config::get('database.pass', '');
+        $port = Config::get('database.port', '');
+        $driver = Config::get('database.driver', 'mysql'); // 'mysql' or 'pgsql'
         
-        $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
-        $pdo = new PDO($dsn, $username, $password, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-        ]);
+        if ($driver === 'pgsql') {
+            // PostgreSQL/Supabase connection
+            $dsn = "pgsql:host={$host};" . ($port ? "port={$port};" : '') . "dbname={$dbname}";
+            $pdo = new PDO($dsn, $username, $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ]);
+        } else {
+            // MySQL connection
+            $dsn = "mysql:host={$host};" . ($port ? "port={$port};" : '') . "dbname={$dbname};charset=utf8mb4";
+            $pdo = new PDO($dsn, $username, $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ]);
+        }
     }
     
     return $pdo;

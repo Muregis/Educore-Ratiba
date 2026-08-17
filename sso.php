@@ -3,6 +3,7 @@ declare(strict_types=1);
 session_start();
 require_once __DIR__ . '/db/error_handler.php';
 require_once __DIR__ . '/db/db.php';
+require_once __DIR__ . '/config/config.php';
 
 // ============================================================
 // sso.php — EduCore single sign-on bridge (plan section 7a).
@@ -16,14 +17,11 @@ require_once __DIR__ . '/db/db.php';
 // is admin X from school Y"), matching a school_admins row by
 // an external reference, then starting a normal PHP session.
 //
-// IMPORTANT: SSO_SHARED_SECRET below must be set to the same
-// value EduCore's backend uses to sign these tokens. Never
-// commit a real secret to source control - set it via an
-// environment variable or a gitignored config file in
-// production. The placeholder here is NOT safe to deploy as-is.
+// IMPORTANT: SSO_SHARED_SECRET must be set in .env or environment
+// variables to the same value EduCore's backend uses to sign these tokens.
 // ============================================================
 
-define('SSO_SHARED_SECRET', getenv('SSO_SHARED_SECRET') ?: 'REPLACE_ME_BEFORE_DEPLOYING');
+define('SSO_SHARED_SECRET', Config::get('security.sso_secret', 'REPLACE_ME_BEFORE_DEPLOYING'));
 
 /**
  * Minimal JWT verification (HS256) - checks signature and
