@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: edu-timetable
+    env: php
+    buildCommand: composer install --no-dev --optimize-autoloader
+    startCommand: php -S 0.0.0.0:10000 -t .
+    envVars:
+      - key: APP_ENV
+        value: online
+      - key: DB_DRIVER
+        value: pgsql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 5432
+      - key: DB_NAME
+        value: postgres
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: SSO_SHARED_SECRET
+        sync: false
+      - key: CENTRAL_SERVER_URL
+        sync: false
