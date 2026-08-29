@@ -1,0 +1,14 @@
+.git
+.gitignore
+vendor
+output
+data
+engine
+*.log
+*.sql
+.env
+.env.production.template
+.DS_Store
+Thumbs.db
+.vscode
+.idea

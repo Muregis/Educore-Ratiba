@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./output:/app/output
+      - ./engine:/app/engine
+    environment:
+      - APP_ENV=online
+      - DB_DRIVER=pgsql
+      - DB_HOST=db.your-project-id.supabase.co
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASS=your_supabase_password_here
+      - FET_ENGINE_PATH=/app/engine/fet-cl
+      - OUTPUT_DIR=/app/output
+    restart: unless-stopped

@@ -1,178 +1,150 @@
-# Hybrid Deployment Guide
+# Render Deployment Guide (Docker)
 
-## Overview
-This guide covers deploying EduCore Ratiba for both online and offline environments. The system automatically detects and configures for:
-- **Online**: Connected to your school management system via web server
-- **Offline**: Local installation with optional sync to central server
+This guide covers deploying EduCore Ratiba to Render.com using Docker.
 
 ## Prerequisites
-- PHP 8.0+ with PDO MySQL extension
-- MySQL or MariaDB database
-- Windows or Linux/Mac server
-- FET scheduling engine (appropriate version for your OS)
-- Composer (for dependency management)
-- Web server (IIS, Apache, or Nginx)
 
-## Step 1: Get FET Engine
-Download the appropriate FET engine for your server OS:
+- GitHub repository with this code
+- Supabase project (PostgreSQL)
+- Render account (sign up at render.com with GitHub)
 
-1. Download FET from: https://www.lalescu.ro/liviu/fet/download/
-2. Extract and get the executable:
-   - Windows: `fet-cl.exe`
-   - Linux/Mac: `fet-cl`
-3. Upload it to your server's `engine/` directory
-4. For Linux/Mac, make it executable: `chmod +x engine/fet-cl`
-
-## Step 2: Configure Environment Variables
-Create a `.env` file in the project root:
+## Step 1: Push Clean Code to GitHub
 
 ```bash
-cp .env.example .env
+# Ensure .env is not tracked
+git rm --cached .env
+echo ".env" >> .gitignore
+git add .gitignore
+git commit -m "Remove .env from version control"
+git push origin main --force
 ```
 
-Edit `.env` with your production settings:
+## Step 2: Rotate Exposed Credentials
 
-```env
-# Database Configuration
-DB_HOST=your_database_host
-DB_NAME=your_database_name
-DB_USER=your_database_user
-DB_PASS=your_database_password
+1. Go to your Supabase dashboard → Settings → Database
+2. Click **Reset database password**
+3. Save the new password securely
+4. Update your local `.env` with the new password
 
-# FET Engine Configuration
-FET_ENGINE_PATH=/full/path/to/engine/fet-cl
-OUTPUT_DIR=/full/path/to/output/directory
+## Step 3: Set Up Render Web Service (Docker)
 
-# Security (if using SSO integration)
-SSO_SHARED_SECRET=your_random_secret_key
-CENTRAL_SERVER_URL=https://your-school-system.com
-LOCAL_SYNC_TOKEN=your_sync_token
-```
+1. Go to [render.com](https://render.com) and sign in with GitHub
+2. Click **New +** → **Web Service**
+3. Connect your GitHub repository
+4. Configure:
+   - **Name**: `edu-timetable`
+   - **Region**: Choose closest to your users
+   - **Branch**: `main`
+   - **Runtime**: **Docker** (not PHP)
+   - Render will auto-detect the `Dockerfile` and `render.yaml`
+5. Click **Create Web Service**
 
-## Step 3: Set Up Database
-Import the database schema:
+## Step 4: Add Persistent Disk
 
+1. In your service dashboard, go to **Disks**
+2. Click **Add Disk**
+   - **Name**: `edu-timetable-data`
+   - **Mount Path**: `/app`
+   - **Size**: 1 GB
+3. Save
+
+## Step 5: Set Environment Variables
+
+In Render dashboard → your service → **Environment**:
+
+| Key | Value |
+|-----|-------|
+| `APP_ENV` | `online` |
+| `DB_DRIVER` | `pgsql` |
+| `DB_HOST` | Your Supabase host |
+| `DB_PORT` | `5432` |
+| `DB_NAME` | `postgres` |
+| `DB_USER` | `postgres` |
+| `DB_PASS` | Your Supabase password |
+| `FET_ENGINE_PATH` | `/app/engine/fet-cl` |
+| `OUTPUT_DIR` | `/app/output` |
+| `SSO_SHARED_SECRET` | (optional, 64-char hex) |
+| `CENTRAL_SERVER_URL` | (optional) |
+
+Mark sensitive values as **Secret** in Render.
+
+## Step 6: Set Up Database Schema
+
+1. Go to Supabase dashboard → **SQL Editor**
+2. Run the contents of `db/schema_postgres.sql`
+3. Verify tables in **Table Editor**
+
+## Step 7: Create Initial Admin
+
+Run this locally to generate a password hash:
 ```bash
-mysql -u your_user -p your_db < db/schema.sql
+php -r "echo password_hash('your-strong-password', PASSWORD_DEFAULT), PHP_EOL;"
 ```
 
-## Step 4: Install Dependencies
-Run composer to install PHP dependencies:
-
-```bash
-composer install --no-dev --optimize-autoloader
-```
-
-## Step 5: Set Directory Permissions
-Ensure the web server can write to necessary directories:
-
-```bash
-chmod -R 755 .
-chmod -R 777 output/
-chmod -R 777 data/
-```
-
-## Step 6: Configure Web Server
-
-### Apache Example
-Create a virtual host configuration:
-
-```apache
-<VirtualHost *:80>
-    ServerName timetable.yourschool.com
-    DocumentRoot /var/www/timetable/public
-    
-    <Directory /var/www/timetable>
-        Options -Indexes +FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-    
-    ErrorLog ${APACHE_LOG_DIR}/timetable-error.log
-    CustomLog ${APACHE_LOG_DIR}/timetable-access.log combined
-</VirtualHost>
-```
-
-### Nginx Example
-```nginx
-server {
-    listen 80;
-    server_name timetable.yourschool.com;
-    root /var/www/timetable;
-    index index.php;
-    
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-    
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-    
-    location ~ /\. {
-        deny all;
-    }
-}
-```
-
-## Step 7: Create Admin User
-Create your first admin user by running:
-
-```bash
-php -r "echo password_hash('your_chosen_password', PASSWORD_DEFAULT);"
-```
-
-Then insert into database:
+Then run in Supabase SQL Editor:
 ```sql
 INSERT INTO super_admins (username, password_hash)
-VALUES ('your_username', 'paste_hash_here');
+VALUES ('admin', 'paste_hash_here');
 ```
 
-## Step 8: Configure HTTPS (Recommended)
-Use Let's Encrypt for free SSL:
+## Step 8: Deploy
+
+1. Push any final changes to GitHub
+2. Render automatically builds the Docker image and deploys
+3. Build takes 3-5 minutes on first deploy
+4. Visit `https://edu-timetable.onrender.com` (or your custom domain)
+
+## Step 9: Add Custom Domain (Optional)
+
+1. In Render dashboard → **Settings** → **Custom Domains**
+2. Add your domain (e.g., `timetable.yourschool.com`)
+3. Update DNS records as instructed by Render
+4. SSL certificate is provisioned automatically
+
+## Local Testing with Docker
 
 ```bash
-sudo certbot --apache -d timetable.yourschool.com
+# Build and start
+docker-compose up --build
+
+# App will be available at http://localhost:8080
 ```
-
-## Integration with School Management System
-
-### SSO Integration
-If integrating with EduCore or another system via SSO:
-
-1. Set `SSO_SHARED_SECRET` in `.env` to match your school system
-2. Configure your school system to redirect to: `https://timetable.yourschool.com/sso.php?token=<jwt>`
-3. The SSO endpoint will automatically create schools and users as needed
-
-### Direct Database Integration
-For direct integration, you can:
-- Use the existing API endpoints
-- Create custom middleware in `admin/` directory
-- Leverage the existing `sync.php` for data synchronization
 
 ## Troubleshooting
 
-### FET Engine Issues
-- Ensure `fet-cl` is executable: `chmod +x engine/fet-cl`
-- Check that `FET_ENGINE_PATH` in `.env` is correct
-- Test manually: `/path/to/fet-cl --help`
+### Docker Build Fails
+- Check Render build logs for specific errors
+- Verify `Dockerfile` syntax
+- Ensure all files are committed to GitHub
 
-### Permission Issues
-- Check `output/` directory is writable by web server
-- Verify database credentials in `.env`
-- Ensure PHP has shell_exec enabled (required for FET)
+### FET Engine Not Found
+- Check Render build logs for download errors
+- Verify the FET download URL is correct
+- Ensure `engine/fet-cl` exists in the deployed filesystem
 
-### Database Connection
-- Test connection: `mysql -h DB_HOST -u DB_USER -p DB_NAME`
-- Check PDO MySQL extension is installed: `php -m | grep pdo`
+### Database Connection Errors
+- Verify Supabase credentials in Render environment variables
+- Check Supabase project is active (not paused)
+- Test connection locally first
 
-## Security Notes
-- Never commit `.env` file to version control
-- Use strong passwords for database and admin accounts
-- Enable HTTPS in production
-- Keep PHP and dependencies updated
-- Regularly backup database and generated timetables
-- Consider implementing rate limiting on login endpoints
+### Timetable Generation Hangs
+- Render Standard plan ($25/mo) recommended for generation
+- Free tier has limited CPU and may timeout on large schools
+
+## Monitoring
+
+- View logs in Render dashboard → **Logs**
+- Set up UptimeRobot for external monitoring
+- Monitor Supabase dashboard for database metrics
+
+## Costs
+
+| Component | Cost |
+|-----------|------|
+| Render Starter (512MB RAM) | $7/month |
+| Render Standard (2GB RAM) | $25/month |
+| Supabase Free (500MB) | $0/month |
+| Supabase Pro (8GB) | $25/month |
+| Domain | ~$12/year |
+
+Total: $7-50/month depending on plan.

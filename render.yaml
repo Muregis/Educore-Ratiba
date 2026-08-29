@@ -1,9 +1,12 @@
 services:
   - type: web
     name: edu-timetable
-    env: php
-    buildCommand: composer install --no-dev --optimize-autoloader
-    startCommand: php -S 0.0.0.0:10000 -t .
+    env: docker
+    dockerfilePath: ./Dockerfile
+    disk:
+      name: edu-timetable-data
+      mountPath: /app
+      sizeGB: 1
     envVars:
       - key: APP_ENV
         value: online
@@ -19,6 +22,10 @@ services:
         sync: false
       - key: DB_PASS
         sync: false
+      - key: FET_ENGINE_PATH
+        value: /app/engine/fet-cl
+      - key: OUTPUT_DIR
+        value: /app/output
       - key: SSO_SHARED_SECRET
         sync: false
       - key: CENTRAL_SERVER_URL
