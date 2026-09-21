@@ -12,41 +12,71 @@ require_once __DIR__ . '/../config/config.php';
 /**
  * Returns a PDO instance connected to the database.
  * Supports both MySQL and PostgreSQL (Supabase).
- * Uses configuration from config.php for hybrid online/offline support.
+ *
+ * IMPORTANT for Render + Supabase:
+ * Render has no outbound IPv6. Supabase direct host (db.xxx.supabase.co)
+ * is IPv6-only. Always use the Supabase Session Pooler host instead:
+ *   aws-0-REGION.pooler.supabase.com  (or the host shown under
+ *   Project Settings → Database → Connection pooling → Session mode)
+ * Port 5432, sslmode=require.
  */
 function db(): PDO
 {
     static $pdo = null;
-    
+
     if ($pdo === null) {
-        $host = Config::get('database.host', 'localhost');
-        $dbname = Config::get('database.name', 'fet_timetable');
+        $host     = Config::get('database.host', 'localhost');
+        $dbname   = Config::get('database.name', 'fet_timetable');
         $username = Config::get('database.user', 'root');
         $password = Config::get('database.pass', '');
-        $port = Config::get('database.port', '');
-        $driver = Config::get('database.driver', 'mysql'); // 'mysql' or 'pgsql'
-        
-        if ($driver === 'pgsql') {
-            // PostgreSQL/Supabase connection
-            // Force IPv4 resolution to avoid IPv6 routing issues on cloud hosts
-            $resolvedHost = gethostbyname($host);
-            $dsn = "pgsql:host={$resolvedHost};" . ($port ? "port={$port};" : '') . "dbname={$dbname};sslmode=require";
-            $pdo = new PDO($dsn, $username, $password, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ]);
-        } else {
-            // MySQL connection
-            $dsn = "mysql:host={$host};" . ($port ? "port={$port};" : '') . "dbname={$dbname};charset=utf8mb4";
-            $pdo = new PDO($dsn, $username, $password, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ]);
+        $port     = Config::get('database.port', '');
+        $driver   = Config::get('database.driver', 'mysql'); // 'mysql' or 'pgsql'
+
+        try {
+            if ($driver === 'pgsql') {
+                // PostgreSQL / Supabase
+                // Do NOT call gethostbyname() — it breaks on IPv6-only hosts
+                // and is unnecessary when using the Session Pooler (IPv4).
+                $portPart = $port !== '' ? "port={$port};" : 'port=5432;';
+                $dsn = "pgsql:host={$host};{$portPart}dbname={$dbname};sslmode=require";
+
+                $pdo = new PDO($dsn, $username, $password, [
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES   => false,
+                ]);
+            } else {
+                // MySQL
+                $portPart = $port !== '' ? "port={$port};" : '';
+                $dsn = "mysql:host={$host};{$portPart}dbname={$dbname};charset=utf8mb4";
+
+                $pdo = new PDO($dsn, $username, $password, [
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES   => false,
+                ]);
+            }
+        } catch (PDOException $e) {
+            $msg = $e->getMessage();
+            // Give a clearer hint for the common Render ↔ Supabase IPv6 problem
+            if (stripos($msg, 'Network is unreachable') !== false
+                || stripos($msg, 'could not connect') !== false
+                || stripos($msg, 'No route to host') !== false) {
+                throw new PDOException(
+                    "Database connection failed (network unreachable).\n"
+                    . "If you are on Render + Supabase, you MUST use the Session Pooler host,\n"
+                    . "NOT the direct db.xxxxx.supabase.co host (IPv6-only).\n"
+                    . "Go to Supabase → Project Settings → Database → Connection pooling\n"
+                    . "→ Session mode, copy the host, and set DB_HOST on Render to that value.\n\n"
+                    . "Original error: " . $msg,
+                    (int) $e->getCode(),
+                    $e
+                );
+            }
+            throw $e;
         }
     }
-    
+
     return $pdo;
 }
 
@@ -219,15 +249,15 @@ function requireLoginAndGetSchoolId(): int
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
     }
-    
+
     if (isset($_SESSION['school_admin_id']) && isset($_SESSION['school_id'])) {
         return (int) $_SESSION['school_id'];
     }
-    
+
     if (isset($_SESSION['super_admin_id']) && isset($_GET['school_id'])) {
         return (int) $_GET['school_id'];
     }
-    
+
     header('Location: ../login.php');
     exit;
 }
@@ -259,9 +289,9 @@ function getBands(int $schoolId): array
 
 function getClasses(int $schoolId): array
 {
-    $stmt = db()->prepare('SELECT c.*, b.lessons_per_day, b.lesson_length_minutes 
-                           FROM classes c 
-                           JOIN bands b ON c.band_id = b.id 
+    $stmt = db()->prepare('SELECT c.*, b.lessons_per_day, b.lesson_length_minutes
+                           FROM classes c
+                           JOIN bands b ON c.band_id = b.id
                            WHERE c.school_id = ?');
     $stmt->execute([$schoolId]);
     return $stmt->fetchAll();
@@ -276,8 +306,8 @@ function getSubjectsForClass(int $schoolId, int $classId): array
 
 function getTeacherTotalWeeklyLessons(int $schoolId, int $teacherId): int
 {
-    $stmt = db()->prepare('SELECT SUM(s.lessons_per_week) as total 
-                           FROM subjects s 
+    $stmt = db()->prepare('SELECT SUM(s.lessons_per_week) as total
+                           FROM subjects s
                            WHERE s.school_id = ? AND s.assigned_teacher_id = ?');
     $stmt->execute([$schoolId, $teacherId]);
     $result = $stmt->fetch();
