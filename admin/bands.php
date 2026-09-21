@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
     } else {
         try {
             $stmt = db()->prepare(
-                'INSERT INTO bands (school_id, band_key, label, lessons_per_day, lesson_length_minutes, active) VALUES (?, ?, ?, ?, ?, 1)'
+                'INSERT INTO bands (school_id, band_key, label, lessons_per_day, lesson_length_minutes, active) VALUES (?, ?, ?, ?, ?, TRUE)'
             );
             $stmt->execute([$schoolId, $bandKey, $label, $lessonsPerDay, $lessonLength]);
             $success = 'Band added successfully.';
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'toggl
     $active = (int) ($_POST['active'] ?? 0);
     try {
         $stmt = db()->prepare('UPDATE bands SET active = ? WHERE id = ? AND school_id = ?');
-        $stmt->execute([$active, $bandId, $schoolId]);
+        $stmt->execute([(bool)$active, $bandId, $schoolId]);
         $success = 'Band updated successfully.';
         logAudit('update', 'band', $bandId, ['active' => $active]);
     } catch (Throwable $e) {
@@ -95,8 +95,8 @@ if ($search !== '' || $statusFilter !== '') {
     }
     
     if ($statusFilter !== '') {
-        $sql .= ' AND active = ?';
-        $params[] = ($statusFilter === 'active' ? 1 : 0);
+        $sql .= ' AND active = (?::boolean)';
+        $params[] = ($statusFilter === 'active');
     }
     
     $stmt = db()->prepare($sql);
@@ -114,8 +114,8 @@ if ($search !== '' || $statusFilter !== '') {
     }
     
     if ($statusFilter !== '') {
-        $sql .= ' AND active = ?';
-        $params[] = ($statusFilter === 'active' ? 1 : 0);
+        $sql .= ' AND active = (?::boolean)';
+        $params[] = ($statusFilter === 'active');
     }
     
     $sql .= ' ORDER BY band_key LIMIT ? OFFSET ?';
