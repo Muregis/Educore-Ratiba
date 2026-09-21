@@ -37,25 +37,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'bulk_
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'create') {
     $name = trim($_POST['name'] ?? '');
     $staffId = trim($_POST['staff_id'] ?? '');
+    $tscNumber = trim($_POST['tsc_number'] ?? '');
     $maxLessons = $_POST['max_lessons_per_week'] ?? '';
-    
+
     if ($name === '') {
         $error = 'Teacher name is required.';
     } else {
         try {
             $stmt = db()->prepare(
-                'INSERT INTO teachers (school_id, staff_id, name, max_lessons_per_week) VALUES (?, ?, ?, ?)'
+                'INSERT INTO teachers (school_id, staff_id, tsc_number, name, max_lessons_per_week) VALUES (?, ?, ?, ?, ?)'
             );
             $stmt->execute([
                 $schoolId,
                 $staffId !== '' ? $staffId : null,
+                $tscNumber !== '' ? $tscNumber : null,
                 $name,
                 $maxLessons !== '' ? (int) $maxLessons : null,
             ]);
             $success = 'Teacher added successfully.';
-            logAudit('create', 'teacher', (int) db()->lastInsertId(), ['name' => $name, 'staff_id' => $staffId]);
+            logAudit('create', 'teacher', (int) db()->lastInsertId(), ['name' => $name, 'staff_id' => $staffId, 'tsc_number' => $tscNumber]);
         } catch (Throwable $e) {
-            $error = 'Could not add teacher.';
+            $error = 'Could not add teacher. TSC number may already be in use.';
         }
     }
 }
@@ -78,43 +80,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
     $teacherId = (int) ($_POST['teacher_id'] ?? 0);
     $name = trim($_POST['name'] ?? '');
     $staffId = trim($_POST['staff_id'] ?? '');
+    $tscNumber = trim($_POST['tsc_number'] ?? '');
     $maxLessons = $_POST['max_lessons_per_week'] ?? '';
-    
+
     if ($name === '') {
         $error = 'Teacher name is required.';
     } else {
         try {
             $stmt = db()->prepare(
-                'UPDATE teachers SET staff_id = ?, name = ?, max_lessons_per_week = ? WHERE id = ? AND school_id = ?'
+                'UPDATE teachers SET staff_id = ?, tsc_number = ?, name = ?, max_lessons_per_week = ? WHERE id = ? AND school_id = ?'
             );
             $stmt->execute([
                 $staffId !== '' ? $staffId : null,
+                $tscNumber !== '' ? $tscNumber : null,
                 $name,
                 $maxLessons !== '' ? (int) $maxLessons : null,
                 $teacherId,
                 $schoolId,
             ]);
             $success = 'Teacher updated successfully.';
-            logAudit('update', 'teacher', $teacherId, ['name' => $name, 'staff_id' => $staffId]);
+            logAudit('update', 'teacher', $teacherId, ['name' => $name, 'staff_id' => $staffId, 'tsc_number' => $tscNumber]);
         } catch (Throwable $e) {
-            $error = 'Could not update teacher.';
+            $error = 'Could not update teacher. TSC number may already be in use.';
         }
     }
 }
 
 if ($search !== '') {
-    $stmt = db()->prepare('SELECT COUNT(*) FROM teachers WHERE school_id = ? AND (name LIKE ? OR staff_id LIKE ?)');
+    $stmt = db()->prepare('SELECT COUNT(*) FROM teachers WHERE school_id = ? AND (name LIKE ? OR staff_id LIKE ? OR tsc_number LIKE ?)');
     $searchParam = '%' . $search . '%';
-    $stmt->execute([$schoolId, $searchParam, $searchParam]);
+    $stmt->execute([$schoolId, $searchParam, $searchParam, $searchParam]);
     $totalCount = $stmt->fetchColumn();
-    
-    $stmt = db()->prepare('SELECT * FROM teachers WHERE school_id = ? AND (name LIKE ? OR staff_id LIKE ?) ORDER BY name LIMIT ? OFFSET ?');
-    $stmt->execute([$schoolId, $searchParam, $searchParam, $perPage, $offset]);
+
+    $stmt = db()->prepare('SELECT * FROM teachers WHERE school_id = ? AND (name LIKE ? OR staff_id LIKE ? OR tsc_number LIKE ?) ORDER BY name LIMIT ? OFFSET ?');
+    $stmt->execute([$schoolId, $searchParam, $searchParam, $searchParam, $perPage, $offset]);
 } else {
     $stmt = db()->prepare('SELECT COUNT(*) FROM teachers WHERE school_id = ?');
     $stmt->execute([$schoolId]);
     $totalCount = $stmt->fetchColumn();
-    
+
     $stmt = db()->prepare('SELECT * FROM teachers WHERE school_id = ? ORDER BY name LIMIT ? OFFSET ?');
     $stmt->execute([$schoolId, $perPage, $offset]);
 }
@@ -153,13 +157,16 @@ require __DIR__ . '/_header.php';
         <input type="hidden" name="action" value="create">
         <label for="name">Teacher Name</label>
         <input type="text" id="name" name="name" required>
-        
+
         <label for="staff_id">Staff ID (optional)</label>
         <input type="text" id="staff_id" name="staff_id">
-        
+
+        <label for="tsc_number">TSC Number (optional - for TSC-registered teachers)</label>
+        <input type="text" id="tsc_number" name="tsc_number" placeholder="e.g. 123456">
+
         <label for="max_lessons_per_week">Max Lessons Per Week (optional)</label>
         <input type="number" id="max_lessons_per_week" name="max_lessons_per_week" min="1">
-        
+
         <button type="submit">Add Teacher</button>
     </form>
 </div>
@@ -170,16 +177,17 @@ require __DIR__ . '/_header.php';
         <p class="empty">No teachers added yet.</p>
     <?php else: ?>
         <table>
-            <thead><tr><th><input type="checkbox" id="select-all" onchange="toggleAllCheckboxes(this)"></th><th>Name</th><th>Staff ID</th><th>Max Lessons/Week</th><th>Actions</th></tr></thead>
+            <thead><tr><th><input type="checkbox" id="select-all" onchange="toggleAllCheckboxes(this)"></th><th>Name</th><th>Staff ID</th><th>TSC Number</th><th>Max Lessons/Week</th><th>Actions</th></tr></thead>
             <tbody>
                 <?php foreach ($teachers as $teacher): ?>
                     <tr>
                         <td><input type="checkbox" name="teacher_ids[]" value="<?php echo (int) $teacher['id']; ?>" class="row-checkbox"></td>
                         <td><?php echo htmlspecialchars((string) ($teacher['name'] ?? '')); ?></td>
                         <td><?php echo htmlspecialchars((string) ($teacher['staff_id'] ?? '—')); ?></td>
+                        <td><?php echo htmlspecialchars((string) ($teacher['tsc_number'] ?? '—')); ?></td>
                         <td><?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : '—'; ?></td>
                         <td class="row-actions">
-                            <button type="button" onclick="showEditForm(<?php echo (int) $teacher['id']; ?>, '<?php echo htmlspecialchars($teacher['name'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['staff_id'] ?? '', ENT_QUOTES); ?>', <?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : 'null'; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
+                            <button type="button" onclick="showEditForm(<?php echo (int) $teacher['id']; ?>, '<?php echo htmlspecialchars($teacher['name'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['staff_id'] ?? '', ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['tsc_number'] ?? '', ENT_QUOTES); ?>', <?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : 'null'; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this teacher? They may be assigned to subjects.');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="teacher_id" value="<?php echo (int) $teacher['id']; ?>">
@@ -244,16 +252,19 @@ require __DIR__ . '/_header.php';
         <form method="post">
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="teacher_id" id="edit-teacher-id">
-            
+
             <label for="edit-name">Teacher Name</label>
             <input type="text" id="edit-name" name="name" required>
-            
+
             <label for="edit-staff_id">Staff ID (optional)</label>
             <input type="text" id="edit-staff_id" name="staff_id">
-            
+
+            <label for="edit-tsc_number">TSC Number (optional - for TSC-registered teachers)</label>
+            <input type="text" id="edit-tsc_number" name="tsc_number" placeholder="e.g. 123456">
+
             <label for="edit-max_lessons_per_week">Max Lessons Per Week (optional)</label>
             <input type="number" id="edit-max_lessons_per_week" name="max_lessons_per_week" min="1">
-            
+
             <div style="display: flex; gap: 8px; margin-top: 16px;">
                 <button type="submit">Update Teacher</button>
                 <button type="button" onclick="hideEditForm()" class="btn-secondary">Cancel</button>
@@ -263,10 +274,11 @@ require __DIR__ . '/_header.php';
 </div>
 
 <script>
-function showEditForm(teacherId, name, staffId, maxLessons) {
+function showEditForm(teacherId, name, staffId, tscNumber, maxLessons) {
     document.getElementById('edit-teacher-id').value = teacherId;
     document.getElementById('edit-name').value = name;
     document.getElementById('edit-staff_id').value = staffId || '';
+    document.getElementById('edit-tsc_number').value = tscNumber || '';
     document.getElementById('edit-max_lessons_per_week').value = maxLessons || '';
     document.getElementById('edit-modal').style.display = 'flex';
 }

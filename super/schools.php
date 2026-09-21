@@ -2,6 +2,7 @@
 declare(strict_types=1);
 session_start();
 require_once __DIR__ . '/../db/db.php';
+require_once __DIR__ . '/../db/school_templates.php';
 
 if (!isSuperAdmin()) {
     header('Location: ../login.php');
@@ -14,6 +15,10 @@ $success = null;
 // ---- Handle new school creation ----
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'create_school') {
     $schoolName = trim($_POST['school_name'] ?? '');
+    $schoolType = $_POST['school_type'] ?? 'primary';
+    $schoolSubType = $_POST['school_sub_type'] ?? '';
+    $county = trim($_POST['county'] ?? '');
+    $moeCode = trim($_POST['ministry_of_education_code'] ?? '');
     $adminUsername = trim($_POST['admin_username'] ?? '');
     $adminPassword = $_POST['admin_password'] ?? '';
     $deploymentType = $_POST['deployment_type'] ?? 'server-hosted';
@@ -25,15 +30,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
         $error = 'Admin password must be at least 8 characters.';
     } elseif (!in_array($deploymentType, ['server-hosted', 'local-install'], true)) {
         $error = 'Invalid deployment type.';
+    } elseif (!in_array($schoolType, ['primary', 'secondary', 'tvet', 'private_academy', 'international'], true)) {
+        $error = 'Invalid school type.';
     } else {
         try {
             db()->beginTransaction();
 
             $syncToken = $deploymentType === 'local-install' ? bin2hex(random_bytes(32)) : null;
             $educoreRef = $educoreSchoolId !== '' ? $educoreSchoolId : null;
+            $countyRef = $county !== '' ? $county : null;
+            $moeCodeRef = $moeCode !== '' ? $moeCode : null;
+            $subTypeRef = $schoolSubType !== '' ? $schoolSubType : null;
 
-            $stmt = db()->prepare('INSERT INTO schools (name, deployment_type, sync_token, educore_school_id) VALUES (?, ?, ?, ?)');
-            $stmt->execute([$schoolName, $deploymentType, $syncToken, $educoreRef]);
+            $stmt = db()->prepare('INSERT INTO schools (name, school_type, school_sub_type, county, ministry_of_education_code, deployment_type, sync_token, educore_school_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([$schoolName, $schoolType, $subTypeRef, $countyRef, $moeCodeRef, $deploymentType, $syncToken, $educoreRef]);
             $newSchoolId = (int) db()->lastInsertId();
 
             $stmt = db()->prepare(
@@ -53,9 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
             if ($educoreRef !== null) {
                 $success .= " Linked to EduCore school ID: {$educoreRef}.";
             }
+
+            // Apply template if selected
+            $template = $_POST['template'] ?? '';
+            if ($template !== '' && SchoolTemplates::applyTemplate($newSchoolId, $template)) {
+                $success .= " Template '" . htmlspecialchars($template) . "' applied successfully.";
+            }
         } catch (Throwable $e) {
             db()->rollBack();
-            $error = 'Could not create school. The admin username may already be taken, EduCore ID may be in use, or a required field was invalid.';
+            $error = 'Could not create school. The admin username may already be taken, EduCore ID or MoE code may be in use, or a required field was invalid.';
         }
     }
 }
@@ -133,6 +149,56 @@ $pageTitle = 'Schools — Super Admin';
     .badge-local { background: #fef3c7; color: #92400e; }
     .manage-link { color: var(--primary); font-weight: 600; text-decoration: none; }
 </style>
+<script>
+const subTypeOptions = {
+    primary: [
+        {value: 'day', label: 'Day Primary'},
+        {value: 'boarding', label: 'Boarding Primary'},
+        {value: 'day_boarding', label: 'Day & Boarding Primary'},
+        {value: 'private', label: 'Private Primary'}
+    ],
+    secondary: [
+        {value: 'national', label: 'National School'},
+        {value: 'extra_county', label: 'Extra-County School'},
+        {value: 'county', label: 'County School'},
+        {value: 'sub_county', label: 'Sub-County School'},
+        {value: 'private', label: 'Private Secondary'}
+    ],
+    tvet: [
+        {value: 'national', label: 'National TVET'},
+        {value: 'county', label: 'County TVET'},
+        {value: 'private', label: 'Private TVET'}
+    ],
+    private_academy: [
+        {value: 'day', label: 'Day Academy'},
+        {value: 'boarding', label: 'Boarding Academy'},
+        {value: 'day_boarding', label: 'Day & Boarding Academy'}
+    ],
+    international: [
+        {value: 'day', label: 'Day International'},
+        {value: 'boarding', label: 'Boarding International'},
+        {value: 'day_boarding', label: 'Day & Boarding International'}
+    ]
+};
+
+function updateSubTypeOptions() {
+    const schoolType = document.getElementById('school_type').value;
+    const subTypeSelect = document.getElementById('school_sub_type');
+    subTypeSelect.innerHTML = '<option value="">-- Optional --</option>';
+
+    if (subTypeOptions[schoolType]) {
+        subTypeOptions[schoolType].forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.textContent = option.label;
+            subTypeSelect.appendChild(opt);
+        });
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', updateSubTypeOptions);
+</script>
 </head>
 <body>
 <header>
@@ -154,6 +220,26 @@ $pageTitle = 'Schools — Super Admin';
             <label for="school_name">School name</label>
             <input type="text" id="school_name" name="school_name" required placeholder="Enter school name">
 
+            <label for="school_type">School type</label>
+            <select id="school_type" name="school_type" required onchange="updateSubTypeOptions()">
+                <option value="primary">Primary School</option>
+                <option value="secondary">Secondary School</option>
+                <option value="tvet">TVET College</option>
+                <option value="private_academy">Private Academy</option>
+                <option value="international">International School</option>
+            </select>
+
+            <label for="school_sub_type">School sub-type (optional)</label>
+            <select id="school_sub_type" name="school_sub_type">
+                <option value="">-- Select school type first --</option>
+            </select>
+
+            <label for="county">County (optional)</label>
+            <input type="text" id="county" name="county" placeholder="e.g. Nairobi, Mombasa, Kisumu">
+
+            <label for="ministry_of_education_code">Ministry of Education code (optional)</label>
+            <input type="text" id="ministry_of_education_code" name="ministry_of_education_code" placeholder="e.g. 12345678">
+
             <label for="deployment_type">Deployment type</label>
             <select id="deployment_type" name="deployment_type">
                 <option value="server-hosted">Server-hosted (default)</option>
@@ -169,6 +255,17 @@ $pageTitle = 'Schools — Super Admin';
             <label for="admin_password">First admin password</label>
             <input type="password" id="admin_password" name="admin_password" minlength="8" required placeholder="Minimum 8 characters">
 
+            <label for="template">School Template (optional - auto-configures bands)</label>
+            <select id="template" name="template">
+                <option value="">-- Manual Setup --</option>
+                <option value="national_secondary">National Secondary School</option>
+                <option value="county_secondary">County Secondary School</option>
+                <option value="day_primary">Day Primary School</option>
+                <option value="boarding_primary">Boarding Primary School</option>
+                <option value="private_academy">Private Academy</option>
+                <option value="tvet_college">TVET College</option>
+            </select>
+
             <button type="submit">Create School</button>
         </form>
     </div>
@@ -180,18 +277,29 @@ $pageTitle = 'Schools — Super Admin';
         <?php else: ?>
         <table>
             <thead>
-                <tr><th>Name</th><th>Deployment</th><th>EduCore ID</th><th>Admins</th><th>Created</th><th></th></tr>
+                <tr><th>Name</th><th>Type</th><th>County</th><th>MoE Code</th><th>Deployment</th><th>Admins</th><th>Created</th><th></th></tr>
             </thead>
             <tbody>
                 <?php foreach ($schools as $school): ?>
                     <tr>
                         <td><?php echo htmlspecialchars((string) $school['name']); ?></td>
                         <td>
+                            <span class="badge">
+                                <?php echo htmlspecialchars(ucfirst(str_replace('_', ' ', (string) $school['school_type']))); ?>
+                            </span>
+                            <?php if (!empty($school['school_sub_type'])): ?>
+                                <span class="badge badge-local" style="margin-left: 4px;">
+                                    <?php echo htmlspecialchars(ucfirst(str_replace('_', ' ', (string) $school['school_sub_type']))); ?>
+                                </span>
+                            <?php endif; ?>
+                        </td>
+                        <td><?php echo htmlspecialchars((string) ($school['county'] ?? '—')); ?></td>
+                        <td><?php echo htmlspecialchars((string) ($school['ministry_of_education_code'] ?? '—')); ?></td>
+                        <td>
                             <span class="badge <?php echo $school['deployment_type'] === 'local-install' ? 'badge-local' : 'badge-server'; ?>">
                                 <?php echo htmlspecialchars((string) $school['deployment_type']); ?>
                             </span>
                         </td>
-                        <td><?php echo htmlspecialchars((string) ($school['educore_school_id'] ?? '—')); ?></td>
                         <td><?php echo (int) $school['admin_count']; ?></td>
                         <td><?php echo htmlspecialchars(date('j M Y', strtotime($school['created_at']))); ?></td>
                         <td><a class="manage-link" href="../admin/dashboard.php?school_id=<?php echo (int) $school['id']; ?>">Manage →</a></td>
