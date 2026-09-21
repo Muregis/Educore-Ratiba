@@ -80,14 +80,25 @@ $rows = $stmt->fetchAll();
 $useFallback = false;
 if (empty($rows) && !empty($latestGeneration['html_output_path'])) {
     $useFallback = true;
-    $htmlFullPath = 'C:/laragon/www/fet-timetable/' . ltrim($latestGeneration['html_output_path'], '/');
+    $basePath = dirname(__DIR__);
+    $htmlFullPath = $basePath . '/' . ltrim($latestGeneration['html_output_path'], '/');
+
+    // Check if the HTML file actually exists before trying to parse it
+    if (!file_exists($htmlFullPath)) {
+        error_log("HTML output file not found at: $htmlFullPath");
+        $htmlFullPath = null;
+    }
 
     // The stored path points to _index.html (a TOC), not the actual
     // timetable grid. Follow the "Years / Days Horizontal" link to the
     // real timetable file.
-    $timetableHtmlPath = resolveFetchTimetableHtml($htmlFullPath);
-    if ($timetableHtmlPath !== null) {
-        $rows = parseFetchHtmlTimetable($timetableHtmlPath, $schoolId, $classId);
+    if ($htmlFullPath !== null) {
+        $timetableHtmlPath = resolveFetchTimetableHtml($htmlFullPath);
+        if ($timetableHtmlPath !== null) {
+            $rows = parseFetchHtmlTimetable($timetableHtmlPath, $schoolId, $classId);
+        } else {
+            error_log("Could not resolve timetable HTML from: $htmlFullPath");
+        }
     }
 }
 
@@ -95,7 +106,14 @@ if (empty($rows)) {
     http_response_code(404);
     echo '<h3>No scheduled lessons found for this selection.</h3>';
     echo '<p>The timetable was generated, but we could not extract any scheduled lessons.</p>';
-    echo '<p><a href="generate.php">Try generating again</a> or <a href="javascript:history.back()">go back</a>.</p>';
+    if ($useFallback) {
+        echo '<p><strong>Debug info:</strong> Scheduled slots table is empty, and HTML fallback parsing also failed.</p>';
+        echo '<p>This may indicate an issue with the FET engine output on the server.</p>';
+    } else {
+        echo '<p><strong>Debug info:</strong> Scheduled slots table is empty and no HTML output path was found.</p>';
+        echo '<p>The timetable generation may have failed to produce usable output.</p>';
+    }
+    echo '<p><a href="../admin/generate.php">Try generating again</a> or <a href="javascript:history.back()">go back</a>.</p>';
     exit;
 }
 

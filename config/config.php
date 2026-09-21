@@ -88,9 +88,11 @@ class Config {
      * Get FET engine path based on OS and environment
      */
     private static function getEnginePath(string $baseDir): string {
-        // Check if explicitly set via environment
+        // Check if explicitly set via environment (for online deployment)
         $envPath = getenv('FET_ENGINE_PATH');
-        if ($envPath !== false && file_exists($envPath)) {
+        if ($envPath !== false) {
+            // In online environment, don't check file_exists as it may not be accessible
+            // from the current working directory during config loading
             return $envPath;
         }
         

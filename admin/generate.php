@@ -72,6 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                             . 'You can still view/print/export it, but manual adjustments are unavailable for this run.',
                     ];
                 }
+            } else {
+                $adminMessages[] = [
+                    'type' => 'warning',
+                    'text' => 'Timetable generated successfully, but solution XML was not found. '
+                        . 'PDF export will use HTML fallback. This may indicate an issue with the FET engine output.',
+                ];
             }
         } else {
             // Translate the "not scheduled" situation into plain

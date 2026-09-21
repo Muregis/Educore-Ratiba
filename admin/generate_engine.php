@@ -347,6 +347,25 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
         @mkdir($outputDir, 0777, true);
     }
 
+    // Check if engine executable exists and is executable
+    if (!file_exists($engineExePath)) {
+        return [
+            'success' => false,
+            'raw_output' => "FET engine not found at: $engineExePath",
+            'html_output_path' => null,
+            'solution_xml_path' => null,
+        ];
+    }
+
+    if (!is_executable($engineExePath)) {
+        return [
+            'success' => false,
+            'raw_output' => "FET engine exists but is not executable: $engineExePath",
+            'html_output_path' => null,
+            'solution_xml_path' => null,
+        ];
+    }
+
     $cmd = '"' . $engineExePath . '" --inputfile="' . $xmlPath . '" --outputdir="' . $outputDir . '" 2>&1';
     $rawOutput = (string) shell_exec($cmd);
     $success = stripos($rawOutput, 'Generation successful') !== false;
@@ -372,8 +391,15 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
                 $xmlCandidates = glob($folderOfNewest . '/*.xml') ?: [];
                 if (!empty($xmlCandidates)) {
                     $solutionXmlPath = $xmlCandidates[0];
+                } else {
+                    // Log warning if no XML found but HTML exists
+                    error_log("FET generated HTML but no solution XML found in: $folderOfNewest");
                 }
+            } else {
+                error_log("FET generation succeeded but no _index.html files found in: $timetablesDir");
             }
+        } else {
+            error_log("FET generation succeeded but timetables directory does not exist: $timetablesDir");
         }
     }
 
