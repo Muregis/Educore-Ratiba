@@ -6,27 +6,27 @@ require_once __DIR__ . '/db/db.php';
 require_once __DIR__ . '/config/config.php';
 
 // ============================================================
-// sso.php — EduCore single sign-on bridge (plan section 7a).
+// sso.php — EduCore ↔ Ratiba single sign-on bridge
 //
-// EduCore generates a short-lived signed token when a school
-// admin clicks "Timetable" from within EduCore, and redirects
-// here as: sso.php?token=<jwt>
+// EduCore SMS generates a short-lived signed JWT when a school
+// admin clicks "Timetable", then redirects here:
+//   https://educore-ratiba.onrender.com/sso.php?token=<jwt>
 //
-// This does NOT share EduCore's database or teacher/room/class
-// records - it is purely an identity handoff ("trust that this
-// is admin X from school Y"), matching a school_admins row by
-// an external reference, then starting a normal PHP session.
+// Identity handoff only — separate databases. Maps educore_school_id
+// to a Ratiba school and starts a normal session.
 //
-// IMPORTANT: SSO_SHARED_SECRET must be set in .env or environment
-// variables to the same value EduCore's backend uses to sign these tokens.
+// Required env (both apps must match):
+//   SSO_SHARED_SECRET=<64-char hex>
 // ============================================================
 
-define('SSO_SHARED_SECRET', Config::get('security.sso_secret', 'REPLACE_ME_BEFORE_DEPLOYING'));
+$ssoSecret = (string) Config::get('security.sso_secret', '');
+if ($ssoSecret === '' || $ssoSecret === 'REPLACE_ME_BEFORE_DEPLOYING') {
+    http_response_code(503);
+    die('SSO is not configured. Set SSO_SHARED_SECRET on Render and in EduCore to the same value.');
+}
 
 /**
- * Minimal JWT verification (HS256) - checks signature and
- * expiry only. Does not require a JWT library dependency for
- * this one endpoint.
+ * Verify HS256 JWT (signature + exp + required claims).
  */
 function verifySsoToken(string $token, string $secret): ?array
 {
@@ -41,7 +41,7 @@ function verifySsoToken(string $token, string $secret): ?array
     ), '+/', '-_'), '=');
 
     if (!hash_equals($expectedSig, $sigB64)) {
-        return null; // signature mismatch - reject
+        return null;
     }
 
     $payloadJson = base64_decode(strtr($payloadB64, '-_', '+/'));
@@ -50,82 +50,103 @@ function verifySsoToken(string $token, string $secret): ?array
     if (!is_array($payload)) {
         return null;
     }
-    if (!isset($payload['exp']) || $payload['exp'] < time()) {
-        return null; // expired
+    if (!isset($payload['exp']) || (int) $payload['exp'] < time()) {
+        return null;
     }
     if (!isset($payload['educore_school_id'], $payload['educore_admin_username'])) {
-        return null; // missing required claims
+        return null;
+    }
+    $payload['educore_school_id'] = (string) $payload['educore_school_id'];
+    $payload['educore_admin_username'] = trim((string) $payload['educore_admin_username']);
+    if ($payload['educore_school_id'] === '' || $payload['educore_admin_username'] === '') {
+        return null;
     }
 
     return $payload;
 }
 
-$token = $_GET['token'] ?? '';
-
-if ($token === '' || SSO_SHARED_SECRET === 'REPLACE_ME_BEFORE_DEPLOYING') {
-    http_response_code(400);
-    die('SSO is not configured correctly. Contact support.');
+/**
+ * INSERT and return new id — works on MySQL and PostgreSQL.
+ */
+function insertGetId(string $sql, array $params): int
+{
+    $driver = Config::get('database.driver', 'mysql');
+    if ($driver === 'pgsql' && stripos($sql, 'RETURNING') === false) {
+        $sql = rtrim($sql, " \t\n\r;") . ' RETURNING id';
+        $stmt = db()->prepare($sql);
+        $stmt->execute($params);
+        return (int) $stmt->fetchColumn();
+    }
+    $stmt = db()->prepare($sql);
+    $stmt->execute($params);
+    return (int) db()->lastInsertId();
 }
 
-$payload = verifySsoToken($token, SSO_SHARED_SECRET);
+$token = $_GET['token'] ?? '';
+if ($token === '') {
+    http_response_code(400);
+    die('Missing SSO token. Open Timetable from EduCore, or use a valid sso.php?token=… link.');
+}
 
+$payload = verifySsoToken($token, $ssoSecret);
 if ($payload === null) {
     http_response_code(401);
     die('This sign-in link is invalid or has expired. Please try again from EduCore.');
 }
 
-// Look up (or create) a matching school + school_admin row for this
-// EduCore identity. educore_school_id is EduCore's own school ID,
-// stored here as a reference - NOT shared data, just enough to map
-// "this EduCore school" to "this timetable-app school" consistently.
-$stmt = db()->prepare('SELECT * FROM schools WHERE educore_school_id = ?');
-$stmt->execute([$payload['educore_school_id']]);
-$school = $stmt->fetch();
+$educoreSchoolId = $payload['educore_school_id'];
+$adminUsername   = $payload['educore_admin_username'];
+$schoolName      = trim((string) ($payload['educore_school_name'] ?? 'EduCore School'));
+if ($schoolName === '') {
+    $schoolName = 'EduCore School';
+}
 
-if (!$school) {
-    // First time this EduCore school has used the timetable tool -
-    // create a school + admin row automatically, matching the
-    // identity handoff rather than requiring manual super-admin setup.
-    $stmt = db()->prepare(
-        'INSERT INTO schools (name, deployment_type, educore_school_id) VALUES (?, "server-hosted", ?)'
-    );
-    $stmt->execute([$payload['educore_school_name'] ?? 'EduCore School', $payload['educore_school_id']]);
-    $newSchoolId = (int) db()->lastInsertId();
+try {
+    $stmt = db()->prepare('SELECT * FROM schools WHERE educore_school_id = ?');
+    $stmt->execute([$educoreSchoolId]);
+    $school = $stmt->fetch();
 
-    // Random, never-shown password - this admin only ever signs in
-    // via SSO, but school_admins.password_hash is NOT NULL, so a
-    // random unusable value satisfies the schema without creating a
-    // real, guessable credential.
-    $randomPassword = bin2hex(random_bytes(32));
-    $stmt = db()->prepare(
-        'INSERT INTO school_admins (school_id, username, password_hash) VALUES (?, ?, ?)'
-    );
-    $stmt->execute([$newSchoolId, $payload['educore_admin_username'], password_hash($randomPassword, PASSWORD_DEFAULT)]);
-    $schoolAdminId = (int) db()->lastInsertId();
-    $schoolId = $newSchoolId;
-} else {
-    $schoolId = (int) $school['id'];
-    $stmt = db()->prepare('SELECT * FROM school_admins WHERE school_id = ? AND username = ?');
-    $stmt->execute([$schoolId, $payload['educore_admin_username']]);
-    $admin = $stmt->fetch();
-
-    if (!$admin) {
-        $randomPassword = bin2hex(random_bytes(32));
-        $stmt = db()->prepare(
-            'INSERT INTO school_admins (school_id, username, password_hash) VALUES (?, ?, ?)'
+    if (!$school) {
+        $newSchoolId = insertGetId(
+            'INSERT INTO schools (name, deployment_type, educore_school_id) VALUES (?, ?, ?)',
+            [$schoolName, 'server-hosted', $educoreSchoolId]
         );
-        $stmt->execute([$schoolId, $payload['educore_admin_username'], password_hash($randomPassword, PASSWORD_DEFAULT)]);
-        $schoolAdminId = (int) db()->lastInsertId();
+
+        $randomPassword = bin2hex(random_bytes(32));
+        $schoolAdminId = insertGetId(
+            'INSERT INTO school_admins (school_id, username, password_hash) VALUES (?, ?, ?)',
+            [$newSchoolId, $adminUsername, password_hash($randomPassword, PASSWORD_DEFAULT)]
+        );
+        $schoolId = $newSchoolId;
     } else {
-        $schoolAdminId = (int) $admin['id'];
+        $schoolId = (int) $school['id'];
+
+        $stmt = db()->prepare('SELECT * FROM school_admins WHERE school_id = ? AND username = ?');
+        $stmt->execute([$schoolId, $adminUsername]);
+        $admin = $stmt->fetch();
+
+        if (!$admin) {
+            $randomPassword = bin2hex(random_bytes(32));
+            $schoolAdminId = insertGetId(
+                'INSERT INTO school_admins (school_id, username, password_hash) VALUES (?, ?, ?)',
+                [$schoolId, $adminUsername, password_hash($randomPassword, PASSWORD_DEFAULT)]
+            );
+        } else {
+            $schoolAdminId = (int) $admin['id'];
+        }
     }
+} catch (Throwable $e) {
+    http_response_code(500);
+    error_log('SSO error: ' . $e->getMessage());
+    die('Could not complete SSO sign-in. Please contact support.');
 }
 
 session_regenerate_id(true);
 $_SESSION['school_admin_id'] = $schoolAdminId;
 $_SESSION['school_id'] = $schoolId;
-$_SESSION['username'] = $payload['educore_admin_username'];
+$_SESSION['username'] = $adminUsername;
 $_SESSION['via_sso'] = true;
+$_SESSION['educore_school_id'] = $educoreSchoolId;
 
 header('Location: admin/dashboard.php');
 exit;
