@@ -73,6 +73,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
     }
 }
 
+// Handle teacher update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update') {
+    $teacherId = (int) ($_POST['teacher_id'] ?? 0);
+    $name = trim($_POST['name'] ?? '');
+    $staffId = trim($_POST['staff_id'] ?? '');
+    $maxLessons = $_POST['max_lessons_per_week'] ?? '';
+    
+    if ($name === '') {
+        $error = 'Teacher name is required.';
+    } else {
+        try {
+            $stmt = db()->prepare(
+                'UPDATE teachers SET staff_id = ?, name = ?, max_lessons_per_week = ? WHERE id = ? AND school_id = ?'
+            );
+            $stmt->execute([
+                $staffId !== '' ? $staffId : null,
+                $name,
+                $maxLessons !== '' ? (int) $maxLessons : null,
+                $teacherId,
+                $schoolId,
+            ]);
+            $success = 'Teacher updated successfully.';
+            logAudit('update', 'teacher', $teacherId, ['name' => $name, 'staff_id' => $staffId]);
+        } catch (Throwable $e) {
+            $error = 'Could not update teacher.';
+        }
+    }
+}
+
 if ($search !== '') {
     $stmt = db()->prepare('SELECT COUNT(*) FROM teachers WHERE school_id = ? AND (name LIKE ? OR staff_id LIKE ?)');
     $searchParam = '%' . $search . '%';
@@ -150,6 +179,7 @@ require __DIR__ . '/_header.php';
                         <td><?php echo htmlspecialchars((string) ($teacher['staff_id'] ?? '—')); ?></td>
                         <td><?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : '—'; ?></td>
                         <td class="row-actions">
+                            <button type="button" onclick="showEditForm(<?php echo (int) $teacher['id']; ?>, '<?php echo htmlspecialchars($teacher['name'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['staff_id'] ?? '', ENT_QUOTES); ?>', <?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : 'null'; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this teacher? They may be assigned to subjects.');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="teacher_id" value="<?php echo (int) $teacher['id']; ?>">
@@ -206,5 +236,51 @@ require __DIR__ . '/_header.php';
         <?php endif; ?>
     <?php endif; ?>
 </div>
+
+<!-- Edit Teacher Modal -->
+<div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <h2>Edit Teacher</h2>
+        <form method="post">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="teacher_id" id="edit-teacher-id">
+            
+            <label for="edit-name">Teacher Name</label>
+            <input type="text" id="edit-name" name="name" required>
+            
+            <label for="edit-staff_id">Staff ID (optional)</label>
+            <input type="text" id="edit-staff_id" name="staff_id">
+            
+            <label for="edit-max_lessons_per_week">Max Lessons Per Week (optional)</label>
+            <input type="number" id="edit-max_lessons_per_week" name="max_lessons_per_week" min="1">
+            
+            <div style="display: flex; gap: 8px; margin-top: 16px;">
+                <button type="submit">Update Teacher</button>
+                <button type="button" onclick="hideEditForm()" class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function showEditForm(teacherId, name, staffId, maxLessons) {
+    document.getElementById('edit-teacher-id').value = teacherId;
+    document.getElementById('edit-name').value = name;
+    document.getElementById('edit-staff_id').value = staffId || '';
+    document.getElementById('edit-max_lessons_per_week').value = maxLessons || '';
+    document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function hideEditForm() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideEditForm();
+    }
+});
+</script>
 
 <?php require __DIR__ . '/_footer.php'; ?>
