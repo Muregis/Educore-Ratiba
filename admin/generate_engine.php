@@ -459,6 +459,12 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
     $skippedCount = 0;
     $missingClassCount = 0;
     $missingTeacherCount = 0;
+    $missingMetaCount = 0;
+
+    // Debug: Log what we have in activityMeta
+    error_log("Activity meta keys: " . implode(', ', array_keys($activityMeta)));
+    error_log("Class name lookups: " . implode(', ', array_keys($classIdByName)));
+    error_log("Teacher name lookups: " . implode(', ', array_keys($teacherIdByName)));
 
     // FET's solution XML format lists placed activities with their
     // assigned Day/Hour/Room under an Activities_List-like structure
@@ -469,7 +475,8 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
         $activityCount++;
         $fetId = (int) $act->Id;
         if (!isset($activityMeta[$fetId])) {
-            $skippedCount++;
+            $missingMetaCount++;
+            error_log("Activity ID $fetId not found in activityMeta - skipping");
             continue; // not one of ours (shouldn't happen, but don't crash)
         }
         $meta = $activityMeta[$fetId];
@@ -480,6 +487,7 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
 
         if ($day === '' || $hour === '') {
             $skippedCount++;
+            error_log("Activity ID $fetId has empty day/hour - skipping");
             continue; // unplaced activity - handled separately by the
                       // not-scheduled report, not here
         }
@@ -491,11 +499,11 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
         if ($classId === null || $teacherId === null) {
             if ($classId === null) {
                 $missingClassCount++;
-                error_log("Missing class: {$meta['class_name']} for activity ID $fetId");
+                error_log("Missing class: '{$meta['class_name']}' for activity ID $fetId");
             }
             if ($teacherId === null) {
                 $missingTeacherCount++;
-                error_log("Missing teacher: {$meta['teacher_name']} for activity ID $fetId");
+                error_log("Missing teacher: '{$meta['teacher_name']}' for activity ID $fetId");
             }
             continue; // data integrity issue - skip rather than insert a broken row
         }
@@ -512,7 +520,7 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
         ];
     }
 
-    error_log("Parsed FET solution: $activityCount total activities, " . count($rows) . " scheduled, $skippedCount skipped, $missingClassCount missing classes, $missingTeacherCount missing teachers");
+    error_log("Parsed FET solution: $activityCount total activities, " . count($rows) . " scheduled, $skippedCount skipped (empty day/hour), $missingMetaCount missing from metadata, $missingClassCount missing classes, $missingTeacherCount missing teachers");
 
     return $rows;
 }
@@ -523,25 +531,37 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
 function storeScheduledSlots(int $generatedTimetableId, array $rows): void
 {
     if (empty($rows)) {
+        error_log("storeScheduledSlots called with empty rows array for generation ID $generatedTimetableId");
         return;
     }
-    $stmt = db()->prepare(
-        'INSERT INTO scheduled_slots
-         (generated_timetable_id, class_id, subject_id, extra_activity_id, remedial_session_id, teacher_id, room_id, day_of_week, hour_slot)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    );
-    foreach ($rows as $r) {
-        $stmt->execute([
-            $generatedTimetableId,
-            $r['class_id'],
-            $r['subject_id'],
-            $r['extra_activity_id'],
-            $r['remedial_session_id'],
-            $r['teacher_id'],
-            $r['room_id'],
-            $r['day_of_week'],
-            $r['hour_slot'],
-        ]);
+    
+    error_log("Attempting to insert " . count($rows) . " scheduled slots for generation ID $generatedTimetableId");
+    
+    try {
+        $stmt = db()->prepare(
+            'INSERT INTO scheduled_slots
+             (generated_timetable_id, class_id, subject_id, extra_activity_id, remedial_session_id, teacher_id, room_id, day_of_week, hour_slot)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        );
+        $insertedCount = 0;
+        foreach ($rows as $r) {
+            $stmt->execute([
+                $generatedTimetableId,
+                $r['class_id'],
+                $r['subject_id'],
+                $r['extra_activity_id'],
+                $r['remedial_session_id'],
+                $r['teacher_id'],
+                $r['room_id'],
+                $r['day_of_week'],
+                $r['hour_slot'],
+            ]);
+            $insertedCount++;
+        }
+        error_log("Successfully inserted $insertedCount scheduled slots for generation ID $generatedTimetableId");
+    } catch (PDOException $e) {
+        error_log("Failed to insert scheduled slots for generation ID $generatedTimetableId: " . $e->getMessage());
+        throw $e;
     }
 }
 

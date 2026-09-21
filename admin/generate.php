@@ -38,7 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
 
         $xmlSnapshot = @file_get_contents($xmlPath) ?: null;
         $metaPath = $xmlPath . '.meta.json';
+        error_log("Loading activity metadata from: $metaPath");
         $activityMeta = file_exists($metaPath) ? json_decode(file_get_contents($metaPath), true) : [];
+        if (empty($activityMeta)) {
+            error_log("WARNING: Activity metadata is empty or file doesn't exist: $metaPath");
+        } else {
+            error_log("Loaded " . count($activityMeta) . " activity metadata entries");
+        }
         // json_decode gives string keys - re-key as int to match how
         // parseFetSolutionIntoSlots and buildWholeSchoolXml use them.
         $activityMeta = array_combine(array_map('intval', array_keys($activityMeta)), array_values($activityMeta));
