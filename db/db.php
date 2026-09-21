@@ -14,11 +14,15 @@ require_once __DIR__ . '/../config/config.php';
  * Supports both MySQL and PostgreSQL (Supabase).
  *
  * IMPORTANT for Render + Supabase:
- * Render has no outbound IPv6. Supabase direct host (db.xxx.supabase.co)
- * is IPv6-only. Always use the Supabase Session Pooler host instead:
- *   aws-0-REGION.pooler.supabase.com  (or the host shown under
- *   Project Settings → Database → Connection pooling → Session mode)
- * Port 5432, sslmode=require.
+ * 1. Use the Session Pooler host (IPv4), NOT db.xxx.supabase.co (IPv6-only).
+ *    Example: aws-1-eu-west-3.pooler.supabase.com
+ * 2. Username MUST be: postgres.YOUR_PROJECT_REF
+ *    Example: postgres.wofnvdfnsuevnebpkdsw
+ *    (plain "postgres" causes: no tenant identifier provided)
+ * 3. Port 5432, sslmode=require
+ *
+ * Copy the exact connection string from:
+ * Supabase → Project Settings → Database → Connect → Session pooler
  */
 function db(): PDO
 {
@@ -34,9 +38,11 @@ function db(): PDO
 
         try {
             if ($driver === 'pgsql') {
-                // PostgreSQL / Supabase
-                // Do NOT call gethostbyname() — it breaks on IPv6-only hosts
-                // and is unnecessary when using the Session Pooler (IPv4).
+                // Supabase shared pooler requires tenant ID in the username:
+                //   postgres.PROJECT_REF
+                // If the user only set DB_USER=postgres, try to fix it automatically.
+                $username = normalizeSupabasePoolerUser($username, $host);
+
                 $portPart = $port !== '' ? "port={$port};" : 'port=5432;';
                 $dsn = "pgsql:host={$host};{$portPart}dbname={$dbname};sslmode=require";
 
@@ -58,21 +64,34 @@ function db(): PDO
             }
         } catch (PDOException $e) {
             $msg = $e->getMessage();
-            // Give a clearer hint for the common Render ↔ Supabase IPv6 problem
+
             if (stripos($msg, 'Network is unreachable') !== false
                 || stripos($msg, 'could not connect') !== false
                 || stripos($msg, 'No route to host') !== false) {
                 throw new PDOException(
                     "Database connection failed (network unreachable).\n"
-                    . "If you are on Render + Supabase, you MUST use the Session Pooler host,\n"
-                    . "NOT the direct db.xxxxx.supabase.co host (IPv6-only).\n"
-                    . "Go to Supabase → Project Settings → Database → Connection pooling\n"
-                    . "→ Session mode, copy the host, and set DB_HOST on Render to that value.\n\n"
+                    . "Use the Supabase Session Pooler host (IPv4), not db.xxxxx.supabase.co.\n"
                     . "Original error: " . $msg,
                     (int) $e->getCode(),
                     $e
                 );
             }
+
+            if (stripos($msg, 'tenant identifier') !== false
+                || stripos($msg, 'ENOIDENTIFIER') !== false
+                || stripos($msg, 'Tenant or user not found') !== false) {
+                throw new PDOException(
+                    "Supabase pooler rejected the connection: missing tenant identifier.\n"
+                    . "Set DB_USER to: postgres.YOUR_PROJECT_REF\n"
+                    . "Example: postgres.wofnvdfnsuevnebpkdsw\n"
+                    . "Find PROJECT_REF in Supabase → Project Settings → General (Reference ID),\n"
+                    . "or copy the full Session pooler connection string from the Connect dialog.\n\n"
+                    . "Original error: " . $msg,
+                    (int) $e->getCode(),
+                    $e
+                );
+            }
+
             throw $e;
         }
     }
@@ -80,14 +99,38 @@ function db(): PDO
     return $pdo;
 }
 
+/**
+ * Supabase shared pooler (Supavisor) requires username format:
+ *   postgres.PROJECT_REF
+ * Plain "postgres" only works on the direct (IPv6) host.
+ */
+function normalizeSupabasePoolerUser(string $username, string $host): string
+{
+    // Already has project ref?
+    if (str_contains($username, '.')) {
+        return $username;
+    }
+
+    // Explicit override via env
+    $ref = getenv('DB_PROJECT_REF') ?: Config::get('database.project_ref', '');
+    if (is_string($ref) && $ref !== '') {
+        return $username . '.' . $ref;
+    }
+
+    // Only auto-fix when talking to the shared pooler
+    if (!str_contains($host, 'pooler.supabase.com')) {
+        return $username;
+    }
+
+    // Last resort: cannot invent the project ref — leave as-is and let the
+    // clearer error message guide the user.
+    return $username;
+}
+
 // ============================================================
 // CSRF Protection
 // ============================================================
 
-/**
- * Generates (or retrieves) a CSRF token for the current session.
- * Call once per session; the same token is reused.
- */
 function getCsrfToken(): string
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -99,18 +142,11 @@ function getCsrfToken(): string
     return $_SESSION['csrf_token'];
 }
 
-/**
- * Outputs a hidden CSRF input field ready to embed in any form.
- */
 function csrfField(): string
 {
     return '<input type="hidden" name="_csrf_token" value="' . htmlspecialchars(getCsrfToken()) . '">';
 }
 
-/**
- * Verifies the CSRF token in $_POST. Terminates with 403 if invalid.
- * Call at the top of any POST handler.
- */
 function verifyCsrf(): void
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -128,10 +164,6 @@ function verifyCsrf(): void
 // Login Rate Limiting
 // ============================================================
 
-/**
- * Records a failed login attempt. Returns true if the account
- * should be temporarily locked (≥5 failures in 10 minutes).
- */
 function recordFailedLogin(string $username): bool
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -146,7 +178,6 @@ function recordFailedLogin(string $username): bool
 
     $data = &$_SESSION[$key];
 
-    // Reset window after 10 minutes
     if ($now - $data['first'] > 600) {
         $data = ['count' => 0, 'first' => $now, 'locked_until' => 0];
     }
@@ -154,15 +185,12 @@ function recordFailedLogin(string $username): bool
     $data['count']++;
 
     if ($data['count'] >= 5) {
-        $data['locked_until'] = $now + 60; // lock for 60 seconds
+        $data['locked_until'] = $now + 60;
         return true;
     }
     return false;
 }
 
-/**
- * Returns seconds remaining on lockout (0 = not locked).
- */
 function loginLockoutSeconds(string $username): int
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -174,15 +202,11 @@ function loginLockoutSeconds(string $username): int
     }
     $remaining = max(0, (int)$_SESSION[$key]['locked_until'] - time());
     if ($remaining === 0 && isset($_SESSION[$key]['locked_until']) && $_SESSION[$key]['locked_until'] > 0) {
-        // Lock expired — reset
         unset($_SESSION[$key]);
     }
     return $remaining;
 }
 
-/**
- * Clears failed-login counter on a successful login.
- */
 function clearFailedLogins(string $username): void
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -195,10 +219,6 @@ function clearFailedLogins(string $username): void
 // Audit Logging
 // ============================================================
 
-/**
- * Records an admin action to the audit_log table.
- * Silently fails if the table doesn't exist yet (pre-migration).
- */
 function logAudit(
     string $action,
     string $entity,
@@ -225,7 +245,7 @@ function logAudit(
             $_SERVER['REMOTE_ADDR'] ?? null,
         ]);
     } catch (Throwable) {
-        // Silently ignore — audit log is non-critical
+        // Silently ignore
     }
 }
 
@@ -233,17 +253,11 @@ function logAudit(
 // Auth helpers
 // ============================================================
 
-/**
- * Checks if the current session is a super-admin.
- */
 function isSuperAdmin(): bool
 {
     return isset($_SESSION['super_admin_id']);
 }
 
-/**
- * Returns the school_id from the session, or redirects to login if not authenticated.
- */
 function requireLoginAndGetSchoolId(): int
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -263,7 +277,7 @@ function requireLoginAndGetSchoolId(): int
 }
 
 // ============================================================
-// Data access helpers — used by generate_engine.php and other pages
+// Data access helpers
 // ============================================================
 
 function getTeachers(int $schoolId): array
