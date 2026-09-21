@@ -1,6 +1,7 @@
 <?php
 // db/sample_data.php — Generate sample data for small, medium, and large schools
 // Run this after setup.php and create_admin.php
+// Postgres-compatible (active = TRUE)
 
 require_once __DIR__ . '/db.php';
 
@@ -51,7 +52,7 @@ function generateRandomName($firstNames, $lastNames) {
 }
 
 function generateStaffId() {
-    return 'T-' . str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+    return 'T-' . str_pad((string)rand(1, 999), 3, '0', STR_PAD_LEFT);
 }
 
 echo "<h2>Sample Data Generation</h2>";
@@ -81,7 +82,7 @@ foreach ($schoolConfigs as $size => $config) {
         // Create bands
         $bandIds = [];
         foreach ($config['bands'] as $bandKey) {
-            $stmt = $pdo->prepare('INSERT INTO bands (school_id, band_key, label, lessons_per_day, lesson_length_minutes, active) VALUES (?, ?, ?, ?, ?, 1)');
+            $stmt = $pdo->prepare('INSERT INTO bands (school_id, band_key, label, lessons_per_day, lesson_length_minutes, active) VALUES (?, ?, ?, ?, ?, TRUE)');
             $label = ucfirst(str_replace('-', ' to ', $bandKey));
             $lessonsPerDay = ($size === 'small') ? 6 : (($size === 'medium') ? 7 : 8);
             $lessonLength = ($size === 'small') ? 40 : 35;
@@ -122,7 +123,7 @@ foreach ($schoolConfigs as $size => $config) {
                 $studentCount = rand(25, 45);
                 $roomId = $roomIds[array_rand($roomIds)];
                 
-                $stmt = $pdo->prepare('INSERT INTO classes (school_id, band_id, name, room_id, student_count, active) VALUES (?, ?, ?, ?, ?, 1)');
+                $stmt = $pdo->prepare('INSERT INTO classes (school_id, band_id, name, room_id, student_count, active) VALUES (?, ?, ?, ?, ?, TRUE)');
                 $stmt->execute([$schoolId, $bandId, $className, $roomId, $studentCount]);
                 $classIds[] = ['id' => $pdo->lastInsertId(), 'band_id' => $bandId, 'name' => $className];
             }
@@ -133,7 +134,6 @@ foreach ($schoolConfigs as $size => $config) {
             $classId = $class['id'];
             $bandId = $class['band_id'];
             
-            // Select random subjects for this class
             $classSubjects = array_rand(array_flip($subjectNames), min($config['subjects_per_class'], count($subjectNames)));
             if (!is_array($classSubjects)) {
                 $classSubjects = [$classSubjects];

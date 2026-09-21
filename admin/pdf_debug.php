@@ -42,7 +42,7 @@ $slotCount = (int) $stmt->fetchColumn();
 echo "<p><strong>Scheduled slots:</strong> {$slotCount}</p>";
 
 // Check classes
-$stmt = db()->prepare('SELECT COUNT(*) as cnt FROM classes WHERE school_id = ? AND active = 1');
+$stmt = db()->prepare('SELECT COUNT(*) as cnt FROM classes WHERE school_id = ? AND active = TRUE');
 $stmt->execute([$schoolId]);
 $classCount = (int) $stmt->fetchColumn();
 echo "<p><strong>Active classes:</strong> {$classCount}</p>";
