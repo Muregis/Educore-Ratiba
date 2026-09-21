@@ -88,8 +88,8 @@ require __DIR__ . '/_header.php';
 <div class="card">
     <div class="card-header">
         <h2>Audit Log</h2>
-        <a href="/fet-timetable/admin/export_csv.php?entity=audit_log&search=<?php echo htmlspecialchars($search); ?>&action=<?php echo htmlspecialchars($actionFilter); ?>&entity_filter=<?php echo htmlspecialchars($entityFilter); ?>&format=csv" class="btn btn-secondary">Export CSV</a>
-        <a href="/fet-timetable/admin/export_csv.php?entity=audit_log&search=<?php echo htmlspecialchars($search); ?>&action=<?php echo htmlspecialchars($actionFilter); ?>&entity_filter=<?php echo htmlspecialchars($entityFilter); ?>&format=xlsx" class="btn btn-secondary">Export Excel</a>
+        <a href="export_csv.php?entity=audit_log&search=<?php echo htmlspecialchars($search); ?>&action=<?php echo htmlspecialchars($actionFilter); ?>&entity_filter=<?php echo htmlspecialchars($entityFilter); ?>&format=csv" class="btn btn-secondary">Export CSV</a>
+        <a href="export_csv.php?entity=audit_log&search=<?php echo htmlspecialchars($search); ?>&action=<?php echo htmlspecialchars($actionFilter); ?>&entity_filter=<?php echo htmlspecialchars($entityFilter); ?>&format=xlsx" class="btn btn-secondary">Export Excel</a>
     </div>
     <p class="empty">Track all administrative actions for security and accountability.</p>
     

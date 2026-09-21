@@ -24,7 +24,7 @@ echo "<p><strong>Generation ID:</strong> {$latestGeneration['id']}</p>";
 echo "<p><strong>Status:</strong> {$latestGeneration['status']}</p>";
 echo "<p><strong>HTML path:</strong> " . htmlspecialchars($latestGeneration['html_output_path'] ?? 'null') . "</p>";
 
-$htmlFullPath = 'C:/laragon/www/fet-timetable/' . ltrim($latestGeneration['html_output_path'] ?? '', '/');
+$htmlFullPath = dirname(__DIR__) . '/' . ltrim($latestGeneration['html_output_path'] ?? '', '/');
 echo "<p><strong>Full path:</strong> " . htmlspecialchars($htmlFullPath) . "</p>";
 echo "<p><strong>File exists:</strong> " . (file_exists($htmlFullPath) ? 'YES' : 'NO') . "</p>";
 

@@ -186,8 +186,8 @@ require __DIR__ . '/_header.php';
             <?php endif; ?>
         </form>
         <div style="display: flex; gap: 8px;">
-            <a href="/fet-timetable/admin/export_csv.php?entity=classes&search=<?php echo htmlspecialchars($search); ?>&band_id=<?php echo $bandFilter; ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=csv" class="btn btn-secondary" style="padding: 10px 16px;">Export CSV</a>
-            <a href="/fet-timetable/admin/export_csv.php?entity=classes&search=<?php echo htmlspecialchars($search); ?>&band_id=<?php echo $bandFilter; ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=xlsx" class="btn btn-secondary" style="padding: 10px 16px;">Export Excel</a>
+            <a href="export_csv.php?entity=classes&search=<?php echo htmlspecialchars($search); ?>&band_id=<?php echo $bandFilter; ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=csv" class="btn btn-secondary" style="padding: 10px 16px;">Export CSV</a>
+            <a href="export_csv.php?entity=classes&search=<?php echo htmlspecialchars($search); ?>&band_id=<?php echo $bandFilter; ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=xlsx" class="btn btn-secondary" style="padding: 10px 16px;">Export Excel</a>
         </div>
     </div>
     

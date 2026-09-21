@@ -198,8 +198,8 @@ require __DIR__ . '/_header.php';
             <?php endif; ?>
         </form>
         <div style="display: flex; gap: 8px;">
-            <a href="/fet-timetable/admin/export_csv.php?entity=remedials&search=<?php echo htmlspecialchars($search); ?>&class_id=<?php echo $classFilter; ?>&session_type=<?php echo htmlspecialchars($sessionTypeFilter); ?>&format=csv" class="btn btn-secondary" style="padding: 10px 16px;">Export CSV</a>
-            <a href="/fet-timetable/admin/export_csv.php?entity=remedials&search=<?php echo htmlspecialchars($search); ?>&class_id=<?php echo $classFilter; ?>&session_type=<?php echo htmlspecialchars($sessionTypeFilter); ?>&format=xlsx" class="btn btn-secondary" style="padding: 10px 16px;">Export Excel</a>
+            <a href="export_csv.php?entity=remedials&search=<?php echo htmlspecialchars($search); ?>&class_id=<?php echo $classFilter; ?>&session_type=<?php echo htmlspecialchars($sessionTypeFilter); ?>&format=csv" class="btn btn-secondary" style="padding: 10px 16px;">Export CSV</a>
+            <a href="export_csv.php?entity=remedials&search=<?php echo htmlspecialchars($search); ?>&class_id=<?php echo $classFilter; ?>&session_type=<?php echo htmlspecialchars($sessionTypeFilter); ?>&format=xlsx" class="btn btn-secondary" style="padding: 10px 16px;">Export Excel</a>
         </div>
     </div>
     <p class="empty">Morning and evening remedial lessons outside normal school hours.</p>

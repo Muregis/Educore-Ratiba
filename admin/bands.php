@@ -154,8 +154,8 @@ require __DIR__ . '/_header.php';
             <?php endif; ?>
         </form>
         <div style="display: flex; gap: 8px;">
-            <a href="/fet-timetable/admin/export_csv.php?entity=bands&search=<?php echo htmlspecialchars($search); ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=csv" class="btn btn-secondary" style="padding: 10px 16px;">Export CSV</a>
-            <a href="/fet-timetable/admin/export_csv.php?entity=bands&search=<?php echo htmlspecialchars($search); ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=xlsx" class="btn btn-secondary" style="padding: 10px 16px;">Export Excel</a>
+            <a href="export_csv.php?entity=bands&search=<?php echo htmlspecialchars($search); ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=csv" class="btn btn-secondary" style="padding: 10px 16px;">Export CSV</a>
+            <a href="export_csv.php?entity=bands&search=<?php echo htmlspecialchars($search); ?>&status=<?php echo htmlspecialchars($statusFilter); ?>&format=xlsx" class="btn btn-secondary" style="padding: 10px 16px;">Export Excel</a>
         </div>
     </div>
     <p class="empty">Bands represent grade levels (e.g. PP1-PP2, Grade 1-3) with their own lesson schedules.</p>
