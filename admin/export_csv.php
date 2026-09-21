@@ -2,6 +2,7 @@
 declare(strict_types=1);
 session_start();
 require_once __DIR__ . '/../db/db.php';
+require_once __DIR__ . '/../config/config.php';
 
 $schoolId = requireLoginAndGetSchoolId();
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
@@ -53,12 +54,15 @@ switch ($entity) {
     case 'teachers':
         $filename = 'teachers_export.csv';
         $headers = ['Name', 'Staff ID', 'Max Lessons/Week', 'Subjects'];
+        $driver = Config::get('database.driver', 'mysql');
+        $stringAgg = $driver === 'pgsql' ? 'STRING_AGG(DISTINCT s.name, \', \')' : 'GROUP_CONCAT(DISTINCT s.name SEPARATOR ", ")';
+
         if ($search !== '') {
             $searchParam = '%' . $search . '%';
-            $stmt = db()->prepare('SELECT t.name, t.staff_id, t.max_lessons_per_week, GROUP_CONCAT(DISTINCT s.name SEPARATOR ", ") as subjects FROM teachers t LEFT JOIN subjects s ON t.id = s.teacher_id WHERE t.school_id = ? AND (t.name LIKE ? OR t.staff_id LIKE ?) GROUP BY t.id ORDER BY t.name');
+            $stmt = db()->prepare("SELECT t.name, t.staff_id, t.max_lessons_per_week, {$stringAgg} as subjects FROM teachers t LEFT JOIN subjects s ON t.id = s.teacher_id WHERE t.school_id = ? AND (t.name LIKE ? OR t.staff_id LIKE ?) GROUP BY t.id ORDER BY t.name");
             $stmt->execute([$schoolId, $searchParam, $searchParam]);
         } else {
-            $stmt = db()->prepare('SELECT t.name, t.staff_id, t.max_lessons_per_week, GROUP_CONCAT(DISTINCT s.name SEPARATOR ", ") as subjects FROM teachers t LEFT JOIN subjects s ON t.id = s.teacher_id WHERE t.school_id = ? GROUP BY t.id ORDER BY t.name');
+            $stmt = db()->prepare("SELECT t.name, t.staff_id, t.max_lessons_per_week, {$stringAgg} as subjects FROM teachers t LEFT JOIN subjects s ON t.id = s.teacher_id WHERE t.school_id = ? GROUP BY t.id ORDER BY t.name");
             $stmt->execute([$schoolId]);
         }
         $data = $stmt->fetchAll();
@@ -217,10 +221,10 @@ switch ($entity) {
         $filename = 'audit_log_export.csv';
         $headers = ['Date/Time', 'Admin', 'Admin Type', 'Action', 'Entity', 'Entity ID', 'Details', 'IP Address'];
         $sql = 'SELECT al.*,
-                CASE WHEN al.admin_type = "school_admin" THEN sa.username ELSE su.username END as admin_name
+                CASE WHEN al.admin_type = \'school_admin\' THEN sa.username ELSE su.username END as admin_name
                 FROM audit_log al
-                LEFT JOIN school_admins sa ON al.admin_type = "school_admin" AND al.admin_id = sa.id
-                LEFT JOIN super_admins su ON al.admin_type = "super_admin" AND al.admin_id = su.id
+                LEFT JOIN school_admins sa ON al.admin_type = \'school_admin\' AND al.admin_id = sa.id
+                LEFT JOIN super_admins su ON al.admin_type = \'super_admin\' AND al.admin_id = su.id
                 WHERE al.school_id = ?';
         $params = [$schoolId];
         if ($search !== '') {

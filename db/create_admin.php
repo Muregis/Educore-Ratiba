@@ -3,16 +3,19 @@
 // Run this after setup.php to create login credentials
 
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/../config/config.php';
 
 try {
     $pdo = db();
-    
+    $driver = Config::get('database.driver', 'mysql');
+
     // Create super admin
     $superUsername = 'admin';
     $superPassword = 'admin123'; // Change this after first login!
     $superHash = password_hash($superPassword, PASSWORD_DEFAULT);
-    
-    $stmt = $pdo->prepare('INSERT IGNORE INTO super_admins (username, password_hash) VALUES (?, ?)');
+
+    $insertIgnore = $driver === 'pgsql' ? 'INSERT INTO super_admins (username, password_hash) VALUES (?, ?) ON CONFLICT DO NOTHING' : 'INSERT IGNORE INTO super_admins (username, password_hash) VALUES (?, ?)';
+    $stmt = $pdo->prepare($insertIgnore);
     $stmt->execute([$superUsername, $superHash]);
     
     echo "<h2>Super Admin Created</h2>";

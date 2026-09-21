@@ -34,7 +34,7 @@ $classId = ($_GET['class_id'] ?? '') !== '' ? (int) $_GET['class_id'] : null;
 $teacherId = ($_GET['teacher_id'] ?? '') !== '' ? (int) $_GET['teacher_id'] : null;
 
 $stmt = db()->prepare(
-    'SELECT * FROM generated_timetables WHERE school_id = ? AND status = "success" ORDER BY generated_at DESC LIMIT 1'
+    "SELECT * FROM generated_timetables WHERE school_id = ? AND status = 'success' ORDER BY generated_at DESC LIMIT 1"
 );
 $stmt->execute([$schoolId]);
 $latestGeneration = $stmt->fetch();

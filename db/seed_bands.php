@@ -1,6 +1,7 @@
 <?php
 // db/seed_bands.php
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/../config/config.php';
 
 $bandsDir = __DIR__ . '/../data/bands/';
 $schoolId = 1; // Default school ID for your local setup
@@ -74,9 +75,12 @@ echo "Starting data import from band files...\n<br>";
             ]);
             $bandId = $pdo->lastInsertId() ?: $pdo->query("SELECT id FROM bands WHERE school_id = {$schoolId} AND band_key = '{$bandKey}'")->fetchColumn();
 
+        $driver = Config::get('database.driver', 'mysql');
+        $insertIgnore = $driver === 'pgsql' ? 'INSERT INTO teachers (school_id, name) VALUES (:sid, :name) ON CONFLICT DO NOTHING' : 'INSERT IGNORE INTO teachers (school_id, name) VALUES (:sid, :name)';
+
         // 2. Import Teachers
         if (isset($xml->Teachers_List->Teacher)) {
-            $stmtTeacher = $pdo->prepare("INSERT IGNORE INTO teachers (school_id, name) VALUES (:sid, :name)");
+            $stmtTeacher = $pdo->prepare($insertIgnore);
             foreach ($xml->Teachers_List->Teacher as $teacher) {
                 $teacherName = trim((string)$teacher->Name);
                 if (!empty($teacherName)) {
@@ -85,9 +89,11 @@ echo "Starting data import from band files...\n<br>";
             }
         }
 
+        $insertIgnore = $driver === 'pgsql' ? 'INSERT INTO rooms (school_id, name, capacity) VALUES (:sid, :name, :cap) ON CONFLICT DO NOTHING' : 'INSERT IGNORE INTO rooms (school_id, name, capacity) VALUES (:sid, :name, :cap)';
+
         // 3. Import Rooms
         if (isset($xml->Rooms_List->Room)) {
-            $stmtRoom = $pdo->prepare("INSERT IGNORE INTO rooms (school_id, name, capacity) VALUES (:sid, :name, :cap)");
+            $stmtRoom = $pdo->prepare($insertIgnore);
             foreach ($xml->Rooms_List->Room as $room) {
                 $roomName = trim((string)$room->Name);
                 $capacity = isset($room->Capacity) ? (int)$room->Capacity : 40;
@@ -97,9 +103,11 @@ echo "Starting data import from band files...\n<br>";
             }
         }
 
+        $insertIgnore = $driver === 'pgsql' ? 'INSERT INTO classes (school_id, band_id, name) VALUES (:sid, :bid, :name) ON CONFLICT DO NOTHING' : 'INSERT IGNORE INTO classes (school_id, band_id, name) VALUES (:sid, :bid, :name)';
+
         // 4. Import Classes (Years in FET)
         if (isset($xml->Students_List->Year)) {
-            $stmtClass = $pdo->prepare("INSERT IGNORE INTO classes (school_id, band_id, name) VALUES (:sid, :bid, :name)");
+            $stmtClass = $pdo->prepare($insertIgnore);
             foreach ($xml->Students_List->Year as $year) {
                 $className = trim((string)$year->Name);
                 if (!empty($className)) {
@@ -149,8 +157,8 @@ echo "Starting data import from band files...\n<br>";
             }
 
             // Insert subjects with aggregated lesson counts
-            $stmtSub = $pdo->prepare("INSERT IGNORE INTO subjects (school_id, band_id, class_id, name, lessons_per_week, assigned_teacher_id) 
-                                      VALUES (:sid, :bid, :cid, :name, :lpw, :tid)");
+            $insertIgnore = $driver === 'pgsql' ? 'INSERT INTO subjects (school_id, band_id, class_id, name, lessons_per_week, assigned_teacher_id) VALUES (:sid, :bid, :cid, :name, :lpw, :tid) ON CONFLICT DO NOTHING' : 'INSERT IGNORE INTO subjects (school_id, band_id, class_id, name, lessons_per_week, assigned_teacher_id) VALUES (:sid, :bid, :cid, :name, :lpw, :tid)';
+            $stmtSub = $pdo->prepare($insertIgnore);
             foreach ($subjectCounts as $subj) {
                 $stmtSub->execute([
                     ':sid' => $schoolId,
