@@ -3,10 +3,12 @@
 // Run this file once to set up the database: http://localhost/fet-timetable/db/setup.php
 
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/../config/config.php';
+
+$driver = Config::get('database.driver', 'mysql');
 
 $sqlFiles = [
-    'schema.sql'       => 'Core schema',
-    'migrate_audit.sql' => 'Audit log table',
+    ($driver === 'pgsql' ? 'schema_postgres.sql' : 'schema.sql') => 'Core schema',
 ];
 
 $allOk = true;

@@ -4,6 +4,7 @@
 # Database
 *.sql
 !db/schema.sql
+!db/schema_postgres.sql
 
 # FET Engine output
 output/
