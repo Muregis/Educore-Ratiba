@@ -54,6 +54,6 @@ set -e
 echo "Starting Apache..."
 exec apache2-foreground
 EOF
-chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
