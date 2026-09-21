@@ -4,10 +4,9 @@ services:
   web:
     build: .
     ports:
-      - "8080:8080"
+      - "8080:80"
     volumes:
-      - ./output:/app/output
-      - ./engine:/app/engine
+      - ./output:/var/www/html/output
     environment:
       - APP_ENV=online
       - DB_DRIVER=pgsql
@@ -16,6 +15,6 @@ services:
       - DB_NAME=postgres
       - DB_USER=postgres
       - DB_PASS=your_supabase_password_here
-      - FET_ENGINE_PATH=/app/engine/fet-cl
-      - OUTPUT_DIR=/app/output
+      - FET_ENGINE_PATH=/var/www/html/engine/fet-cl
+      - OUTPUT_DIR=/var/www/html/output
     restart: unless-stopped

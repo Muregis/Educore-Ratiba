@@ -4,8 +4,8 @@ services:
     env: docker
     dockerfilePath: ./Dockerfile
     disk:
-      name: edu-timetable-data
-      mountPath: /app
+      name: edu-timetable-output
+      mountPath: /var/www/html/output
       sizeGB: 1
     envVars:
       - key: APP_ENV
@@ -23,9 +23,9 @@ services:
       - key: DB_PASS
         sync: false
       - key: FET_ENGINE_PATH
-        value: /app/engine/fet-cl
+        value: /var/www/html/engine/fet-cl
       - key: OUTPUT_DIR
-        value: /app/output
+        value: /var/www/html/output
       - key: SSO_SHARED_SECRET
         sync: false
       - key: CENTRAL_SERVER_URL
