@@ -10,7 +10,7 @@ $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
 
 // Get classes and bands for dropdowns
-$stmt = db()->prepare('SELECT c.*, b.label as band_label FROM classes c JOIN bands b ON c.band_id = b.id WHERE c.school_id = ? AND c.active = 1 ORDER BY c.name');
+$stmt = db()->prepare('SELECT c.*, b.label as band_label FROM classes c JOIN bands b ON c.band_id = b.id WHERE c.school_id = ? AND c.active = TRUE ORDER BY c.name');
 $stmt->execute([$schoolId]);
 $classes = $stmt->fetchAll();
 
