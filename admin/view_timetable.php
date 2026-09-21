@@ -14,7 +14,7 @@ $stmt->execute([$schoolId]);
 $latestGeneration = $stmt->fetch();
 
 // Get all classes
-$stmt = db()->prepare('SELECT * FROM classes WHERE school_id = ? AND active = 1 ORDER BY name');
+$stmt = db()->prepare('SELECT * FROM classes WHERE school_id = ? AND active = TRUE ORDER BY name');
 $stmt->execute([$schoolId]);
 $classes = $stmt->fetchAll();
 
