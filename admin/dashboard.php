@@ -8,13 +8,13 @@ $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
 
-// Summary stats
+// Summary stats — use TRUE/FALSE for Postgres boolean columns
 $counts = [];
 foreach ([
     'teachers'  => 'SELECT COUNT(*) FROM teachers WHERE school_id = ?',
     'rooms'     => 'SELECT COUNT(*) FROM rooms WHERE school_id = ?',
-    'bands'     => 'SELECT COUNT(*) FROM bands WHERE school_id = ? AND active = 1',
-    'classes'   => 'SELECT COUNT(*) FROM classes WHERE school_id = ? AND active = 1',
+    'bands'     => 'SELECT COUNT(*) FROM bands WHERE school_id = ? AND active = TRUE',
+    'classes'   => 'SELECT COUNT(*) FROM classes WHERE school_id = ? AND active = TRUE',
     'subjects'  => 'SELECT COUNT(*) FROM subjects WHERE school_id = ?',
 ] as $key => $sql) {
     $s = db()->prepare($sql);
