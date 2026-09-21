@@ -147,9 +147,9 @@ require __DIR__ . '/_header.php';
                 <?php foreach ($rooms as $room): ?>
                     <tr>
                         <td><input type="checkbox" name="room_ids[]" value="<?php echo (int) $room['id']; ?>" class="row-checkbox"></td>
-                        <td><?php echo htmlspecialchars($room['name']); ?></td>
-                        <td><?php echo htmlspecialchars($room['capacity'] ?? '—'); ?></td>
-                        <td><?php echo htmlspecialchars($room['room_type'] ?? '—'); ?></td>
+                        <td><?php echo htmlspecialchars((string) ($room['name'] ?? '')); ?></td>
+                        <td><?php echo isset($room['capacity']) ? (int) $room['capacity'] : '—'; ?></td>
+                        <td><?php echo htmlspecialchars((string) ($room['room_type'] ?? '—')); ?></td>
                         <td class="row-actions">
                             <form method="post" onsubmit="return confirmDelete('Delete this room? It may be assigned to classes.');">
                                 <input type="hidden" name="action" value="delete">
