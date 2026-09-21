@@ -28,7 +28,9 @@ function db(): PDO
         
         if ($driver === 'pgsql') {
             // PostgreSQL/Supabase connection
-            $dsn = "pgsql:host={$host};" . ($port ? "port={$port};" : '') . "dbname={$dbname}";
+            // Force IPv4 resolution to avoid IPv6 routing issues on cloud hosts
+            $resolvedHost = gethostbyname($host);
+            $dsn = "pgsql:host={$resolvedHost};" . ($port ? "port={$port};" : '') . "dbname={$dbname};sslmode=require";
             $pdo = new PDO($dsn, $username, $password, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
