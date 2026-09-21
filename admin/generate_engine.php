@@ -376,6 +376,8 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
         $timetablesDir = $outputDir . '/timetables';
         if (is_dir($timetablesDir)) {
             $allIndexFiles = [];
+            // FET creates subdirectories named after the input XML file
+            // We need to search for _index.html files inside those subdirectories
             foreach ((glob($timetablesDir . '/*', GLOB_ONLYDIR) ?: []) as $folder) {
                 foreach ((glob($folder . '/*_index.html') ?: []) as $f) {
                     $allIndexFiles[] = $f;
@@ -388,12 +390,13 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
                 // the same folder - this is what we actually parse into
                 // scheduled_slots (structured and stable), not the HTML.
                 $folderOfNewest = dirname($htmlPath);
-                $xmlCandidates = glob($folderOfNewest . '/*.xml') ?: [];
+                // Look specifically for the activities XML file (contains the scheduled activities)
+                $xmlCandidates = glob($folderOfNewest . '/*_activities.xml') ?: [];
                 if (!empty($xmlCandidates)) {
                     $solutionXmlPath = $xmlCandidates[0];
                 } else {
-                    // Log warning if no XML found but HTML exists
-                    error_log("FET generated HTML but no solution XML found in: $folderOfNewest");
+                    // Log warning if no activities XML found but HTML exists
+                    error_log("FET generated HTML but no activities XML found in: $folderOfNewest");
                 }
             } else {
                 error_log("FET generation succeeded but no _index.html files found in: $timetablesDir");
@@ -426,11 +429,13 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
 function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta, int $schoolId): array
 {
     if (!file_exists($solutionXmlPath)) {
+        error_log("Solution XML file not found: $solutionXmlPath");
         return [];
     }
 
     $xml = @simplexml_load_file($solutionXmlPath);
     if ($xml === false) {
+        error_log("Failed to parse solution XML: $solutionXmlPath");
         return [];
     }
 
@@ -450,14 +455,21 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
 
     $rows = [];
 
+    $activityCount = 0;
+    $skippedCount = 0;
+    $missingClassCount = 0;
+    $missingTeacherCount = 0;
+
     // FET's solution XML format lists placed activities with their
     // assigned Day/Hour/Room under an Activities_List-like structure
     // in the output. We match placed activities back to our own
     // activity IDs via the Id field, then use $activityMeta for the
     // subject/class/teacher this ID represents.
     foreach ($xml->xpath('//Activity') as $act) {
+        $activityCount++;
         $fetId = (int) $act->Id;
         if (!isset($activityMeta[$fetId])) {
+            $skippedCount++;
             continue; // not one of ours (shouldn't happen, but don't crash)
         }
         $meta = $activityMeta[$fetId];
@@ -467,6 +479,7 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
         $roomName = (string) ($act->Room ?? '');
 
         if ($day === '' || $hour === '') {
+            $skippedCount++;
             continue; // unplaced activity - handled separately by the
                       // not-scheduled report, not here
         }
@@ -476,6 +489,14 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
         $roomId = $roomName !== '' ? ($roomIdByName[$roomName] ?? null) : null;
 
         if ($classId === null || $teacherId === null) {
+            if ($classId === null) {
+                $missingClassCount++;
+                error_log("Missing class: {$meta['class_name']} for activity ID $fetId");
+            }
+            if ($teacherId === null) {
+                $missingTeacherCount++;
+                error_log("Missing teacher: {$meta['teacher_name']} for activity ID $fetId");
+            }
             continue; // data integrity issue - skip rather than insert a broken row
         }
 
@@ -490,6 +511,8 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
             'hour_slot' => $hour,
         ];
     }
+
+    error_log("Parsed FET solution: $activityCount total activities, " . count($rows) . " scheduled, $skippedCount skipped, $missingClassCount missing classes, $missingTeacherCount missing teachers");
 
     return $rows;
 }
