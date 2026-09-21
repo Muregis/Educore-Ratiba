@@ -18,13 +18,13 @@ $page = max(1, (int) ($_GET['page'] ?? 1));
 $perPage = 50;
 $offset = ($page - 1) * $perPage;
 
-// Build query with filters
-$sql = 'SELECT al.*, 
-        CASE WHEN al.admin_type = "school_admin" THEN sa.username ELSE su.username END as admin_name 
+// Build query with filters (Postgres: use single quotes for string literals)
+$sql = "SELECT al.*, 
+        CASE WHEN al.admin_type = 'school_admin' THEN sa.username ELSE su.username END as admin_name 
         FROM audit_log al 
-        LEFT JOIN school_admins sa ON al.admin_type = "school_admin" AND al.admin_id = sa.id
-        LEFT JOIN super_admins su ON al.admin_type = "super_admin" AND al.admin_id = su.id
-        WHERE al.school_id = ?';
+        LEFT JOIN school_admins sa ON al.admin_type = 'school_admin' AND al.admin_id = sa.id
+        LEFT JOIN super_admins su ON al.admin_type = 'super_admin' AND al.admin_id = su.id
+        WHERE al.school_id = ?";
 $params = [$schoolId];
 
 if ($search !== '') {
@@ -77,7 +77,7 @@ $entities->execute([$schoolId]);
 $entityList = $entities->fetchAll(PDO::FETCH_COLUMN);
 
 // Get admins for filter
-$admins = db()->prepare('SELECT sa.id, sa.username FROM school_admins sa WHERE sa.school_id = ? UNION ALL SELECT NULL as id, "Super Admin" as username');
+$admins = db()->prepare("SELECT sa.id, sa.username FROM school_admins sa WHERE sa.school_id = ? UNION ALL SELECT NULL as id, 'Super Admin' as username");
 $admins->execute([$schoolId]);
 $adminList = $admins->fetchAll();
 
