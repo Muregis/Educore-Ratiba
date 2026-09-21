@@ -23,13 +23,13 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
 
-# Download the Linux FET engine binary AFTER COPY (so Windows .exe is never present)
-RUN mkdir -p engine output /tmp/fet_extracted \
-    && curl -fL -o /tmp/fet.tar.gz "https://www.lalescu.ro/liviu/fet/download/fet6.13.1/fet_6.13.1_linux.tar.gz" \
-    && tar -xzf /tmp/fet.tar.gz -C /tmp/fet_extracted/ \
-    && find /tmp/fet_extracted -type f -name "fet-cl" -exec cp {} engine/fet-cl \; \
-    && chmod +x engine/fet-cl \
-    && rm -rf /tmp/fet.tar.gz /tmp/fet_extracted
+# Install FET timetabling engine from Debian package repo (includes fet-cl binary)
+RUN apt-get update \
+    && apt-get install -y fet \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p engine output \
+    && ln -sf "$(which fet-cl)" engine/fet-cl \
+    && chmod +x engine/fet-cl
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/output \
