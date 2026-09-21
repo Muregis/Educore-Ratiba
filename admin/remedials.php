@@ -229,7 +229,7 @@ require __DIR__ . '/_header.php';
             <label for="subject_id">Subject</label>
             <select id="subject_id" name="subject_id" required>
                 <?php foreach ($subjects as $subject): ?>
-                    <option value="<?php echo (int) $subject['id']; ?>" data-class="<?php echo (int) $subject['class_id']; ?>"><?php echo htmlspecialchars($subject['subject_name'] ?? $subject['name']); ?> (<?php echo htmlspecialchars($subject['class_name']); ?>)</option>
+                    <option value="<?php echo (int) $subject['id']; ?>" data-class="<?php echo (int) $subject['class_id']; ?>"><?php echo htmlspecialchars($subject['name']); ?> (<?php echo htmlspecialchars($subject['class_name']); ?>)</option>
                 <?php endforeach; ?>
             </select>
             

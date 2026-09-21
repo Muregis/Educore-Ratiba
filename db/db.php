@@ -233,8 +233,8 @@ function logAudit(
         $schoolId  = $_SESSION['school_id'] ?? null;
 
         $stmt = db()->prepare(
-            'INSERT INTO audit_log (school_id, admin_id, admin_type, action, entity, entity_id, data_json, ip_address)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+            'INSERT INTO audit_log (school_id, admin_id, admin_type, action, entity, entity_id, details, ip_address, user_agent)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
             $schoolId,
@@ -245,6 +245,7 @@ function logAudit(
             $entityId,
             $data !== null ? json_encode($data) : null,
             $_SERVER['REMOTE_ADDR'] ?? null,
+            $_SERVER['HTTP_USER_AGENT'] ?? null,
         ]);
     } catch (Throwable) {
         // Silently ignore

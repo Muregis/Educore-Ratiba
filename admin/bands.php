@@ -83,6 +83,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
     }
 }
 
+// Handle band update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update') {
+    $bandId = (int) ($_POST['band_id'] ?? 0);
+    $bandKey = trim($_POST['band_key'] ?? '');
+    $label = trim($_POST['label'] ?? '');
+    $lessonsPerDay = (int) ($_POST['lessons_per_day'] ?? 8);
+    $lessonLength = (int) ($_POST['lesson_length_minutes'] ?? 40);
+    
+    if ($bandKey === '' || $label === '') {
+        $error = 'Band key and label are required.';
+    } else {
+        try {
+            $stmt = db()->prepare(
+                'UPDATE bands SET band_key = ?, label = ?, lessons_per_day = ?, lesson_length_minutes = ? WHERE id = ? AND school_id = ?'
+            );
+            $stmt->execute([
+                $bandKey,
+                $label,
+                $lessonsPerDay,
+                $lessonLength,
+                $bandId,
+                $schoolId,
+            ]);
+            $success = 'Band updated successfully.';
+            logAudit('update', 'band', $bandId, ['band_key' => $bandKey, 'label' => $label]);
+        } catch (Throwable $e) {
+            $error = 'Could not update band. Band key may already exist.';
+        }
+    }
+}
+
 if ($search !== '' || $statusFilter !== '') {
     $sql = 'SELECT COUNT(*) FROM bands WHERE school_id = ?';
     $params = [$schoolId];
@@ -203,6 +234,7 @@ require __DIR__ . '/_header.php';
                         <td><?php echo (int) $band['lesson_length_minutes']; ?> min</td>
                         <td><?php echo $band['active'] ? '<span style="color:var(--secondary);font-weight:600;">Active</span>' : '<span style="color:var(--text-muted);">Inactive</span>'; ?></td>
                         <td class="row-actions">
+                            <button type="button" onclick="showEditForm(<?php echo (int) $band['id']; ?>, '<?php echo htmlspecialchars($band['band_key'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($band['label'], ENT_QUOTES); ?>', <?php echo (int) $band['lessons_per_day']; ?>, <?php echo (int) $band['lesson_length_minutes']; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" style="display:inline;">
                                 <input type="hidden" name="action" value="toggle">
                                 <input type="hidden" name="band_id" value="<?php echo (int) $band['id']; ?>">
@@ -263,5 +295,55 @@ require __DIR__ . '/_header.php';
         <?php endif; ?>
     <?php endif; ?>
 </div>
+
+<!-- Edit Band Modal -->
+<div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <h2>Edit Band</h2>
+        <form method="post">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="band_id" id="edit-band-id">
+            
+            <label for="edit-band_key">Band Key (e.g. pp1-pp2, grade-1-3)</label>
+            <input type="text" id="edit-band_key" name="band_key" required placeholder="Use hyphens, no spaces">
+            
+            <label for="edit-label">Display Label</label>
+            <input type="text" id="edit-label" name="label" required placeholder="e.g. PP1 - PP2">
+            
+            <label for="edit-lessons_per_day">Lessons Per Day</label>
+            <input type="number" id="edit-lessons_per_day" name="lessons_per_day" min="1" required>
+            
+            <label for="edit-lesson_length_minutes">Lesson Length (minutes)</label>
+            <input type="number" id="edit-lesson_length_minutes" name="lesson_length_minutes" min="1" required>
+            
+            <div style="display: flex; gap: 8px; margin-top: 16px;">
+                <button type="submit">Update Band</button>
+                <button type="button" onclick="hideEditForm()" class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function showEditForm(bandId, bandKey, label, lessonsPerDay, lessonLength) {
+    document.getElementById('edit-band-id').value = bandId;
+    document.getElementById('edit-band_key').value = bandKey;
+    document.getElementById('edit-label').value = label;
+    document.getElementById('edit-lessons_per_day').value = lessonsPerDay;
+    document.getElementById('edit-lesson_length_minutes').value = lessonLength;
+    document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function hideEditForm() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideEditForm();
+    }
+});
+</script>
 
 <?php require __DIR__ . '/_footer.php'; ?>

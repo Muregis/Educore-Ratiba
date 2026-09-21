@@ -113,6 +113,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'assig
     }
 }
 
+// Handle subject update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update') {
+    $subjectId = (int) ($_POST['subject_id'] ?? 0);
+    $classId = (int) ($_POST['class_id'] ?? 0);
+    $name = trim($_POST['name'] ?? '');
+    $lessonsPerWeek = (int) ($_POST['lessons_per_week'] ?? 1);
+    
+    if ($classId === 0 || $name === '') {
+        $error = 'Class and subject name are required.';
+    } else {
+        try {
+            // Get band_id from class
+            $stmt = db()->prepare('SELECT band_id FROM classes WHERE id = ? AND school_id = ?');
+            $stmt->execute([$classId, $schoolId]);
+            $class = $stmt->fetch();
+            
+            if (!$class) {
+                $error = 'Invalid class selected.';
+            } else {
+                $stmt = db()->prepare(
+                    'UPDATE subjects SET class_id = ?, band_id = ?, name = ?, lessons_per_week = ? WHERE id = ? AND school_id = ?'
+                );
+                $stmt->execute([
+                    $classId,
+                    $class['band_id'],
+                    $name,
+                    $lessonsPerWeek,
+                    $subjectId,
+                    $schoolId,
+                ]);
+                $success = 'Subject updated successfully.';
+                logAudit('update', 'subject', $subjectId, ['name' => $name, 'class_id' => $classId]);
+            }
+        } catch (Throwable $e) {
+            $error = 'Could not update subject.';
+        }
+    }
+}
+
 if ($search !== '' || $classFilter !== 0) {
     $sql = 'SELECT COUNT(*) FROM subjects s WHERE s.school_id = ?';
     $params = [$schoolId];
@@ -259,6 +298,7 @@ require __DIR__ . '/_header.php';
                             </form>
                         </td>
                         <td class="row-actions">
+                            <button type="button" onclick="showEditForm(<?php echo (int) $subject['id']; ?>, <?php echo (int) $subject['class_id']; ?>, '<?php echo htmlspecialchars($subject['name'], ENT_QUOTES); ?>', <?php echo (int) $subject['lessons_per_week']; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this subject? This may affect timetable generation.');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="subject_id" value="<?php echo (int) $subject['id']; ?>">
@@ -311,5 +351,55 @@ require __DIR__ . '/_header.php';
         <?php endif; ?>
     <?php endif; ?>
 </div>
+
+<!-- Edit Subject Modal -->
+<div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <h2>Edit Subject</h2>
+        <form method="post">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="subject_id" id="edit-subject-id">
+            
+            <label for="edit-class_id">Class</label>
+            <select id="edit-class_id" name="class_id" required>
+                <?php foreach ($classes as $class): ?>
+                    <option value="<?php echo (int) $class['id']; ?>"><?php echo htmlspecialchars($class['name']); ?> (<?php echo htmlspecialchars($class['band_label']); ?>)</option>
+                <?php endforeach; ?>
+            </select>
+            
+            <label for="edit-name">Subject Name</label>
+            <input type="text" id="edit-name" name="name" required placeholder="e.g. Mathematics">
+            
+            <label for="edit-lessons_per_week">Lessons Per Week</label>
+            <input type="number" id="edit-lessons_per_week" name="lessons_per_week" value="1" min="1" required>
+            
+            <div style="display: flex; gap: 8px; margin-top: 16px;">
+                <button type="submit">Update Subject</button>
+                <button type="button" onclick="hideEditForm()" class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function showEditForm(subjectId, classId, name, lessonsPerWeek) {
+    document.getElementById('edit-subject-id').value = subjectId;
+    document.getElementById('edit-class_id').value = classId;
+    document.getElementById('edit-name').value = name;
+    document.getElementById('edit-lessons_per_week').value = lessonsPerWeek;
+    document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function hideEditForm() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideEditForm();
+    }
+});
+</script>
 
 <?php require __DIR__ . '/_footer.php'; ?>

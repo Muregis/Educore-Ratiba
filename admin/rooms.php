@@ -73,6 +73,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
     }
 }
 
+// Handle room update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update') {
+    $roomId = (int) ($_POST['room_id'] ?? 0);
+    $name = trim($_POST['name'] ?? '');
+    $capacity = $_POST['capacity'] ?? '';
+    $roomType = trim($_POST['room_type'] ?? '');
+    
+    if ($name === '') {
+        $error = 'Room name is required.';
+    } else {
+        try {
+            $stmt = db()->prepare(
+                'UPDATE rooms SET name = ?, capacity = ?, room_type = ? WHERE id = ? AND school_id = ?'
+            );
+            $stmt->execute([
+                $name,
+                $capacity !== '' ? (int) $capacity : null,
+                $roomType !== '' ? $roomType : null,
+                $roomId,
+                $schoolId,
+            ]);
+            $success = 'Room updated successfully.';
+            logAudit('update', 'room', $roomId, ['name' => $name, 'capacity' => $capacity]);
+        } catch (Throwable $e) {
+            $error = 'Could not update room.';
+        }
+    }
+}
+
 if ($search !== '') {
     $searchParam = '%' . $search . '%';
     
@@ -151,6 +180,7 @@ require __DIR__ . '/_header.php';
                         <td><?php echo isset($room['capacity']) ? (int) $room['capacity'] : '—'; ?></td>
                         <td><?php echo htmlspecialchars((string) ($room['room_type'] ?? '—')); ?></td>
                         <td class="row-actions">
+                            <button type="button" onclick="showEditForm(<?php echo (int) $room['id']; ?>, '<?php echo htmlspecialchars($room['name'], ENT_QUOTES); ?>', <?php echo isset($room['capacity']) ? (int) $room['capacity'] : 'null'; ?>, '<?php echo htmlspecialchars($room['room_type'] ?? '', ENT_QUOTES); ?>')" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this room? It may be assigned to classes.');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="room_id" value="<?php echo (int) $room['id']; ?>">
@@ -203,5 +233,51 @@ require __DIR__ . '/_header.php';
         <?php endif; ?>
     <?php endif; ?>
 </div>
+
+<!-- Edit Room Modal -->
+<div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <h2>Edit Room</h2>
+        <form method="post">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="room_id" id="edit-room-id">
+            
+            <label for="edit-name">Room Name</label>
+            <input type="text" id="edit-name" name="name" required>
+            
+            <label for="edit-capacity">Capacity (optional)</label>
+            <input type="number" id="edit-capacity" name="capacity" min="1">
+            
+            <label for="edit-room_type">Room Type (optional)</label>
+            <input type="text" id="edit-room_type" name="room_type" placeholder="e.g. classroom, lab, hall">
+            
+            <div style="display: flex; gap: 8px; margin-top: 16px;">
+                <button type="submit">Update Room</button>
+                <button type="button" onclick="hideEditForm()" class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function showEditForm(roomId, name, capacity, roomType) {
+    document.getElementById('edit-room-id').value = roomId;
+    document.getElementById('edit-name').value = name;
+    document.getElementById('edit-capacity').value = capacity || '';
+    document.getElementById('edit-room_type').value = roomType || '';
+    document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function hideEditForm() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideEditForm();
+    }
+});
+</script>
 
 <?php require __DIR__ . '/_footer.php'; ?>

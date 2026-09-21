@@ -101,6 +101,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
     }
 }
 
+// Handle class update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'update') {
+    $classId = (int) ($_POST['class_id'] ?? 0);
+    $name = trim($_POST['name'] ?? '');
+    $bandId = (int) ($_POST['band_id'] ?? 0);
+    $roomId = $_POST['room_id'] ?? '';
+    $studentCount = $_POST['student_count'] ?? '';
+    
+    if ($name === '' || $bandId === 0) {
+        $error = 'Class name and band are required.';
+    } else {
+        try {
+            $stmt = db()->prepare(
+                'UPDATE classes SET band_id = ?, name = ?, room_id = ?, student_count = ? WHERE id = ? AND school_id = ?'
+            );
+            $stmt->execute([
+                $bandId,
+                $name,
+                $roomId !== '' ? (int) $roomId : null,
+                $studentCount !== '' ? (int) $studentCount : null,
+                $classId,
+                $schoolId,
+            ]);
+            $success = 'Class updated successfully.';
+            logAudit('update', 'class', $classId, ['name' => $name, 'band_id' => $bandId]);
+        } catch (Throwable $e) {
+            $error = 'Could not update class.';
+        }
+    }
+}
+
 if ($search !== '' || $bandFilter !== 0 || $statusFilter !== '') {
     $sql = 'SELECT COUNT(*) FROM classes c WHERE c.school_id = ?';
     $params = [$schoolId];
@@ -248,6 +279,7 @@ require __DIR__ . '/_header.php';
                         <td><?php echo (int) $class['student_count']; ?></td>
                         <td><?php echo $class['active'] ? '<span style="color:var(--secondary);font-weight:600;">Active</span>' : '<span style="color:var(--text-muted);">Inactive</span>'; ?></td>
                         <td class="row-actions">
+                            <button type="button" onclick="showEditForm(<?php echo (int) $class['id']; ?>, '<?php echo htmlspecialchars($class['name'], ENT_QUOTES); ?>', <?php echo (int) $class['band_id']; ?>, <?php echo isset($class['room_id']) ? (int) $class['room_id'] : 'null'; ?>, <?php echo isset($class['student_count']) ? (int) $class['student_count'] : 'null'; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" style="display:inline;">
                                 <input type="hidden" name="action" value="toggle">
                                 <input type="hidden" name="class_id" value="<?php echo (int) $class['id']; ?>">
@@ -308,5 +340,64 @@ require __DIR__ . '/_header.php';
         <?php endif; ?>
     <?php endif; ?>
 </div>
+
+<!-- Edit Class Modal -->
+<div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
+        <h2>Edit Class</h2>
+        <form method="post">
+            <input type="hidden" name="action" value="update">
+            <input type="hidden" name="class_id" id="edit-class-id">
+            
+            <label for="edit-name">Class Name</label>
+            <input type="text" id="edit-name" name="name" required>
+            
+            <label for="edit-band_id">Band</label>
+            <select id="edit-band_id" name="band_id" required>
+                <?php foreach ($bands as $band): ?>
+                    <option value="<?php echo (int) $band['id']; ?>"><?php echo htmlspecialchars($band['label']); ?></option>
+                <?php endforeach; ?>
+            </select>
+            
+            <label for="edit-room_id">Default Room (optional)</label>
+            <select id="edit-room_id" name="room_id">
+                <option value="">— No default room —</option>
+                <?php foreach ($rooms as $room): ?>
+                    <option value="<?php echo (int) $room['id']; ?>"><?php echo htmlspecialchars($room['name']); ?></option>
+                <?php endforeach; ?>
+            </select>
+            
+            <label for="edit-student_count">Student Count (optional)</label>
+            <input type="number" id="edit-student_count" name="student_count" min="1">
+            
+            <div style="display: flex; gap: 8px; margin-top: 16px;">
+                <button type="submit">Update Class</button>
+                <button type="button" onclick="hideEditForm()" class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function showEditForm(classId, name, bandId, roomId, studentCount) {
+    document.getElementById('edit-class-id').value = classId;
+    document.getElementById('edit-name').value = name;
+    document.getElementById('edit-band_id').value = bandId;
+    document.getElementById('edit-room_id').value = roomId || '';
+    document.getElementById('edit-student_count').value = studentCount || '';
+    document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function hideEditForm() {
+    document.getElementById('edit-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideEditForm();
+    }
+});
+</script>
 
 <?php require __DIR__ . '/_footer.php'; ?>
