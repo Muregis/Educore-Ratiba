@@ -3,6 +3,12 @@ services:
     name: edu-timetable
     env: docker
     dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /health.php
+    healthCheckInterval: 60
+    healthCheckTimeout: 30
+    healthCheckRetries: 5
+    numInstances: 1
     disk:
       name: edu-timetable-output
       mountPath: /var/www/html/output

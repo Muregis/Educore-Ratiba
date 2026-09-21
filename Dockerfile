@@ -42,8 +42,18 @@ RUN echo '<Directory /var/www/html>\n\
     AllowOverride All\n\
     Require all granted\n\
 </Directory>' > /etc/apache2/conf-available/app.conf \
+    && echo 'ServerName localhost' >> /etc/apache2/apache2.conf \
     && a2enconf app
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+# Create entrypoint script to ensure container stays running
+RUN cat > /entrypoint.sh << 'EOF'
+#!/bin/bash
+set -e
+echo "Starting Apache..."
+exec apache2-foreground
+EOF
+chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
