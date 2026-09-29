@@ -9,34 +9,58 @@ $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
-    
-    // Try school admin login first
-    $stmt = db()->prepare('SELECT sa.*, s.name as school_name FROM school_admins sa JOIN schools s ON sa.school_id = s.id WHERE sa.username = ?');
-    $stmt->execute([$username]);
-    $admin = $stmt->fetch();
-    
-    if ($admin && password_verify($password, $admin['password_hash'])) {
-        $_SESSION['school_admin_id'] = $admin['id'];
-        $_SESSION['school_id'] = $admin['school_id'];
-        $_SESSION['school_name'] = $admin['school_name'];
-        header('Location: admin/dashboard.php');
-        exit;
+
+    // CSRF: the token was issued when the login form was rendered
+    // (getCsrfToken() below). Reject before doing any credential work.
+    verifyCsrf();
+
+    // Rate limiting: 5 wrong passwords per username -> 60s lockout.
+    $lockout = loginLockoutSeconds($username);
+    if ($lockout > 0) {
+        $error = "Too many failed attempts. Please try again in {$lockout} second"
+            . ($lockout === 1 ? '' : 's') . '.';
+    } elseif ($username !== '' && $password !== '') {
+        // Try school admin login first
+        $stmt = db()->prepare('SELECT sa.*, s.name as school_name FROM school_admins sa JOIN schools s ON sa.school_id = s.id WHERE sa.username = ?');
+        $stmt->execute([$username]);
+        $admin = $stmt->fetch();
+
+        if ($admin && password_verify($password, $admin['password_hash'])) {
+            clearFailedLogins($username);
+            session_regenerate_id(true);
+            $_SESSION['school_admin_id'] = $admin['id'];
+            $_SESSION['school_id'] = $admin['school_id'];
+            $_SESSION['school_name'] = $admin['school_name'];
+            header('Location: admin/dashboard.php');
+            exit;
+        }
+
+        // Try super admin login
+        $stmt = db()->prepare('SELECT * FROM super_admins WHERE username = ?');
+        $stmt->execute([$username]);
+        $superAdmin = $stmt->fetch();
+
+        if ($superAdmin && password_verify($password, $superAdmin['password_hash'])) {
+            clearFailedLogins($username);
+            session_regenerate_id(true);
+            $_SESSION['super_admin_id'] = $superAdmin['id'];
+            $_SESSION['super_admin_username'] = $superAdmin['username'];
+            header('Location: super/schools.php');
+            exit;
+        }
+
+        // Wrong credentials: count the attempt (this may trip the lockout)
+        $lockedNow = recordFailedLogin($username);
+        $error = $lockedNow
+            ? 'Too many failed attempts. Please try again in 60 seconds.'
+            : 'Invalid username or password.';
+    } else {
+        $error = 'Invalid username or password.';
     }
-    
-    // Try super admin login
-    $stmt = db()->prepare('SELECT * FROM super_admins WHERE username = ?');
-    $stmt->execute([$username]);
-    $superAdmin = $stmt->fetch();
-    
-    if ($superAdmin && password_verify($password, $superAdmin['password_hash'])) {
-        $_SESSION['super_admin_id'] = $superAdmin['id'];
-        $_SESSION['super_admin_username'] = $superAdmin['username'];
-        header('Location: super/schools.php');
-        exit;
-    }
-    
-    $error = 'Invalid username or password.';
 }
+
+// CSRF token for the login form (issued/refreshed on every render)
+getCsrfToken();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -210,9 +234,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
         
         <form method="post">
+            <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required autofocus placeholder="Enter your username">
+                <input type="text" id="username" name="username" required autofocus placeholder="Enter your username" value="<?php echo htmlspecialchars($username ?? ''); ?>">
             </div>
             
             <div class="form-group">

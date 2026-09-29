@@ -16,6 +16,17 @@ if (defined('ERROR_HANDLER_REGISTERED')) {
 define('ERROR_HANDLER_REGISTERED', true);
 
 /**
+ * True only when the app is explicitly running in development mode.
+ * Controls whether error details (message/file/line/stack) are shown
+ * in the browser. Production users get a generic message; details are
+ * always written to the server log regardless of environment.
+ */
+function appIsDevelopment(): bool
+{
+    return getenv('APP_ENV') === 'development';
+}
+
+/**
  * Converts PHP error levels to human-readable strings.
  */
 function errorTypeToString(int $level): string
@@ -98,16 +109,7 @@ function appExceptionHandler(Throwable $e): void
     // If this is an HTTP request, show a user-friendly error page
     if (php_sapi_name() !== 'cli' && !headers_sent()) {
         http_response_code(500);
-        
-        // Check if session is started and school is set
-        $isAdminPage = isset($_SESSION['school_admin_id']) || isset($_SESSION['super_admin_id']);
-        
-        if ($isAdminPage) {
-            requireLoginAndGetSchoolId();
-            // This will redirect if not logged in
-        }
-        
-        // Show error page
+
         $pageTitle = 'Error — EduCore Ratiba';
         include __DIR__ . '/../admin/_header.php';
         ?>
@@ -121,8 +123,9 @@ function appExceptionHandler(Throwable $e): void
                 <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
                 <a href="dashboard.php" class="btn">Go to Dashboard</a>
             </div>
+            <?php if (appIsDevelopment()): ?>
             <div style="margin-top: 30px; text-align: left; background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 8px;">
-                <h4 style="margin-bottom: 10px;">Error Details</h4>
+                <h4 style="margin-bottom: 10px;">Error Details (development mode only)</h4>
                 <p><strong>Message:</strong> <?php echo htmlspecialchars($message); ?></p>
                 <p><strong>File:</strong> <?php echo htmlspecialchars($file); ?></p>
                 <p><strong>Line:</strong> <?php echo (int) $line; ?></p>
@@ -131,13 +134,16 @@ function appExceptionHandler(Throwable $e): void
                     <pre style="background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 5px; overflow-x: auto; font-size: 0.8rem; margin-top: 10px;"><?php echo htmlspecialchars($e->getTraceAsString()); ?></pre>
                 </details>
             </div>
+            <?php endif; ?>
         </div>
         <?php
         require __DIR__ . '/../admin/_footer.php';
         exit;
     } else {
         echo "Fatal error: " . htmlspecialchars($message) . "\n";
-        echo "File: {$file}, Line: {$line}\n";
+        if (appIsDevelopment()) {
+            echo "File: {$file}, Line: {$line}\n";
+        }
         exit(1);
     }
 }
@@ -170,3 +176,11 @@ register_shutdown_function('appShutdownHandler');
 
 // Ensure all errors are reported (will be handled by our custom handler)
 error_reporting(E_ALL);
+
+// Never let PHP itself print error details to the browser in production.
+// The custom handlers above control what users see; details always go to
+// the server log via error_log().
+if (!appIsDevelopment()) {
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+}

@@ -18,11 +18,12 @@ $engine = Config::get('paths.engine');
 $projectOutputRoot = Config::get('paths.output') . '/schools/' . $schoolId;
 
 $preflightProblems = [];
-$generationResult = null;
-$adminMessages = []; // translated, plain-language results for the school-admin
-$rawOutputForAdminView = null; // only ever shown in a collapsed/admin-only block
+$adminMessages = [];      // translated, plain-language results for the school-admin
+$failureDetails = [];     // per-lesson breakdown of why the engine could not place lessons
+$rawOutputForAdminView = null; // only ever shown in a collapsed super-admin block
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'generate') {
+    verifyCsrf();
     $preflightProblems = runPreflightChecks($schoolId);
 
     if (empty($preflightProblems)) {
@@ -42,26 +43,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
 
         $xmlSnapshot = @file_get_contents($xmlPath) ?: null;
         $metaPath = $xmlPath . '.meta.json';
-        error_log("Loading activity metadata from: $metaPath");
-        $activityMeta = file_exists($metaPath) ? json_decode(file_get_contents($metaPath), true) : [];
-        if (empty($activityMeta)) {
-            error_log("WARNING: Activity metadata is empty or file doesn't exist: $metaPath");
-        } else {
-            error_log("Loaded " . count($activityMeta) . " activity metadata entries");
+        $activityMeta = file_exists($metaPath) ? json_decode((string) file_get_contents($metaPath), true) : [];
+        if (!is_array($activityMeta)) {
+            $activityMeta = [];
         }
         // json_decode gives string keys - re-key as int to match how
         // parseFetSolutionIntoSlots and buildWholeSchoolXml use them.
         $activityMeta = array_combine(array_map('intval', array_keys($activityMeta)), array_values($activityMeta));
 
+        // Plain-English diagnosis up-front so it can be stored with the run
+        // and re-shown later (View page, history) instead of a dead
+        // "failed, try again" link.
+        $diagnosis = $result['success']
+            ? ['summary' => [], 'details' => []]
+            : diagnoseFetFailure($rawOutputForAdminView ?? '', $activityMeta);
+
         $stmt = db()->prepare(
-            'INSERT INTO generated_timetables (school_id, xml_snapshot, html_output_path, status, triggered_by_admin_id, triggered_by_type)
-             VALUES (?, ?, ?, ?, ?, ?)'
+            'INSERT INTO generated_timetables (school_id, xml_snapshot, html_output_path, status, failure_summary, triggered_by_admin_id, triggered_by_type)
+             VALUES (?, ?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
             $schoolId,
             $xmlSnapshot,
             $htmlRelativePath,
             $status,
+            json_encode($diagnosis, JSON_UNESCAPED_UNICODE),
             $_SESSION['school_admin_id'] ?? $_SESSION['super_admin_id'] ?? null,
             isSuperAdmin() ? 'super_admin' : 'school_admin',
         ]);
@@ -81,6 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                         'text' => 'The timetable generated, but its details could not be loaded for editing. '
                             . 'You can still view/print/export it, but manual adjustments are unavailable for this run.',
                     ];
+                } else {
+                    $adminMessages[] = ['type' => 'success', 'text' => count($slotRows) . ' lessons scheduled. View or edit them from the View / Edit pages.'];
                 }
             } else {
                 $adminMessages[] = [
@@ -90,33 +98,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                 ];
             }
         } else {
-            // Translate the "not scheduled" situation into plain
-            // language rather than showing raw engine output (plan
-            // section 4d, Layer 2). $activityMeta already loaded above.
-
-            if (stripos($rawOutputForAdminView, 'not_scheduled') !== false || stripos($rawOutputForAdminView, 'could not') !== false) {
-                $adminMessages[] = [
-                    'type' => 'error',
-                    'text' => 'Some lessons could not be scheduled. This usually means a teacher, room, or '
-                        . 'time slot is over-committed somewhere in the school. Check the Teachers and '
-                        . 'Subjects pages for anything flagged as over capacity.',
-                ];
-            } else {
-                $adminMessages[] = [
-                    'type' => 'error',
-                    'text' => 'Timetable generation failed. Please review teacher loads, room availability, and subject assignments, then try again.',
-                ];
+            foreach ($diagnosis['summary'] as $line) {
+                $adminMessages[] = ['type' => 'error', 'text' => $line];
             }
+            $failureDetails = $diagnosis['details'];
         }
     }
 }
 
-// Generation history
+// Generation history (with diagnosis for failed runs)
 $stmt = db()->prepare(
     'SELECT * FROM generated_timetables WHERE school_id = ? ORDER BY generated_at DESC LIMIT 20'
 );
 $stmt->execute([$schoolId]);
 $history = $stmt->fetchAll();
+
+// The most recent failed run, for the "why did it fail" panel that survives
+// page reloads (the raw engine output only lives for this request).
+$latestFailed = null;
+foreach ($history as $h) {
+    if ($h['status'] === 'failed') {
+        $latestFailed = $h;
+        break;
+    }
+}
+$latestFailedDiagnosis = null;
+if ($latestFailed && !empty($latestFailed['failure_summary'])) {
+    $decoded = json_decode((string) $latestFailed['failure_summary'], true);
+    if (is_array($decoded)) {
+        $latestFailedDiagnosis = $decoded;
+    }
+}
 
 $pageTitle = 'Generate Timetable — ' . ($school['name'] ?? 'School');
 require __DIR__ . '/_header.php';
@@ -162,8 +174,23 @@ require __DIR__ . '/_header.php';
         </div>
     <?php endforeach; ?>
 
+    <?php if (!empty($failureDetails)): ?>
+        <div class="error" style="margin-top:-6px;">
+            <strong>Lessons that could not be placed:</strong>
+            <ul style="margin: 8px 0 0; padding-left: 20px;">
+                <?php foreach (array_slice($failureDetails, 0, 25) as $d): ?>
+                    <li><?php echo htmlspecialchars($d); ?></li>
+                <?php endforeach; ?>
+                <?php if (count($failureDetails) > 25): ?>
+                    <li>…and <?php echo count($failureDetails) - 25; ?> more.</li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
     <form method="post">
         <input type="hidden" name="action" value="generate">
+        <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
         <button type="submit" onclick="return confirm('Regenerate the whole-school timetable now? This may take a moment.');">
             Regenerate Whole-School Timetable
         </button>
@@ -177,18 +204,52 @@ require __DIR__ . '/_header.php';
     <?php endif; ?>
 </div>
 
+<?php if ($latestFailedDiagnosis !== null && empty($adminMessages) && empty($preflightProblems)): ?>
+<div class="card">
+    <h2>Last failed run — <?php echo htmlspecialchars(date('j M Y, g:i A', strtotime((string) $latestFailed['generated_at']))); ?></h2>
+    <?php foreach (($latestFailedDiagnosis['summary'] ?? []) as $line): ?>
+        <div class="error"><?php echo htmlspecialchars($line); ?></div>
+    <?php endforeach; ?>
+    <?php if (!empty($latestFailedDiagnosis['details'])): ?>
+        <details>
+            <summary style="cursor:pointer; color: var(--text-muted); font-size: 0.85rem;">Lessons that could not be placed (<?php echo count($latestFailedDiagnosis['details']); ?>)</summary>
+            <ul style="margin: 8px 0 0; padding-left: 20px;">
+                <?php foreach (array_slice($latestFailedDiagnosis['details'], 0, 50) as $d): ?>
+                    <li><?php echo htmlspecialchars($d); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </details>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+
 <div class="card">
     <h2>Generation history</h2>
     <?php if (empty($history)): ?>
         <p class="empty">No timetables generated yet.</p>
     <?php else: ?>
         <table>
-            <thead><tr><th>When</th><th>Status</th><th>Triggered by</th></tr></thead>
+            <thead><tr><th>When</th><th>Status</th><th>Why it failed</th><th>Triggered by</th></tr></thead>
             <tbody>
                 <?php foreach ($history as $h): ?>
+                    <?php
+                    $hDiag = null;
+                    if (!empty($h['failure_summary'])) {
+                        $dec = json_decode((string) $h['failure_summary'], true);
+                        if (is_array($dec)) {
+                            $hDiag = $dec;
+                        }
+                    }
+                    $whyFailed = $h['status'] === 'success'
+                        ? '—'
+                        : (($hDiag['summary'][0] ?? null) !== null
+                            ? mb_strimwidth((string) $hDiag['summary'][0], 0, 120, '…')
+                            : 'Engine could not find a valid schedule — try Generate again for a detailed breakdown.');
+                    ?>
                     <tr>
                         <td><?php echo htmlspecialchars(date('j M Y, g:i A', strtotime($h['generated_at']))); ?></td>
                         <td><?php echo htmlspecialchars(ucfirst($h['status'])); ?></td>
+                        <td style="max-width:420px;"><?php echo htmlspecialchars($whyFailed); ?></td>
                         <td><?php echo htmlspecialchars($h['triggered_by_type']); ?></td>
                     </tr>
                 <?php endforeach; ?>

@@ -49,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
     $classId = (int) ($_POST['class_id'] ?? 0);
     $name = trim($_POST['name'] ?? '');
     $lessonsPerWeek = (int) ($_POST['lessons_per_week'] ?? 1);
+    $durationSlots = max(1, min(4, (int) ($_POST['duration_slots'] ?? 1)));
+    $minDaysBetween = max(0, min(6, (int) ($_POST['min_days_between'] ?? 0)));
     $teacherId = $_POST['teacher_id'] ?? '';
     
     if ($classId === 0 || $name === '') {
@@ -64,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
                 $error = 'Invalid class selected.';
             } else {
                 $stmt = db()->prepare(
-                    'INSERT INTO subjects (school_id, band_id, class_id, name, lessons_per_week, assigned_teacher_id) VALUES (?, ?, ?, ?, ?, ?)'
+                    'INSERT INTO subjects (school_id, band_id, class_id, name, lessons_per_week, duration_slots, min_days_between, assigned_teacher_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
                 );
                 $stmt->execute([
                     $schoolId,
@@ -72,13 +74,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
                     $classId,
                     $name,
                     $lessonsPerWeek,
+                    $durationSlots,
+                    $minDaysBetween,
                     $teacherId !== '' ? (int) $teacherId : null,
                 ]);
                 $success = 'Subject added successfully.';
                 logAudit('create', 'subject', (int) db()->lastInsertId(), ['name' => $name, 'class_id' => $classId]);
             }
         } catch (Throwable $e) {
-            $error = 'Could not add subject.';
+            $error = 'Could not add subject. If duration/spread fields are missing, run db/migrate_failure_diagnosis_v2.sql first.';
         }
     }
 }
@@ -119,6 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
     $classId = (int) ($_POST['class_id'] ?? 0);
     $name = trim($_POST['name'] ?? '');
     $lessonsPerWeek = (int) ($_POST['lessons_per_week'] ?? 1);
+    $durationSlots = max(1, min(4, (int) ($_POST['duration_slots'] ?? 1)));
+    $minDaysBetween = max(0, min(6, (int) ($_POST['min_days_between'] ?? 0)));
     
     if ($classId === 0 || $name === '') {
         $error = 'Class and subject name are required.';
@@ -133,13 +139,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'updat
                 $error = 'Invalid class selected.';
             } else {
                 $stmt = db()->prepare(
-                    'UPDATE subjects SET class_id = ?, band_id = ?, name = ?, lessons_per_week = ? WHERE id = ? AND school_id = ?'
+                    'UPDATE subjects SET class_id = ?, band_id = ?, name = ?, lessons_per_week = ?, duration_slots = ?, min_days_between = ? WHERE id = ? AND school_id = ?'
                 );
                 $stmt->execute([
                     $classId,
                     $class['band_id'],
                     $name,
                     $lessonsPerWeek,
+                    $durationSlots,
+                    $minDaysBetween,
                     $subjectId,
                     $schoolId,
                 ]);
@@ -241,6 +249,7 @@ require __DIR__ . '/_header.php';
     <?php else: ?>
         <form method="post">
             <input type="hidden" name="action" value="create">
+            <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
             <label for="class_id">Class</label>
             <select id="class_id" name="class_id" required>
                 <?php foreach ($classes as $class): ?>
@@ -253,6 +262,24 @@ require __DIR__ . '/_header.php';
             
             <label for="lessons_per_week">Lessons Per Week</label>
             <input type="number" id="lessons_per_week" name="lessons_per_week" value="1" min="1" required>
+            
+            <label for="duration_slots">Lesson Duration (slots, 1–4)</label>
+            <select id="duration_slots" name="duration_slots">
+                <?php for ($i = 1; $i <= 4; $i++): ?>
+                    <option value="<?php echo $i; ?>" <?php echo $i === 1 ? 'selected' : ''; ?>>
+                        <?php echo $i; ?> slot<?php echo $i > 1 ? 's' : ''; ?><?php echo $i === 2 ? ' (double lesson)' : ''; ?>
+                    </option>
+                <?php endfor; ?>
+            </select>
+            
+            <label for="min_days_between">Min Days Between Lessons (0–6, spread)</label>
+            <select id="min_days_between" name="min_days_between">
+                <?php for ($i = 0; $i <= 6; $i++): ?>
+                    <option value="<?php echo $i; ?>" <?php echo $i === 1 ? 'selected' : ''; ?>>
+                        <?php echo $i === 0 ? 'No spread rule' : "At least {$i} day(s) apart"; ?>
+                    </option>
+                <?php endfor; ?>
+            </select>
             
             <label for="teacher_id">Assigned Teacher (optional)</label>
             <select id="teacher_id" name="teacher_id">
@@ -273,7 +300,7 @@ require __DIR__ . '/_header.php';
         <p class="empty">No subjects added yet.</p>
     <?php else: ?>
         <table>
-            <thead><tr><th><input type="checkbox" id="select-all" onchange="toggleAllCheckboxes(this)"></th><th>Class</th><th>Band</th><th>Subject</th><th>Lessons/Week</th><th>Teacher</th><th>Actions</th></tr></thead>
+            <thead><tr><th><input type="checkbox" id="select-all" onchange="toggleAllCheckboxes(this)"></th><th>Class</th><th>Band</th><th>Subject</th><th>Lessons/Week</th><th>Duration</th><th>Min Days Between</th><th>Teacher</th><th>Actions</th></tr></thead>
             <tbody>
                 <?php foreach ($subjects as $subject): ?>
                     <tr>
@@ -282,6 +309,8 @@ require __DIR__ . '/_header.php';
                         <td><?php echo htmlspecialchars($subject['band_label'] ?? '—'); ?></td>
                         <td><?php echo htmlspecialchars($subject['name']); ?></td>
                         <td><?php echo (int) $subject['lessons_per_week']; ?></td>
+                        <td><?php echo (int) ($subject['duration_slots'] ?? 1); ?> slot(s)</td>
+                        <td><?php $mdb = (int) ($subject['min_days_between'] ?? 0); echo $mdb > 0 ? "≥ {$mdb} day(s)" : '—'; ?></td>
                         <td>
                             <form method="post" style="display:inline;">
                                 <input type="hidden" name="action" value="assign_teacher">
@@ -298,7 +327,7 @@ require __DIR__ . '/_header.php';
                             </form>
                         </td>
                         <td class="row-actions">
-                            <button type="button" onclick="showEditForm(<?php echo (int) $subject['id']; ?>, <?php echo (int) $subject['class_id']; ?>, '<?php echo htmlspecialchars($subject['name'], ENT_QUOTES); ?>', <?php echo (int) $subject['lessons_per_week']; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
+                            <button type="button" onclick="showEditForm(<?php echo (int) $subject['id']; ?>, <?php echo (int) $subject['class_id']; ?>, '<?php echo htmlspecialchars($subject['name'], ENT_QUOTES); ?>', <?php echo (int) $subject['lessons_per_week']; ?>, <?php echo (int) ($subject['duration_slots'] ?? 1); ?>, <?php echo (int) ($subject['min_days_between'] ?? 0); ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this subject? This may affect timetable generation.');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="subject_id" value="<?php echo (int) $subject['id']; ?>">
@@ -373,6 +402,20 @@ require __DIR__ . '/_header.php';
             <label for="edit-lessons_per_week">Lessons Per Week</label>
             <input type="number" id="edit-lessons_per_week" name="lessons_per_week" value="1" min="1" required>
             
+            <label for="edit-duration_slots">Lesson Duration (slots, 1–4)</label>
+            <select id="edit-duration_slots" name="duration_slots">
+                <?php for ($i = 1; $i <= 4; $i++): ?>
+                    <option value="<?php echo $i; ?>"><?php echo $i; ?> slot<?php echo $i > 1 ? 's' : ''; ?></option>
+                <?php endfor; ?>
+            </select>
+            
+            <label for="edit-min_days_between">Min Days Between Lessons (0–6)</label>
+            <select id="edit-min_days_between" name="min_days_between">
+                <?php for ($i = 0; $i <= 6; $i++): ?>
+                    <option value="<?php echo $i; ?>"><?php echo $i === 0 ? 'No spread rule' : "At least {$i} day(s) apart"; ?></option>
+                <?php endfor; ?>
+            </select>
+            
             <div style="display: flex; gap: 8px; margin-top: 16px;">
                 <button type="submit">Update Subject</button>
                 <button type="button" onclick="hideEditForm()" class="btn-secondary">Cancel</button>
@@ -382,11 +425,13 @@ require __DIR__ . '/_header.php';
 </div>
 
 <script>
-function showEditForm(subjectId, classId, name, lessonsPerWeek) {
+function showEditForm(subjectId, classId, name, lessonsPerWeek, durationSlots, minDaysBetween) {
     document.getElementById('edit-subject-id').value = subjectId;
     document.getElementById('edit-class_id').value = classId;
     document.getElementById('edit-name').value = name;
     document.getElementById('edit-lessons_per_week').value = lessonsPerWeek;
+    document.getElementById('edit-duration_slots').value = durationSlots || 1;
+    document.getElementById('edit-min_days_between').value = minDaysBetween || 0;
     document.getElementById('edit-modal').style.display = 'flex';
 }
 

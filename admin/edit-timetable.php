@@ -258,7 +258,14 @@ require __DIR__ . '/_header.php';
 </p>
 
 <?php if (!$latestGeneration): ?>
-    <div class="error">No successful timetable has been generated yet. <a href="generate.php">Generate one first</a>.</div>
+    <div class="error" style="padding:24px; text-align:center;">
+        <div style="font-size:2.5rem; margin-bottom:8px;">📅</div>
+        <strong>Generate a successful timetable first.</strong>
+        <p class="empty" style="margin-top:8px;">
+            There is nothing to edit yet — manual editing works on the slots of a successfully generated timetable.
+            <a href="generate.php">Run Generate</a> first, then come back here.
+        </p>
+    </div>
 <?php else: ?>
     <div class="card">
         <div class="flex flex-col md:flex-row gap-4 mb-4">
@@ -293,6 +300,14 @@ require __DIR__ . '/_header.php';
     </div>
 
     <?php if ($selectedId !== 0): ?>
+        <?php if (empty($slots)): ?>
+            <div class="card bg-light">
+                <p class="empty text-center py-8">
+                    No scheduled slots found for this selection in the current timetable.
+                    Pick another <?php echo htmlspecialchars($editMode); ?>, or <a href="generate.php">generate</a> a fresh timetable.
+                </p>
+            </div>
+        <?php else: ?>
         <div id="move-feedback" class="mb-4"></div>
         
         <!-- Preview Mode -->
@@ -321,6 +336,7 @@ require __DIR__ . '/_header.php';
                 </div>
                 <?php renderTimetableGrid($slots, $days, $hourSlotsSorted, $editMode, false); ?>
             </div>
+        <?php endif; ?>
         <?php endif; ?>
     <?php else: ?>
         <div class="card bg-light">

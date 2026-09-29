@@ -70,11 +70,11 @@ function educoreRatibaSsoUrl(string $schoolId, string $schoolName, string $usern
 
 ## 4. Test on Ratiba
 
-1. Set `SSO_SHARED_SECRET` on Render
-2. Open `https://educore-ratiba.onrender.com/sso_test.php`
-3. You should land on the school admin dashboard
+Build a token with the PHP snippet above (or any JWT library), then open the resulting
+`sso.php?token=…` URL. You should land on the school admin dashboard.
 
-After testing, restrict or remove `sso_test.php` in production.
+There is **no** token-minting test endpoint in this app — `sso_test.php` was removed for
+security (it allowed anyone to mint valid sign-in links). Never reintroduce one.
 
 ## 5. Optional: link existing school
 

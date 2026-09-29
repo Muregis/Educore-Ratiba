@@ -2,22 +2,37 @@
 declare(strict_types=1);
 
 // ============================================================
-// admin/generate_engine.php — whole-school XML generation logic
-// (plan section 4). Included by generate.php, not accessed
-// directly. Kept separate from the page/HTML so this logic is
-// unit-testable and reusable (e.g. by a future CLI/cron job).
+// admin/generate_engine.php — whole-school XML generation logic.
+// Included by generate.php, not accessed directly. Kept separate
+// from the page/HTML so this logic is unit-testable and reusable.
 // ============================================================
 
 require_once __DIR__ . '/../config/config.php';
 
+/** The 7 canonical day names, in week order. */
+function allCanonicalDayNames(): array
+{
+    return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+}
+
+/** Canonical day names trimmed to the school's teaching days per week. */
+function canonicalDayNamesForSchool(int $schoolId): array
+{
+    $names = getSchoolDayNames($schoolId);
+    if (count($names) >= 1) {
+        return $names;
+    }
+    return array_slice(allCanonicalDayNames(), 0, 5);
+}
+
 /**
- * Runs pre-flight checks (plan section 4d) BEFORE any FET run is
- * attempted. Returns an array of human-readable problem strings;
- * empty array means all checks passed.
+ * Runs pre-flight checks BEFORE any FET run is attempted. Returns an
+ * array of human-readable problem strings; empty array = all clear.
  */
 function runPreflightChecks(int $schoolId): array
 {
     $problems = [];
+    $dayCount = count(getSchoolDayNames($schoolId));
     $classes = getClasses($schoolId);
 
     foreach ($classes as $class) {
@@ -25,26 +40,39 @@ function runPreflightChecks(int $schoolId): array
             continue;
         }
         $subjects = getSubjectsForClass($schoolId, (int) $class['id']);
-        $totalLessons = array_sum(array_column($subjects, 'lessons_per_week'));
+        $totalSlots = array_sum(array_map(
+            static fn($s) => (int) $s['lessons_per_week'] * max(1, (int) ($s['duration_slots'] ?? 1)),
+            $subjects
+        ));
         $lessonsPerDay = $class['lessons_per_day'] ?? null;
 
         if ($lessonsPerDay !== null) {
-            $maxPossible = (int) $lessonsPerDay * 5;
-            if ($totalLessons > $maxPossible) {
+            $maxPossible = (int) $lessonsPerDay * $dayCount;
+            if ($totalSlots > $maxPossible) {
                 $subjectBreakdown = [];
                 foreach ($subjects as $s) {
-                    $subjectBreakdown[] = "  - {$s['name']}: {$s['lessons_per_week']} lessons/week";
+                    $dur = max(1, (int) ($s['duration_slots'] ?? 1));
+                    $subjectBreakdown[] = "  - {$s['name']}: {$s['lessons_per_week']} lessons/week"
+                        . ($dur > 1 ? " × {$dur} slots" : '');
                 }
-                $problems[] = "\"{$class['name']}\" requires {$totalLessons} lessons/week, "
-                    . "but its band only provides {$maxPossible} teaching slots "
-                    . "({$lessonsPerDay}/day × 5 days). Reduce a subject's lessons/week. "
+                $problems[] = "\"{$class['name']}\" requires {$totalSlots} teaching slots/week, "
+                    . "but its band only provides {$maxPossible} "
+                    . "({$lessonsPerDay}/day × {$dayCount} days). Reduce a subject's lessons/week. "
                     . "Current subjects:\n" . implode("\n", $subjectBreakdown);
+            }
+        }
+
+        // Subjects with no teacher cannot be scheduled at all.
+        foreach ($subjects as $s) {
+            if ($s['assigned_teacher_id'] === null) {
+                $problems[] = "\"{$class['name']}\" — subject \"{$s['name']}\" has no teacher "
+                    . "assigned. Assign one on the Subjects page, or the lessons will be skipped.";
             }
         }
     }
 
     // Teacher over-capacity check: total assigned lessons across ALL
-    // classes (shared teachers, plan section 4) vs their stated max.
+    // classes (shared teachers) vs their stated max.
     $teachers = getTeachers($schoolId);
     foreach ($teachers as $teacher) {
         if ($teacher['max_lessons_per_week'] === null) {
@@ -72,16 +100,15 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
     $classes = array_filter(getClasses($schoolId), fn($c) => (bool) $c['active']);
     $teachers = getTeachers($schoolId);
     $rooms = getRooms($schoolId);
+    $days = getSchoolDayNames($schoolId);
+    $preferSpread = schoolPrefersSpread($schoolId);
 
     // Union of all distinct hour-slot structures across active bands.
     // Each band keeps its own Hours_List entries; FET's Hours_List is
     // global, so every band's slots are represented as distinct named
     // hours (e.g. "PP-08:00-08:30" vs "G7-08:00-08:40") to avoid
     // collisions between bands with different lesson lengths at
-    // overlapping clock times, and each class's activities only ever
-    // reference its own band's hour names.
-    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-
+    // overlapping clock times.
     $xml = new SimpleXMLElement('<fet version="6.0.0"/>');
     $xml->addChild('Institution_Name', htmlspecialchars($schoolName));
     $xml->addChild('Comments', 'Whole-school combined timetable, generated ' . date('Y-m-d H:i:s'));
@@ -95,7 +122,7 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
 
     // Build one set of named hour slots per band, prefixed by band_key
     // so bands never collide even at the same clock time.
-    $bandHourNames = []; // band_id => ['teaching' => [...names], 'break' => [...names]]
+    $bandHourNames = []; // band_id => ['teaching' => [...], 'break' => [...]]
     $hoursList = $xml->addChild('Hours_List');
     $allHourEntries = [];
 
@@ -103,6 +130,10 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
         $prefix = $band['band_key'];
         $lessonsPerDay = (int) ($band['lessons_per_day'] ?? 8);
         $lengthMin = (int) $band['lesson_length_minutes'];
+        $dayStart = (string) ($band['day_start_time'] ?? '08:00');
+        if (!preg_match('/^\d{2}:\d{2}$/', $dayStart)) {
+            $dayStart = '08:00';
+        }
         $breakConfig = $band['break_config'] ? json_decode($band['break_config'], true) : [];
 
         $teachingNames = [];
@@ -110,13 +141,10 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
 
         // Parse each configured break's start time ONCE, as a real
         // timestamp, so matching is a numeric time comparison rather
-        // than a fragile string-prefix check that silently fails if a
-        // lesson length doesn't divide evenly into the break's start
-        // minute. Sorted by start time so breaks are considered in the
-        // order they'll actually occur in the day.
+        // than a fragile string-prefix check.
         $parsedBreaks = [];
         foreach ($breakConfig as $bc) {
-            [$bStart, $bEnd] = array_pad(explode('-', $bc['time']), 2, null);
+            [$bStart, $bEnd] = array_pad(explode('-', (string) ($bc['time'] ?? '')), 2, null);
             if ($bStart === null || $bEnd === null) {
                 continue; // malformed break_config entry - skip rather than crash
             }
@@ -130,7 +158,7 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
         }
         usort($parsedBreaks, static fn($a, $b) => $a['start_ts'] <=> $b['start_ts']);
 
-        $current = strtotime('08:00');
+        $current = strtotime($dayStart);
         $slotsNeeded = $lessonsPerDay + count($parsedBreaks);
         $safetyLimit = $slotsNeeded + 4; // generous buffer against infinite loops on bad data
 
@@ -139,10 +167,6 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
                 break;
             }
 
-            // A break "occupies" the current pointer if $current falls
-            // within [start_ts, end_ts) - this is a real time-range
-            // check, not a string comparison, so it's robust to any
-            // lesson length / break-start combination.
             $matchedBreak = null;
             foreach ($parsedBreaks as $pb) {
                 if ($current >= $pb['start_ts'] && $current < $pb['end_ts']) {
@@ -224,6 +248,7 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
     $activityId = 1;
     $groupId = 1;
     $activityMeta = []; // fetId => our own metadata, for translating FET's "not scheduled" report later
+    $minDaysGroups = []; // "class|subject" => ['ids' => [...], 'min_days' => int] for ConstraintMinDaysBetweenActivities
 
     $teacherNameById = array_column($teachers, 'name', 'id');
 
@@ -235,21 +260,30 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
 
         if ($teacherName === null) {
             // No teacher assigned - skip from the FET run rather than
-            // crash; this is also flagged as a pre-flight-style
-            // omission the admin should fix, surfaced via $skipped.
+            // crash; flagged as a pre-flight problem the admin can fix.
             continue;
         }
 
-        for ($i = 0; $i < (int) $s['lessons_per_week']; $i++) {
+        $duration = max(1, (int) ($s['duration_slots'] ?? 1));
+        $lessonsPerWeek = (int) $s['lessons_per_week'];
+        $minDays = (int) ($s['min_days_between'] ?? 0);
+        $groupIds = [];
+
+        for ($i = 0; $i < $lessonsPerWeek; $i++) {
             $actEl = $activitiesList->addChild('Activity');
             $actEl->addChild('Teacher', htmlspecialchars($teacherName));
             $actEl->addChild('Subject', htmlspecialchars($s['name']));
             $actEl->addChild('Students', htmlspecialchars($class['name']));
-            $actEl->addChild('Duration', '1');
-            $actEl->addChild('Total_Duration', '1');
+            $actEl->addChild('Duration', (string) $duration);
+            $actEl->addChild('Total_Duration', (string) ($duration * $lessonsPerWeek));
             $actEl->addChild('Id', (string) $activityId);
+            // Same Activity_Group_Id for every lesson of one subject in one
+            // class: FET then prevents two of them overlapping on the same
+            // day (essential for 2-slot double lessons).
             $actEl->addChild('Activity_Group_Id', (string) $groupId);
             $actEl->addChild('Active', 'true');
+
+            $groupIds[] = $activityId;
 
             $activityMeta[$activityId] = [
                 'type' => 'subject',
@@ -260,6 +294,16 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
             ];
             $activityId++;
         }
+
+        if ($duration === 1 && $lessonsPerWeek >= 2) {
+            $minDaysGroups[$class['name'] . '|' . $s['name']] = [
+                'ids' => $groupIds,
+                'min_days' => max(1, $minDays),
+                'students' => $class['name'],
+                'subject' => $s['name'],
+            ];
+        }
+
         $groupId++;
     }
 
@@ -320,6 +364,25 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
         $breakTimesEl->addChild('Active', 'true');
     }
 
+    // MinDaysBetween: honour per-subject min_days_between (hard, 100%),
+    // and apply a soft school-wide spread (weight 20%) when the school
+    // prefers spread. Only for 1-slot activities — FET does not support
+    // this constraint for multi-slot activities (those are already kept
+    // off the same day via the shared Activity_Group_Id above).
+    if ($preferSpread) {
+        foreach ($minDaysGroups as $g) {
+            $weight = ($g['min_days'] > 1) ? '100' : '20';
+            $minDaysEl = $timeConstraints->addChild('ConstraintMinDaysBetweenActivities');
+            $minDaysEl->addChild('Weight_Percentage', $weight);
+            $minDaysEl->addChild('Number_of_Activities', (string) count($g['ids']));
+            foreach ($g['ids'] as $aid) {
+                $minDaysEl->addChild('Activity_Index', (string) $aid);
+            }
+            $minDaysEl->addChild('MinDays', (string) $g['min_days']);
+            $minDaysEl->addChild('Active', 'true');
+        }
+    }
+
     // Space constraints
     $spaceConstraints = $xml->addChild('Space_Constraints_List');
     $basicSpace = $spaceConstraints->addChild('ConstraintBasicCompulsorySpace');
@@ -331,17 +394,101 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
     $xml->asXML($tmpPath);
 
     // Stash activity metadata alongside for later translation of FET's
-    // not-scheduled report (plan section 4d, Layer 2).
+    // not-scheduled report.
     file_put_contents($tmpPath . '.meta.json', json_encode($activityMeta));
 
     return $tmpPath;
 }
 
 /**
- * Runs fet-cl.exe against the given XML file. Returns
- * ['success' => bool, 'raw_output' => string, 'html_output_path' => ?string]
+ * Translate FET's raw engine output into a plain-English summary for
+ * school admins. Uses $activityMeta (our own id -> subject/class/teacher
+ * mapping) to name the exact class/subject/teacher behind every
+ * "not scheduled" activity. Returns ['summary' => string[], 'details' => string[]].
  */
-function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir): array
+function diagnoseFetFailure(string $rawOutput, array $activityMeta): array
+{
+    $summary = [];
+    $details = [];
+
+    if ($rawOutput === '') {
+        $summary[] = 'The scheduling engine produced no output — it may have crashed or timed out. '
+            . 'Try again, and if it keeps failing, lower the time limit in Settings.';
+        return compact('summary', 'details');
+    }
+
+    // "Generation successful, X activities were not scheduled" or
+    // "Total conflicts: N"
+    if (preg_match('/Generation\s+successful/i', $rawOutput)) {
+        // Even a success can have unplaced activities.
+    }
+    if (preg_match('/Total\s+conflicts?:\s*(\d+)/i', $rawOutput, $m) && (int) $m[1] > 0) {
+        $summary[] = "The engine finished but could not place {$m[1]} lesson(s) without conflicts.";
+    }
+
+    // FET's conflict lines reference activity ids: "Activity id: 12 ..." or
+    // "... not scheduled for activity 12". Collect every referenced id.
+    $badIds = [];
+    if (preg_match_all('/[Aa]ctivity[_ ]?id[:\s]+(\d+)/', $rawOutput, $m)) {
+        foreach ($m[1] as $id) {
+            $badIds[(int) $id] = true;
+        }
+    }
+    if (preg_match_all('/[Aa]ctivity\s+(\d+)\s+not\s+scheduled/', $rawOutput, $m)) {
+        foreach ($m[1] as $id) {
+            $badIds[(int) $id] = true;
+        }
+    }
+    // FET conflict lines of the form "- conflict: teacher X, activity 12" etc.
+    if (preg_match_all('/activity\s*=\s*(\d+)/i', $rawOutput, $m)) {
+        foreach ($m[1] as $id) {
+            $badIds[(int) $id] = true;
+        }
+    }
+
+    $badIds = array_keys($badIds);
+    if (!empty($badIds) && !empty($activityMeta)) {
+        $byClassSubject = [];
+        foreach ($badIds as $id) {
+            if (!isset($activityMeta[$id])) {
+                continue;
+            }
+            $meta = $activityMeta[$id];
+            $key = $meta['class_name'] . '|' . $meta['subject_name'] . '|' . $meta['teacher_name'];
+            $byClassSubject[$key] = $meta;
+        }
+        if (empty($byClassSubject)) {
+            $summary[] = 'The engine could not schedule some lessons (unidentified activities). '
+                . 'Check teacher loads and subject hours in Teachers and Subjects.';
+        } else {
+            $summary[] = 'The engine could not schedule the following lessons without clashing — '
+                . 'the usual causes are a teacher double-booked across classes, or more lessons '
+                . 'than available slots:';
+            foreach ($byClassSubject as $meta) {
+                $details[] = "{$meta['class_name']} — {$meta['subject_name']} "
+                    . "(teacher: {$meta['teacher_name']}) could not be placed.";
+            }
+        }
+    } elseif (stripos($rawOutput, 'not_scheduled') !== false || stripos($rawOutput, 'could not') !== false) {
+        $summary[] = 'Some lessons could not be scheduled. This usually means a teacher, room, or '
+            . 'time slot is over-committed somewhere in the school. Check the Teachers and '
+            . 'Subjects pages for anything flagged as over capacity.';
+    }
+
+    if (empty($summary)) {
+        $summary[] = 'Timetable generation failed. Please review teacher loads, room availability, '
+            . 'and subject assignments, then try again.';
+    }
+
+    return ['summary' => $summary, 'details' => $details];
+}
+
+/**
+ * Runs fet-cl against the given XML file. Returns
+ * ['success' => bool, 'raw_output' => string, 'html_output_path' => ?string,
+ *  'solution_xml_path' => ?string]
+ */
+function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir, ?int $timeLimitSeconds = null): array
 {
     if (!is_dir($outputDir)) {
         @mkdir($outputDir, 0777, true);
@@ -366,7 +513,11 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
         ];
     }
 
-    $cmd = '"' . $engineExePath . '" --inputfile="' . $xmlPath . '" --outputdir="' . $outputDir . '" 2>&1';
+    $cmd = '"' . $engineExePath . '" --inputfile="' . $xmlPath . '" --outputdir="' . $outputDir . '"';
+    if ($timeLimitSeconds !== null && $timeLimitSeconds > 0) {
+        $cmd .= ' --timelimitseconds=' . (int) $timeLimitSeconds;
+    }
+    $cmd .= ' 2>&1';
     $rawOutput = (string) shell_exec($cmd);
     $success = stripos($rawOutput, 'Generation successful') !== false;
 
@@ -376,8 +527,7 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
         $timetablesDir = $outputDir . '/timetables';
         if (is_dir($timetablesDir)) {
             $allIndexFiles = [];
-            // FET creates subdirectories named after the input XML file
-            // We need to search for _index.html files inside those subdirectories
+            // FET creates subdirectories named after the input XML file.
             foreach ((glob($timetablesDir . '/*', GLOB_ONLYDIR) ?: []) as $folder) {
                 foreach ((glob($folder . '/*_index.html') ?: []) as $f) {
                     $allIndexFiles[] = $f;
@@ -390,12 +540,11 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
                 // the same folder - this is what we actually parse into
                 // scheduled_slots (structured and stable), not the HTML.
                 $folderOfNewest = dirname($htmlPath);
-                // Look specifically for the activities XML file (contains the scheduled activities)
                 $xmlCandidates = glob($folderOfNewest . '/*_activities.xml') ?: [];
                 if (!empty($xmlCandidates)) {
+                    usort($xmlCandidates, static fn($a, $b) => filemtime($b) - filemtime($a));
                     $solutionXmlPath = $xmlCandidates[0];
                 } else {
-                    // Log warning if no activities XML found but HTML exists
                     error_log("FET generated HTML but no activities XML found in: $folderOfNewest");
                 }
             } else {
@@ -415,13 +564,11 @@ function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir)
 }
 
 /**
- * Parses FET's solution XML output into scheduled_slots rows (plan
- * section 4b) — this is what the manual editor and clash-checker
- * read/write against, instead of re-parsing XML on every edit.
+ * Parses FET's solution XML output into scheduled_slots rows — this is
+ * what the manual editor and clash-checker read/write against.
  *
  * $activityMeta maps our own activity IDs (assigned when building the
- * input XML) back to real subject/class/teacher names, since that's
- * how we translate FET's placement decisions back into our schema.
+ * input XML) back to real subject/class/teacher names.
  *
  * @param array<int, array<string, mixed>> $activityMeta
  * @return array<int, array<string, mixed>> rows ready for INSERT into scheduled_slots
@@ -440,7 +587,7 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
     }
 
     // Build lookups: class name -> class_id, teacher name -> teacher_id,
-    // room name -> room_id, subject name -> subject_id (per class).
+    // room name -> room_id.
     $stmt = db()->prepare('SELECT id, name FROM classes WHERE school_id = ?');
     $stmt->execute([$schoolId]);
     $classIdByName = array_column($stmt->fetchAll(), 'id', 'name');
@@ -461,22 +608,11 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
     $missingTeacherCount = 0;
     $missingMetaCount = 0;
 
-    // Debug: Log what we have in activityMeta
-    error_log("Activity meta keys: " . implode(', ', array_keys($activityMeta)));
-    error_log("Class name lookups: " . implode(', ', array_keys($classIdByName)));
-    error_log("Teacher name lookups: " . implode(', ', array_keys($teacherIdByName)));
-
-    // FET's solution XML format lists placed activities with their
-    // assigned Day/Hour/Room under an Activities_List-like structure
-    // in the output. We match placed activities back to our own
-    // activity IDs via the Id field, then use $activityMeta for the
-    // subject/class/teacher this ID represents.
     foreach ($xml->xpath('//Activity') as $act) {
         $activityCount++;
         $fetId = (int) $act->Id;
         if (!isset($activityMeta[$fetId])) {
             $missingMetaCount++;
-            error_log("Activity ID $fetId not found in activityMeta - skipping");
             continue; // not one of ours (shouldn't happen, but don't crash)
         }
         $meta = $activityMeta[$fetId];
@@ -487,9 +623,7 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
 
         if ($day === '' || $hour === '') {
             $skippedCount++;
-            error_log("Activity ID $fetId has empty day/hour - skipping");
-            continue; // unplaced activity - handled separately by the
-                      // not-scheduled report, not here
+            continue; // unplaced activity - handled by the not-scheduled report
         }
 
         $classId = $classIdByName[$meta['class_name']] ?? null;
@@ -499,11 +633,9 @@ function parseFetSolutionIntoSlots(string $solutionXmlPath, array $activityMeta,
         if ($classId === null || $teacherId === null) {
             if ($classId === null) {
                 $missingClassCount++;
-                error_log("Missing class: '{$meta['class_name']}' for activity ID $fetId");
             }
             if ($teacherId === null) {
                 $missingTeacherCount++;
-                error_log("Missing teacher: '{$meta['teacher_name']}' for activity ID $fetId");
             }
             continue; // data integrity issue - skip rather than insert a broken row
         }
@@ -534,9 +666,7 @@ function storeScheduledSlots(int $generatedTimetableId, array $rows): void
         error_log("storeScheduledSlots called with empty rows array for generation ID $generatedTimetableId");
         return;
     }
-    
-    error_log("Attempting to insert " . count($rows) . " scheduled slots for generation ID $generatedTimetableId");
-    
+
     try {
         $stmt = db()->prepare(
             'INSERT INTO scheduled_slots
@@ -566,11 +696,10 @@ function storeScheduledSlots(int $generatedTimetableId, array $rows): void
 }
 
 /**
- * Checks whether a proposed manual move would create a clash (plan
- * section 4b) — does any OTHER row in the same generated_timetable
- * already have this teacher, room, or class at the target day+slot.
- * Returns a human-readable reason string if blocked, or null if the
- * move is safe.
+ * Checks whether a proposed manual move would create a clash — does any
+ * OTHER row in the same generated_timetable already have this teacher,
+ * room, or class at the target day+slot. Returns a human-readable
+ * reason string if blocked, or null if the move is safe.
  */
 function checkSlotMoveForClash(
     int $generatedTimetableId,
