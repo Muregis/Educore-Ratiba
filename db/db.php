@@ -117,34 +117,7 @@ function normalizeSupabasePoolerUser(string $username, string $host): string
     return $username;
 }
 
-function getCsrfToken(): string
-{
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
-    return $_SESSION['csrf_token'];
-}
-
-function csrfField(): string
-{
-    return '<input type="hidden" name="_csrf_token" value="' . htmlspecialchars(getCsrfToken()) . '">';
-}
-
-function verifyCsrf(): void
-{
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-    $submitted = $_POST['_csrf_token'] ?? '';
-    $expected  = $_SESSION['csrf_token'] ?? '';
-    if ($expected === '' || !hash_equals($expected, $submitted)) {
-        http_response_code(403);
-        die('<h1>403 Forbidden</h1><p>CSRF token mismatch. Please go back and try again.</p>');
-    }
-}
+require_once __DIR__ . '/session_csrf.php';
 
 function recordFailedLogin(string $username): bool
 {
