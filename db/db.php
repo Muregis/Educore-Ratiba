@@ -9,25 +9,6 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/localization.php';
 initializeKenyanLocalization();
 
-// ============================================================
-// db/db.php — database connection and helper functions
-// ============================================================
-
-/**
- * Returns a PDO instance connected to the database.
- * Supports both MySQL and PostgreSQL (Supabase).
- *
- * IMPORTANT for Render + Supabase:
- * 1. Use the Session Pooler host (IPv4), NOT db.xxx.supabase.co (IPv6-only).
- *    Example: aws-1-eu-west-3.pooler.supabase.com
- * 2. Username MUST be: postgres.YOUR_PROJECT_REF
- *    Example: postgres.wofnvdfnsuevnebpkdsw
- *    (plain "postgres" causes: no tenant identifier provided)
- * 3. Port 5432, sslmode=require
- *
- * Copy the exact connection string from:
- * Supabase → Project Settings → Database → Connect → Session pooler
- */
 function db(): PDO
 {
     static $pdo = null;
@@ -38,7 +19,7 @@ function db(): PDO
         $username = Config::get('database.user', 'root');
         $password = Config::get('database.pass', '');
         $port     = Config::get('database.port', '');
-        $driver   = Config::get('database.driver', 'mysql'); // 'mysql' or 'pgsql'
+        $driver   = Config::get('database.driver', 'mysql');
 
         try {
             if ($driver === 'pgsql') {
@@ -264,12 +245,26 @@ function getSubjectsForClass(int $schoolId, int $classId): array
 
 function getTeacherTotalWeeklyLessons(int $schoolId, int $teacherId): int
 {
-    $stmt = db()->prepare('SELECT SUM(s.lessons_per_week * COALESCE(s.duration_slots, 1)) as total
-                           FROM subjects s
-                           WHERE s.school_id = ? AND s.assigned_teacher_id = ?');
-    $stmt->execute([$schoolId, $teacherId]);
-    $result = $stmt->fetch();
-    return (int) ($result['total'] ?? 0);
+    // Prefer weighted load (duration_slots). Fall back if column not migrated yet.
+    try {
+        $stmt = db()->prepare(
+            'SELECT SUM(s.lessons_per_week * COALESCE(s.duration_slots, 1)) as total
+             FROM subjects s
+             WHERE s.school_id = ? AND s.assigned_teacher_id = ?'
+        );
+        $stmt->execute([$schoolId, $teacherId]);
+        $result = $stmt->fetch();
+        return (int) ($result['total'] ?? 0);
+    } catch (Throwable) {
+        $stmt = db()->prepare(
+            'SELECT SUM(s.lessons_per_week) as total
+             FROM subjects s
+             WHERE s.school_id = ? AND s.assigned_teacher_id = ?'
+        );
+        $stmt->execute([$schoolId, $teacherId]);
+        $result = $stmt->fetch();
+        return (int) ($result['total'] ?? 0);
+    }
 }
 
 // Flexible school settings, day names, readiness scoring
