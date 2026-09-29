@@ -40,11 +40,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'prepa
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'generate') {
     verifyCsrf();
-    $preflightProblems = runPreflightChecks($schoolId);
+
+    // Auto-prepare so demo / tight schools do not fail solely for missing rooms.
+    // Safe: only adds classrooms when classes > rooms and raises teacher caps under load.
+    try {
+        $prepActions = prepareSchoolForGeneration($schoolId);
+        foreach ($prepActions as $a) {
+            if (stripos($a, 'No changes needed') === false) {
+                $adminMessages[] = ['type' => 'success', 'text' => $a];
+            }
+        }
+    } catch (Throwable $e) {
+        $adminMessages[] = ['type' => 'error', 'text' => 'Auto-prepare failed: ' . $e->getMessage()];
+    }
+
+    $preflightProblems = array_merge(
+        runPreflightChecks($schoolId),
+        runRoomTeacherPreflight($schoolId)
+    );
 
     if (empty($preflightProblems)) {
         $xmlPath = buildWholeSchoolXml($schoolId, $school['name']);
         $timeLimit = getSchoolGenerationTimeLimit($schoolId);
+        $classCount = count(array_filter(getClasses($schoolId), static fn($c) => (bool) $c['active']));
+        if ($classCount >= 12 && $timeLimit < 600) {
+            $timeLimit = 600;
+        }
         $result = runFetEngine($xmlPath, $engine, $projectOutputRoot, $timeLimit);
         $rawOutputForAdminView = $result['raw_output'];
 
@@ -227,7 +248,7 @@ require __DIR__ . '/_header.php';
         </form>
     </div>
     <p class="empty" style="margin-top:10px;font-size:0.85em;">
-        If Generate keeps failing: run <strong>Prepare</strong> first (adds rooms when classes &gt; rooms, raises teacher max). Then Generate again.
+        Generate now auto-prepares rooms and teacher caps when needed. Use <strong>Prepare</strong> only if you want to review changes first.
     </p>
 
     <?php if (isSuperAdmin() && $rawOutputForAdminView !== null): ?>
