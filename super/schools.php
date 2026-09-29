@@ -148,6 +148,7 @@ $pageTitle = 'Schools — Super Admin';
     .badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; background: #eef2ff; color: #4338ca; }
     .badge-local { background: #fef3c7; color: #92400e; }
     .manage-link { color: var(--primary); font-weight: 600; text-decoration: none; }
+    .btn-secondary { background: var(--border); color: var(--text); }
 </style>
 <script>
 const subTypeOptions = {
@@ -214,7 +215,10 @@ document.addEventListener('DOMContentLoaded', updateSubTypeOptions);
     <?php endif; ?>
 
     <div class="card">
-        <h2>Create a new school</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin: 0;">Create a new school</h2>
+            <a href="wizard.php" class="btn btn-secondary" style="padding: 10px 16px;">Use Setup Wizard →</a>
+        </div>
         <form method="post">
             <input type="hidden" name="action" value="create_school">
             <label for="school_name">School name</label>

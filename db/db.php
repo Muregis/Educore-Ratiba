@@ -5,6 +5,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/error_handler.php';
 require_once __DIR__ . '/../config/config.php';
 
+// Initialize Kenyan localization
+require_once __DIR__ . '/localization.php';
+initializeKenyanLocalization();
+
 // ============================================================
 // db/db.php — database connection and helper functions
 // ============================================================

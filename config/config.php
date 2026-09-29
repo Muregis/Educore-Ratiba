@@ -81,6 +81,14 @@ class Config {
                 'auto_sync' => getenv('AUTO_SYNC') === 'true',
                 'sync_interval' => (int) (getenv('SYNC_INTERVAL') ?: 3600), // 1 hour default
             ],
+            'localization' => [
+                'timezone' => getenv('TIMEZONE') ?: 'Africa/Nairobi',
+                'date_format' => getenv('DATE_FORMAT') ?: 'd/m/Y',
+                'time_format' => getenv('TIME_FORMAT') ?: 'H:i',
+                'locale' => getenv('LOCALE') ?: 'en_KE',
+                'currency' => 'KES',
+                'country' => 'Kenya'
+            ],
         ];
     }
     

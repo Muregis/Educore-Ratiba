@@ -1,0 +1,99 @@
+/* Mobile Responsive Improvements for Kenyan Schools - Tailwind Enhanced */
+
+/* Base mobile styles - minimal custom CSS, most handled by Tailwind */
+@media (max-width: 768px) {
+    /* Force horizontal scroll for tables on mobile */
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table {
+        min-width: 600px; /* Force horizontal scroll on mobile */
+    }
+    
+    /* Larger touch targets for mobile */
+    button, .btn, input, select {
+        min-height: 44px;
+    }
+    
+    /* Remove tap highlight on mobile */
+    button, a, input, select {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Ensure touch targets are large enough */
+    button, a, input[type="checkbox"], input[type="radio"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Prevent text selection on buttons */
+    button, a {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+/* Small phone optimization */
+@media (max-width: 480px) {
+    /* Stack table columns differently on very small screens */
+    table {
+        font-size: 0.8125rem;
+    }
+    
+    /* Compact forms */
+    input, select {
+        padding: 10px 12px;
+    }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .wizard-container {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .progress-bar {
+        position: sticky;
+        top: 0;
+        background: var(--bg-white);
+        padding: 8px 0;
+        z-index: 10;
+    }
+}
+
+/* Print styles for reports */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+    
+    table {
+        page-break-inside: auto;
+    }
+    
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    header, .mobile-menu-btn {
+        display: none !important;
+    }
+}

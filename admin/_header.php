@@ -24,6 +24,35 @@ getCsrfToken();
 <title><?php echo htmlspecialchars($pageTitle ?? 'Admin'); ?> — EduCore Ratiba</title>
 <meta name="csrf-token" content="<?php echo htmlspecialchars(getCsrfToken()); ?>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    primary: 'var(--primary)',
+                    'primary-dark': 'var(--primary-dark)',
+                    'primary-darker': 'var(--primary-darker)',
+                    'primary-light': 'var(--primary-light)',
+                    'primary-bg': 'var(--primary-bg)',
+                    secondary: 'var(--secondary)',
+                    'secondary-dark': 'var(--secondary-dark)',
+                    danger: 'var(--danger)',
+                    'danger-bg': 'var(--danger-bg)',
+                    warning: 'var(--warning)',
+                    'warning-bg': 'var(--warning-bg)',
+                    border: 'var(--border)',
+                    'border-dark': 'var(--border-dark)',
+                    text: 'var(--text)',
+                    'text-muted': 'var(--text-muted)',
+                    'text-light': 'var(--text-light)',
+                    'bg-light': 'var(--bg-light)',
+                    'bg-white': 'var(--bg-white)',
+                }
+            }
+        }
+    }
+</script>
 <style>
     :root { 
         --primary: #6366f1; 
@@ -155,6 +184,45 @@ getCsrfToken();
         background: var(--primary-bg);
         font-weight: 600;
     }
+    
+    /* Mobile menu button */
+    .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 8px;
+    }
+    
+    @media (max-width: 768px) {
+        .mobile-menu-btn {
+            display: block;
+        }
+        header nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            flex-direction: column;
+            width: 100%;
+        }
+        header nav.active {
+            display: flex;
+        }
+        header nav a {
+            width: 100%;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        header nav a:last-child {
+            border-bottom: none;
+        }
+    }
     .nav-divider {
         width: 1px;
         height: 20px;
@@ -203,6 +271,59 @@ getCsrfToken();
     }
     .card-header h2 {
         margin: 0;
+    }
+    
+    /* Tailwind utilities */
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .gap-2 { gap: 8px; }
+    .gap-4 { gap: 16px; }
+    .gap-6 { gap: 24px; }
+    .w-full { width: 100%; }
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .p-4 { padding: 16px; }
+    .p-6 { padding: 24px; }
+    .p-8 { padding: 32px; }
+    .m-4 { margin: 16px; }
+    .m-6 { margin: 24px; }
+    .m-8 { margin: 32px; }
+    .mt-4 { margin-top: 16px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+    .font-bold { font-weight: 700; }
+    .font-semibold { font-weight: 600; }
+    .text-sm { font-size: 0.875rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .rounded { border-radius: 8px; }
+    .rounded-lg { border-radius: 12px; }
+    .shadow { box-shadow: var(--shadow); }
+    .shadow-lg { box-shadow: var(--shadow-lg); }
+    .hidden { display: none; }
+    .block { display: block; }
+    .inline-block { display: inline-block; }
+    .min-h-screen { min-height: 100vh; }
+    .overflow-x-auto { overflow-x: auto; }
+    .overflow-hidden { overflow: hidden; }
+    
+    @media (max-width: 768px) {
+        .md\:flex-col { flex-direction: column; }
+        .md\:w-full { width: 100%; }
+        .md\:text-center { text-align: center; }
+        .md\:hidden { display: none; }
+        .md\:block { display: block; }
     }
 
     /* ── FORMS ── */
@@ -535,6 +656,12 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { el.style.transition = 'opacity 0.5s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 500); }, 4000);
     });
 });
+
+// ── Mobile menu toggle ──
+function toggleMobileMenu() {
+    const nav = document.getElementById('mobile-nav');
+    nav.classList.toggle('active');
+}
 </script>
 </head>
 <body>
@@ -550,8 +677,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <?php echo htmlspecialchars($school['name']); ?>
         </div>
         <?php endif; ?>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
     </div>
-    <nav>
+    <nav id="mobile-nav">
         <a href="dashboard.php" class="<?php echo navActive('dashboard.php'); ?>">Dashboard</a>
         <a href="teachers.php" class="<?php echo navActive('teachers.php'); ?>">Teachers</a>
         <a href="rooms.php" class="<?php echo navActive('rooms.php'); ?>">Rooms</a>
@@ -560,6 +688,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <a href="subjects.php" class="<?php echo navActive('subjects.php'); ?>">Subjects</a>
         <a href="activities.php" class="<?php echo navActive('activities.php'); ?>">Activities</a>
         <a href="remedials.php" class="<?php echo navActive('remedials.php'); ?>">Remedials</a>
+        <a href="calendar.php" class="<?php echo navActive('calendar.php'); ?>">📅 Calendar</a>
+        <a href="reports.php" class="<?php echo navActive('reports.php'); ?>">📊 Reports</a>
+        <a href="offline.php" class="<?php echo navActive('offline.php'); ?>">🔋 Offline</a>
+        <a href="payments.php" class="<?php echo navActive('payments.php'); ?>">💳 Payments</a>
         <div class="nav-divider"></div>
         <a href="generate.php" class="<?php echo navActive('generate.php'); ?>">⚡ Generate</a>
         <a href="edit-timetable.php" class="<?php echo navActive('edit-timetable.php'); ?>">✏️ Edit</a>
