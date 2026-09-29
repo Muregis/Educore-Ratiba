@@ -42,23 +42,17 @@ function db(): PDO
 
         try {
             if ($driver === 'pgsql') {
-                // Supabase shared pooler requires tenant ID in the username:
-                //   postgres.PROJECT_REF
-                // If the user only set DB_USER=postgres, try to fix it automatically.
                 $username = normalizeSupabasePoolerUser($username, $host);
 
                 $portPart = $port !== '' ? "port={$port};" : 'port=5432;';
                 $dsn = "pgsql:host={$host};{$portPart}dbname={$dbname};sslmode=require";
 
-                // EMULATE_PREPARES true: Postgres needs this for LIMIT ? OFFSET ?
-                // when values are passed via execute([...]) as PHP ints/strings.
                 $pdo = new PDO($dsn, $username, $password, [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES   => true,
                 ]);
             } else {
-                // MySQL
                 $portPart = $port !== '' ? "port={$port};" : '';
                 $dsn = "mysql:host={$host};{$portPart}dbname={$dbname};charset=utf8mb4";
 
@@ -105,37 +99,23 @@ function db(): PDO
     return $pdo;
 }
 
-/**
- * Supabase shared pooler (Supavisor) requires username format:
- *   postgres.PROJECT_REF
- * Plain "postgres" only works on the direct (IPv6) host.
- */
 function normalizeSupabasePoolerUser(string $username, string $host): string
 {
-    // Already has project ref?
     if (str_contains($username, '.')) {
         return $username;
     }
 
-    // Explicit override via env
     $ref = getenv('DB_PROJECT_REF') ?: Config::get('database.project_ref', '');
     if (is_string($ref) && $ref !== '') {
         return $username . '.' . $ref;
     }
 
-    // Only auto-fix when talking to the shared pooler
     if (!str_contains($host, 'pooler.supabase.com')) {
         return $username;
     }
 
-    // Last resort: cannot invent the project ref — leave as-is and let the
-    // clearer error message guide the user.
     return $username;
 }
-
-// ============================================================
-// CSRF Protection
-// ============================================================
 
 function getCsrfToken(): string
 {
@@ -165,10 +145,6 @@ function verifyCsrf(): void
         die('<h1>403 Forbidden</h1><p>CSRF token mismatch. Please go back and try again.</p>');
     }
 }
-
-// ============================================================
-// Login Rate Limiting
-// ============================================================
 
 function recordFailedLogin(string $username): bool
 {
@@ -221,10 +197,6 @@ function clearFailedLogins(string $username): void
     unset($_SESSION['login_attempts_' . md5($username)]);
 }
 
-// ============================================================
-// Audit Logging
-// ============================================================
-
 function logAudit(
     string $action,
     string $entity,
@@ -256,10 +228,6 @@ function logAudit(
     }
 }
 
-// ============================================================
-// Auth helpers
-// ============================================================
-
 function isSuperAdmin(): bool
 {
     return isset($_SESSION['super_admin_id']);
@@ -282,10 +250,6 @@ function requireLoginAndGetSchoolId(): int
     header('Location: ../login.php');
     exit;
 }
-
-// ============================================================
-// Data access helpers
-// ============================================================
 
 function getTeachers(int $schoolId): array
 {
@@ -327,10 +291,13 @@ function getSubjectsForClass(int $schoolId, int $classId): array
 
 function getTeacherTotalWeeklyLessons(int $schoolId, int $teacherId): int
 {
-    $stmt = db()->prepare('SELECT SUM(s.lessons_per_week) as total
+    $stmt = db()->prepare('SELECT SUM(s.lessons_per_week * COALESCE(s.duration_slots, 1)) as total
                            FROM subjects s
                            WHERE s.school_id = ? AND s.assigned_teacher_id = ?');
     $stmt->execute([$schoolId, $teacherId]);
     $result = $stmt->fetch();
     return (int) ($result['total'] ?? 0);
 }
+
+// Flexible school settings, day names, readiness scoring
+require_once __DIR__ . '/school_flexibility.php';
