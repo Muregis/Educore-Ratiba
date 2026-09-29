@@ -22,6 +22,22 @@ $adminMessages = [];      // translated, plain-language results for the school-a
 $failureDetails = [];     // per-lesson breakdown of why the engine could not place lessons
 $rawOutputForAdminView = null; // only ever shown in a collapsed super-admin block
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'prepare') {
+    verifyCsrf();
+    try {
+        $actions = prepareSchoolForGeneration($schoolId);
+        foreach ($actions as $a) {
+            $adminMessages[] = ['type' => 'success', 'text' => $a];
+        }
+        $adminMessages[] = [
+            'type' => 'success',
+            'text' => 'Preparation done. Review readiness below, then click Regenerate.',
+        ];
+    } catch (Throwable $e) {
+        $adminMessages[] = ['type' => 'error', 'text' => 'Prepare failed: ' . $e->getMessage()];
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'generate') {
     verifyCsrf();
     $preflightProblems = runPreflightChecks($schoolId);
@@ -43,41 +59,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
 
         $xmlSnapshot = @file_get_contents($xmlPath) ?: null;
         $metaPath = $xmlPath . '.meta.json';
-        $activityMeta = file_exists($metaPath) ? json_decode((string) file_get_contents($metaPath), true) : [];
-        if (!is_array($activityMeta)) {
-            $activityMeta = [];
+        error_log("Loading activity metadata from: $metaPath");
+        $activityMeta = file_exists($metaPath) ? json_decode(file_get_contents($metaPath), true) : [];
+        if (empty($activityMeta)) {
+            error_log("WARNING: Activity metadata is empty or file doesn't exist: $metaPath");
+        } else {
+            error_log("Loaded " . count($activityMeta) . " activity metadata entries");
         }
-        // json_decode gives string keys - re-key as int to match how
-        // parseFetSolutionIntoSlots and buildWholeSchoolXml use them.
         $activityMeta = array_combine(array_map('intval', array_keys($activityMeta)), array_values($activityMeta));
 
-        // Plain-English diagnosis up-front so it can be stored with the run
-        // and re-shown later (View page, history) instead of a dead
-        // "failed, try again" link.
-        $diagnosis = $result['success']
-            ? ['summary' => [], 'details' => []]
-            : diagnoseFetFailure($rawOutputForAdminView ?? '', $activityMeta);
+        $diagnosis = null;
+        if (!$result['success']) {
+            $diagnosis = diagnoseFetFailure($result['raw_output'] ?? '', is_array($activityMeta) ? $activityMeta : []);
+            $failureDetails = $diagnosis['details'] ?? [];
+            foreach (($diagnosis['summary'] ?? []) as $line) {
+                $adminMessages[] = ['type' => 'error', 'text' => $line];
+            }
+            if (empty($adminMessages)) {
+                $adminMessages[] = [
+                    'type' => 'error',
+                    'text' => 'Timetable generation failed. Check teacher loads, rooms, and subject assignments, then try again.',
+                ];
+            }
+        }
+
+        $failureSummaryJson = $diagnosis !== null ? json_encode($diagnosis) : null;
 
         $stmt = db()->prepare(
-            'INSERT INTO generated_timetables (school_id, xml_snapshot, html_output_path, status, failure_summary, triggered_by_admin_id, triggered_by_type)
-             VALUES (?, ?, ?, ?, ?, ?, ?)'
+            'INSERT INTO generated_timetables (school_id, xml_snapshot, html_output_path, status, failure_summary, triggered_by_admin_id, triggered_by_type)\n             VALUES (?, ?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
             $schoolId,
             $xmlSnapshot,
             $htmlRelativePath,
             $status,
-            json_encode($diagnosis, JSON_UNESCAPED_UNICODE),
+            $failureSummaryJson,
             $_SESSION['school_admin_id'] ?? $_SESSION['super_admin_id'] ?? null,
             isSuperAdmin() ? 'super_admin' : 'school_admin',
         ]);
-        $generatedTimetableId = (int) db()->lastInsertId();
+        $generatedTimetableId = (int) (function_exists('insertGetId') ? insertGetId($stmt) : db()->lastInsertId());
+        if ($generatedTimetableId <= 0) {
+            $generatedTimetableId = (int) db()->lastInsertId();
+        }
 
         if ($result['success']) {
             $adminMessages[] = ['type' => 'success', 'text' => 'Timetable generated successfully for the whole school.'];
-
-            // Parse FET's solution XML into scheduled_slots rows so the
-            // manual editor has structured data to work against.
             if ($result['solution_xml_path'] !== null) {
                 $slotRows = parseFetSolutionIntoSlots($result['solution_xml_path'], $activityMeta, $schoolId);
                 storeScheduledSlots($generatedTimetableId, $slotRows);
@@ -92,43 +118,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                 }
             } else {
                 $adminMessages[] = [
-                    'type' => 'warning',
-                    'text' => 'Timetable generated successfully, but solution XML was not found. '
-                        . 'PDF export will use HTML fallback. This may indicate an issue with the FET engine output.',
+                    'type' => 'error',
+                    'text' => 'Timetable generated successfully, but solution XML was not found. PDF export may use HTML fallback.',
                 ];
             }
-        } else {
-            foreach ($diagnosis['summary'] as $line) {
-                $adminMessages[] = ['type' => 'error', 'text' => $line];
-            }
-            $failureDetails = $diagnosis['details'];
         }
     }
 }
 
-// Generation history (with diagnosis for failed runs)
+// Generation history
 $stmt = db()->prepare(
     'SELECT * FROM generated_timetables WHERE school_id = ? ORDER BY generated_at DESC LIMIT 20'
 );
 $stmt->execute([$schoolId]);
 $history = $stmt->fetchAll();
 
-// The most recent failed run, for the "why did it fail" panel that survives
-// page reloads (the raw engine output only lives for this request).
 $latestFailed = null;
+$latestFailedDiagnosis = null;
 foreach ($history as $h) {
     if ($h['status'] === 'failed') {
         $latestFailed = $h;
         break;
     }
 }
-$latestFailedDiagnosis = null;
 if ($latestFailed && !empty($latestFailed['failure_summary'])) {
     $decoded = json_decode((string) $latestFailed['failure_summary'], true);
     if (is_array($decoded)) {
         $latestFailedDiagnosis = $decoded;
     }
 }
+
+$readiness = getSchoolReadiness($schoolId);
+$dayNames = getSchoolDayNames($schoolId);
+$genTimeLimit = getSchoolGenerationTimeLimit($schoolId);
 
 $pageTitle = 'Generate Timetable — ' . ($school['name'] ?? 'School');
 require __DIR__ . '/_header.php';
@@ -188,13 +210,25 @@ require __DIR__ . '/_header.php';
         </div>
     <?php endif; ?>
 
-    <form method="post">
-        <input type="hidden" name="action" value="generate">
-        <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
-        <button type="submit" onclick="return confirm('Regenerate the whole-school timetable now? This may take a moment.');">
-            Regenerate Whole-School Timetable
-        </button>
-    </form>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px;">
+        <form method="post" style="display:inline;">
+            <input type="hidden" name="action" value="prepare">
+            <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
+            <button type="submit" class="btn-secondary" onclick="return confirm('Add missing classrooms and raise tight teacher caps so Generate is more likely to succeed?');">
+                Prepare school for generation
+            </button>
+        </form>
+        <form method="post" style="display:inline;">
+            <input type="hidden" name="action" value="generate">
+            <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
+            <button type="submit" onclick="return confirm('Regenerate the whole-school timetable now? This may take a moment.');">
+                Regenerate Whole-School Timetable
+            </button>
+        </form>
+    </div>
+    <p class="empty" style="margin-top:10px;font-size:0.85em;">
+        If Generate keeps failing: run <strong>Prepare</strong> first (adds rooms when classes &gt; rooms, raises teacher max). Then Generate again.
+    </p>
 
     <?php if (isSuperAdmin() && $rawOutputForAdminView !== null): ?>
         <details style="margin-top: 20px;">
@@ -206,7 +240,7 @@ require __DIR__ . '/_header.php';
 
 <?php if ($latestFailedDiagnosis !== null && empty($adminMessages) && empty($preflightProblems)): ?>
 <div class="card">
-    <h2>Last failed run — <?php echo htmlspecialchars(date('j M Y, g:i A', strtotime((string) $latestFailed['generated_at']))); ?></h2>
+    <h2>Last failure — <?php echo htmlspecialchars(date('j M Y, g:i A', strtotime($latestFailed['generated_at']))); ?></h2>
     <?php foreach (($latestFailedDiagnosis['summary'] ?? []) as $line): ?>
         <div class="error"><?php echo htmlspecialchars($line); ?></div>
     <?php endforeach; ?>

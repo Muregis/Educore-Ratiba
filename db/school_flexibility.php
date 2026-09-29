@@ -114,3 +114,107 @@ function getSchoolReadiness(int $schoolId): array
         'stats' => compact('teachers', 'rooms', 'bands', 'classes', 'subjects', 'unassigned'),
     ];
 }
+
+/**
+ * Extra preflight: rooms vs classes and aggregate teacher capacity.
+ * @return list<string>
+ */
+function runRoomTeacherPreflight(int $schoolId): array
+{
+    $problems = [];
+    $classes = array_values(array_filter(getClasses($schoolId), static fn($c) => (bool) $c['active']));
+    $rooms = getRooms($schoolId);
+    $roomCount = count($rooms);
+    $classCount = count($classes);
+
+    if ($classCount > 0 && $roomCount === 0) {
+        $problems[] = "No rooms are defined. Add at least one room on the Rooms page "
+            . "(ideally one room per active class, currently {$classCount}).";
+    } elseif ($classCount > $roomCount && $roomCount > 0) {
+        $problems[] = "You have {$classCount} active classes but only {$roomCount} room(s). "
+            . "At any period, only {$roomCount} classes can have a lesson at the same time. "
+            . "Add more rooms (one per class is safest), or deactivate some classes. "
+            . "Use Prepare school for generation below to auto-add placeholder classrooms.";
+    }
+
+    $teachers = getTeachers($schoolId);
+    $totalLoad = 0;
+    $totalCap = 0;
+    $uncapped = 0;
+    foreach ($teachers as $teacher) {
+        $load = getTeacherTotalWeeklyLessons($schoolId, (int) $teacher['id']);
+        $totalLoad += $load;
+        if ($teacher['max_lessons_per_week'] === null) {
+            $uncapped++;
+        } else {
+            $totalCap += (int) $teacher['max_lessons_per_week'];
+        }
+    }
+    if ($uncapped === 0 && $totalCap > 0 && $totalLoad > $totalCap) {
+        $problems[] = "Total teacher capacity is {$totalCap} lessons/week but subjects assign {$totalLoad}. "
+            . "Raise max lessons on Teachers, add teachers, or reduce subject lessons/week.";
+    }
+
+    return $problems;
+}
+
+/**
+ * Make a tight school more likely to generate: ensure enough rooms and
+ * raise teacher max_lessons when load exceeds the stated maximum.
+ * @return list<string>
+ */
+function prepareSchoolForGeneration(int $schoolId): array
+{
+    $actions = [];
+    $pdo = db();
+
+    $classes = array_values(array_filter(getClasses($schoolId), static fn($c) => (bool) $c['active']));
+    $rooms = getRooms($schoolId);
+    $need = count($classes) - count($rooms);
+    if ($need > 0) {
+        $existingNames = array_map(static fn($r) => (string) $r['name'], $rooms);
+        $created = 0;
+        $n = 1;
+        while ($created < $need) {
+            $name = 'Classroom ' . $n;
+            $n++;
+            if (in_array($name, $existingNames, true)) {
+                continue;
+            }
+            $stmt = $pdo->prepare(
+                'INSERT INTO rooms (school_id, name, capacity, room_type) VALUES (?, ?, ?, ?)'
+            );
+            $stmt->execute([$schoolId, $name, 40, 'classroom']);
+            $existingNames[] = $name;
+            $created++;
+        }
+        $actions[] = "Added {$created} placeholder classroom(s) so rooms ≥ active classes ({$need} were missing).";
+    }
+
+    $teachers = getTeachers($schoolId);
+    $raised = 0;
+    foreach ($teachers as $teacher) {
+        $load = getTeacherTotalWeeklyLessons($schoolId, (int) $teacher['id']);
+        if ($load <= 0) {
+            continue;
+        }
+        $max = $teacher['max_lessons_per_week'];
+        $target = max($load + 5, 40);
+        if ($max === null || (int) $max < $load) {
+            $stmt = $pdo->prepare(
+                'UPDATE teachers SET max_lessons_per_week = ? WHERE id = ? AND school_id = ?'
+            );
+            $stmt->execute([$target, (int) $teacher['id'], $schoolId]);
+            $raised++;
+        }
+    }
+    if ($raised > 0) {
+        $actions[] = "Raised max lessons/week for {$raised} teacher(s) so assigned load fits under their cap.";
+    }
+
+    if (empty($actions)) {
+        $actions[] = 'No changes needed — rooms and teacher caps already look sufficient. If Generate still fails, reduce subject lessons/week or add teachers.';
+    }
+
+    return $actions;
+}
