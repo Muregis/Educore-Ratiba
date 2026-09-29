@@ -9,6 +9,9 @@ $schoolId = requireLoginAndGetSchoolId();
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
+$readiness = getSchoolReadiness($schoolId);
+$dayNames = getSchoolDayNames($schoolId);
+$genTimeLimit = getSchoolGenerationTimeLimit($schoolId);
 
 // ---- CONFIG - use hybrid config system for online/offline support ----
 $engine = Config::get('paths.engine');
@@ -24,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
 
     if (empty($preflightProblems)) {
         $xmlPath = buildWholeSchoolXml($schoolId, $school['name']);
-        $result = runFetEngine($xmlPath, $engine, $projectOutputRoot);
+        $timeLimit = getSchoolGenerationTimeLimit($schoolId);
+        $result = runFetEngine($xmlPath, $engine, $projectOutputRoot, $timeLimit);
         $rawOutputForAdminView = $result['raw_output'];
 
         $status = $result['success'] ? 'success' : 'failed';
@@ -100,35 +104,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
             } else {
                 $adminMessages[] = [
                     'type' => 'error',
-                    'text' => 'The timetable could not be generated. Please check that every subject has a '
-                        . 'teacher assigned, and try again. If this continues, contact support.',
+                    'text' => 'Timetable generation failed. Please review teacher loads, room availability, and subject assignments, then try again.',
                 ];
             }
         }
-
-        @unlink($xmlPath);
-        @unlink($metaPath);
     }
 }
 
-// Recent generation history
+// Generation history
 $stmt = db()->prepare(
-    'SELECT * FROM generated_timetables WHERE school_id = ? ORDER BY generated_at DESC LIMIT 10'
+    'SELECT * FROM generated_timetables WHERE school_id = ? ORDER BY generated_at DESC LIMIT 20'
 );
 $stmt->execute([$schoolId]);
 $history = $stmt->fetchAll();
 
-$pageTitle = 'Generate Timetable — ' . $school['name'];
+$pageTitle = 'Generate Timetable — ' . ($school['name'] ?? 'School');
 require __DIR__ . '/_header.php';
 ?>
 
 <div class="card">
     <h2>Generate whole-school timetable</h2>
-    <p class="empty">
-        This runs ONE combined timetable for every active class across every band, so shared
+    <p style="color: var(--text-muted); margin-bottom: 16px;">
+        This generates one combined timetable for every active class across every band, so shared
         teachers and rooms are checked for double-booking correctly. Individual class views are
         filtered from this one result.
     </p>
+
+    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:14px 16px;margin-bottom:18px;">
+        <strong>Scale readiness:</strong>
+        <?php echo (int) $readiness['score']; ?>% (<?php echo htmlspecialchars($readiness['level']); ?>)
+        · <?php echo htmlspecialchars($readiness['scale']); ?> school
+        · <?php echo count($dayNames); ?>-day week
+        · time limit <?php echo (int) $genTimeLimit; ?>s
+        <br><span style="font-size:0.9em;color:#0369a1;">
+            <?php echo (int) $readiness['stats']['classes']; ?> classes ·
+            <?php echo (int) $readiness['stats']['teachers']; ?> teachers ·
+            <?php echo (int) $readiness['stats']['rooms']; ?> rooms ·
+            <?php echo (int) $readiness['stats']['subjects']; ?> subjects
+            · <a href="settings.php">Adjust settings</a>
+        </span>
+    </div>
 
     <?php if (!empty($preflightProblems)): ?>
         <div class="error">
