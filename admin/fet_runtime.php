@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-function diagnoseFetFailure(string $rawOutput, array $activityMeta): array
+function diagnoseFetFailureV2(string $rawOutput, array $activityMeta): array
 {
     $summary = [];
     $details = [];
@@ -169,7 +169,7 @@ function runCommandCapture(string $binary, array $args): array
     return ['output' => (string) $raw, 'exit_code' => null, 'method' => 'shell_exec'];
 }
 
-function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir, ?int $timeLimitSeconds = null): array
+function runFetEngineV2(string $xmlPath, string $engineExePath, string $outputDir, ?int $timeLimitSeconds = null): array
 {
     if (!is_dir($outputDir)) {
         @mkdir($outputDir, 0777, true);
