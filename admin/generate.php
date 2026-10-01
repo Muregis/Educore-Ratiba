@@ -13,18 +13,20 @@ $readiness = getSchoolReadiness($schoolId);
 $dayNames = getSchoolDayNames($schoolId);
 $genTimeLimit = getSchoolGenerationTimeLimit($schoolId);
 
-// ---- CONFIG - use hybrid config system for online/offline support ----
 $engine = Config::get('paths.engine');
 $projectOutputRoot = Config::get('paths.output') . '/schools/' . $schoolId;
 
 $preflightProblems = [];
-$adminMessages = [];      // translated, plain-language results for the school-admin
-$failureDetails = [];     // per-lesson breakdown of why the engine could not place lessons
-$rawOutputForAdminView = null; // only ever shown in a collapsed super-admin block
+$adminMessages = [];
+$failureDetails = [];
+$rawOutputForAdminView = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'prepare') {
     verifyCsrf();
     try {
+        if (function_exists('ensureFlexibleSchema')) {
+            ensureFlexibleSchema();
+        }
         $actions = prepareSchoolForGeneration($schoolId);
         foreach ($actions as $a) {
             $adminMessages[] = ['type' => 'success', 'text' => $a];
@@ -41,8 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'prepa
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'generate') {
     verifyCsrf();
 
-    // Auto-prepare so demo / tight schools do not fail solely for missing rooms.
-    // Safe: only adds classrooms when classes > rooms and raises teacher caps under load.
     try {
         $prepActions = prepareSchoolForGeneration($schoolId);
         foreach ($prepActions as $a) {
@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
     );
 
     if (empty($preflightProblems)) {
+      try {
         $xmlPath = buildWholeSchoolXml($schoolId, $school['name']);
         $timeLimit = getSchoolGenerationTimeLimit($schoolId);
         $classCount = count(array_filter(getClasses($schoolId), static fn($c) => (bool) $c['active']));
@@ -80,14 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
 
         $xmlSnapshot = @file_get_contents($xmlPath) ?: null;
         $metaPath = $xmlPath . '.meta.json';
-        error_log("Loading activity metadata from: $metaPath");
-        $activityMeta = file_exists($metaPath) ? json_decode(file_get_contents($metaPath), true) : [];
-        if (empty($activityMeta)) {
-            error_log("WARNING: Activity metadata is empty or file doesn't exist: $metaPath");
-        } else {
-            error_log("Loaded " . count($activityMeta) . " activity metadata entries");
+        $activityMeta = [];
+        if (file_exists($metaPath)) {
+            $decodedMeta = json_decode((string) file_get_contents($metaPath), true);
+            if (is_array($decodedMeta) && $decodedMeta !== []) {
+                $activityMeta = array_combine(
+                    array_map('intval', array_keys($decodedMeta)),
+                    array_values($decodedMeta)
+                ) ?: [];
+            }
         }
-        $activityMeta = array_combine(array_map('intval', array_keys($activityMeta)), array_values($activityMeta));
 
         $diagnosis = null;
         if (!$result['success']) {
@@ -106,10 +109,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
 
         $failureSummaryJson = $diagnosis !== null ? json_encode($diagnosis) : null;
 
-        $stmt = db()->prepare(
-            'INSERT INTO generated_timetables (school_id, xml_snapshot, html_output_path, status, failure_summary, triggered_by_admin_id, triggered_by_type)\n             VALUES (?, ?, ?, ?, ?, ?, ?)'
-        );
-        $stmt->execute([
+        $driver = strtolower((string) (db()->getAttribute(PDO::ATTR_DRIVER_NAME) ?: ''));
+        $cols = 'school_id, xml_snapshot, html_output_path, status, failure_summary, triggered_by_admin_id, triggered_by_type';
+        $vals = '?, ?, ?, ?, ?, ?, ?';
+        if ($driver === 'pgsql') {
+            $sql = "INSERT INTO generated_timetables ({$cols}) VALUES ({$vals}) RETURNING id";
+        } else {
+            $sql = "INSERT INTO generated_timetables ({$cols}) VALUES ({$vals})";
+        }
+        $stmt = db()->prepare($sql);
+        $params = [
             $schoolId,
             $xmlSnapshot,
             $htmlRelativePath,
@@ -117,8 +126,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
             $failureSummaryJson,
             $_SESSION['school_admin_id'] ?? $_SESSION['super_admin_id'] ?? null,
             isSuperAdmin() ? 'super_admin' : 'school_admin',
-        ]);
-        $generatedTimetableId = (int) (function_exists('insertGetId') ? insertGetId($stmt) : db()->lastInsertId());
+        ];
+        try {
+            $stmt->execute($params);
+            if ($driver === 'pgsql') {
+                $generatedTimetableId = (int) $stmt->fetchColumn();
+            } else {
+                $generatedTimetableId = (int) (function_exists('insertGetId') ? insertGetId($stmt) : db()->lastInsertId());
+            }
+        } catch (Throwable $insertEx) {
+            if (stripos($insertEx->getMessage(), 'failure_summary') !== false) {
+                if ($driver === 'pgsql') {
+                    $sql2 = 'INSERT INTO generated_timetables (school_id, xml_snapshot, html_output_path, status, triggered_by_admin_id, triggered_by_type) VALUES (?, ?, ?, ?, ?, ?) RETURNING id';
+                } else {
+                    $sql2 = 'INSERT INTO generated_timetables (school_id, xml_snapshot, html_output_path, status, triggered_by_admin_id, triggered_by_type) VALUES (?, ?, ?, ?, ?, ?)';
+                }
+                $stmt2 = db()->prepare($sql2);
+                $stmt2->execute([
+                    $schoolId,
+                    $xmlSnapshot,
+                    $htmlRelativePath,
+                    $status,
+                    $_SESSION['school_admin_id'] ?? $_SESSION['super_admin_id'] ?? null,
+                    isSuperAdmin() ? 'super_admin' : 'school_admin',
+                ]);
+                $generatedTimetableId = $driver === 'pgsql'
+                    ? (int) $stmt2->fetchColumn()
+                    : (int) db()->lastInsertId();
+            } else {
+                throw $insertEx;
+            }
+        }
         if ($generatedTimetableId <= 0) {
             $generatedTimetableId = (int) db()->lastInsertId();
         }
@@ -144,10 +182,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                 ];
             }
         }
+      } catch (Throwable $genEx) {
+        error_log('Generate failed: ' . $genEx->getMessage() . ' @ ' . $genEx->getFile() . ':' . $genEx->getLine());
+        $adminMessages[] = [
+            'type' => 'error',
+            'text' => 'Generation error: ' . $genEx->getMessage(),
+        ];
+      }
     }
 }
 
-// Generation history
 $stmt = db()->prepare(
     'SELECT * FROM generated_timetables WHERE school_id = ? ORDER BY generated_at DESC LIMIT 20'
 );
