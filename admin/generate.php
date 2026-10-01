@@ -4,6 +4,7 @@ session_start();
 require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/generate_engine.php';
+require_once __DIR__ . '/fet_runtime.php';
 
 $schoolId = requireLoginAndGetSchoolId();
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
@@ -61,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'rebal
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'generate') {
     verifyCsrf();
+    if (function_exists('set_time_limit')) { @set_time_limit(660); }
+    @ini_set('max_execution_time', '660');
 
     try {
         $classN = count(array_filter(getClasses($schoolId), static fn($c) => (bool) $c['active']));
@@ -93,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
         if ($classCount >= 12 && $timeLimit < 600) {
             $timeLimit = 600;
         }
-        $result = runFetEngine($xmlPath, $engine, $projectOutputRoot, $timeLimit);
+        $result = runFetEngineV2($xmlPath, $engine, $projectOutputRoot, $timeLimit);
         $rawOutputForAdminView = $result['raw_output'];
 
         $status = $result['success'] ? 'success' : 'failed';
@@ -120,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
 
         $diagnosis = null;
         if (!$result['success']) {
-            $diagnosis = diagnoseFetFailure($result['raw_output'] ?? '', is_array($activityMeta) ? $activityMeta : []);
+            $diagnosis = diagnoseFetFailureV2($result['raw_output'] ?? '', is_array($activityMeta) ? $activityMeta : []);
             $failureDetails = $diagnosis['details'] ?? [];
             foreach (($diagnosis['summary'] ?? []) as $line) {
                 $adminMessages[] = ['type' => 'error', 'text' => $line];
@@ -289,15 +292,18 @@ require __DIR__ . '/_header.php';
 
     <?php if (!empty($failureDetails)): ?>
         <div class="error" style="margin-top:-6px;">
-            <strong>Lessons that could not be placed:</strong>
+            <strong>Failure details</strong>
             <ul style="margin: 8px 0 0; padding-left: 20px;">
                 <?php foreach (array_slice($failureDetails, 0, 25) as $d): ?>
-                    <li><?php echo htmlspecialchars($d); ?></li>
+                    <li style="white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:0.85em;"><?php echo htmlspecialchars($d); ?></li>
                 <?php endforeach; ?>
                 <?php if (count($failureDetails) > 25): ?>
                     <li>…and <?php echo count($failureDetails) - 25; ?> more.</li>
                 <?php endif; ?>
             </ul>
+            <p style="margin:10px 0 0;font-size:0.9em;">
+                <a href="diagnostic.php">Open engine Diagnostic</a>
+            </p>
         </div>
     <?php endif; ?>
 
@@ -341,10 +347,10 @@ require __DIR__ . '/_header.php';
         Generate auto-rebalances when teachers < classes.
     </p>
 
-    <?php if (isSuperAdmin() && $rawOutputForAdminView !== null): ?>
-        <details style="margin-top: 20px;">
-            <summary style="cursor:pointer; color: var(--text-muted); font-size: 0.85rem;">Raw engine output (super-admin only)</summary>
-            <pre style="background:#1e1e1e; color:#d4d4d4; padding:14px; border-radius:6px; overflow-x:auto; font-size: 0.8rem; margin-top: 10px;"><?php echo htmlspecialchars($rawOutputForAdminView); ?></pre>
+    <?php if ($rawOutputForAdminView !== null): ?>
+        <details style="margin-top: 20px;" open>
+            <summary style="cursor:pointer; color: var(--text-muted); font-size: 0.85rem;">Raw engine output</summary>
+            <pre style="background:#1e1e1e; color:#d4d4d4; padding:14px; border-radius:6px; overflow-x:auto; font-size: 0.8rem; margin-top: 10px; max-height:320px;"><?php echo htmlspecialchars($rawOutputForAdminView); ?></pre>
         </details>
     <?php endif; ?>
 </div>
