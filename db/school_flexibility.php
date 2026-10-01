@@ -4,7 +4,6 @@ declare(strict_types=1);
 /**
  * Idempotent schema upgrade for flexible timetable columns.
  * Runs on Prepare/Generate so production does not depend on manual SQL.
- * Safe on Postgres (IF NOT EXISTS) and MySQL (check information_schema).
  */
 function ensureFlexibleSchema(): void
 {
@@ -80,15 +79,9 @@ function ensureFlexibleSchema(): void
 
 function getSchoolRow(int $schoolId): ?array
 {
-    static $cache = [];
-    if (isset($cache[$schoolId])) {
-        return $cache[$schoolId];
-    }
     $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
     $stmt->execute([$schoolId]);
-    $row = $stmt->fetch() ?: null;
-    $cache[$schoolId] = $row;
-    return $row;
+    return $stmt->fetch() ?: null;
 }
 
 /** @return list<string> */
@@ -138,13 +131,50 @@ function getSchoolGenerationTimeLimit(int $schoolId): int
     return max(60, min(1800, $limit > 0 ? $limit : 300));
 }
 
-/**
- * Readiness score for scale: helps small and large schools see gaps.
- * @return array{score:int,level:string,scale:string,checks:list<array{ok:bool,label:string}>,stats:array}
- */
+function countSlotsForLatestSuccess(int $schoolId): int
+{
+    $pdo = db();
+    $stmt = $pdo->prepare(
+        "SELECT gt.id FROM generated_timetables gt
+         WHERE gt.school_id = ? AND gt.status = 'success'
+         ORDER BY gt.generated_at DESC LIMIT 20"
+    );
+    $stmt->execute([$schoolId]);
+    $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    foreach ($ids as $id) {
+        $c = $pdo->prepare('SELECT COUNT(*) FROM scheduled_slots WHERE generated_timetable_id = ?');
+        $c->execute([(int) $id]);
+        $n = (int) $c->fetchColumn();
+        if ($n > 0) {
+            return $n;
+        }
+    }
+    return 0;
+}
+
+function getLatestUsableTimetable(int $schoolId): ?array
+{
+    $pdo = db();
+    $stmt = $pdo->prepare(
+        "SELECT gt.* FROM generated_timetables gt
+         WHERE gt.school_id = ? AND gt.status = 'success'
+         ORDER BY gt.generated_at DESC LIMIT 20"
+    );
+    $stmt->execute([$schoolId]);
+    foreach ($stmt->fetchAll() as $row) {
+        $c = $pdo->prepare('SELECT COUNT(*) FROM scheduled_slots WHERE generated_timetable_id = ?');
+        $c->execute([(int) $row['id']]);
+        if ((int) $c->fetchColumn() > 0) {
+            return $row;
+        }
+    }
+    return null;
+}
+
 function getSchoolReadiness(int $schoolId): array
 {
     $checks = [];
+    $blockers = [];
     $pdo = db();
 
     $count = static function (string $sql, array $params = []) use ($pdo): int {
@@ -163,6 +193,7 @@ function getSchoolReadiness(int $schoolId): array
         [$schoolId]
     );
     $unassigned = $subjects - $assigned;
+    $slotCount = countSlotsForLatestSuccess($schoolId);
 
     $checks[] = ['ok' => $teachers > 0, 'label' => "Teachers registered ($teachers)"];
     $checks[] = ['ok' => $rooms > 0, 'label' => "Rooms available ($rooms)"];
@@ -173,14 +204,67 @@ function getSchoolReadiness(int $schoolId): array
         ? 'All subjects have teachers'
         : "$unassigned subject(s) missing a teacher"];
 
-    $scale = $classes <= 8 ? 'small' : ($classes <= 30 ? 'medium' : 'large');
-    if ($scale === 'large') {
-        $checks[] = ['ok' => $rooms >= (int) ceil($classes * 0.5), 'label' => 'Room capacity vs class count (large school)'];
-        $checks[] = ['ok' => $teachers >= (int) ceil($classes * 1.2), 'label' => 'Teacher headcount vs class count (large school)'];
+    if ($classes > 0 && $teachers < $classes) {
+        $checks[] = [
+            'ok' => false,
+            'label' => "Teacher headcount ($teachers) is below active classes ($classes) — same-period clashes likely",
+        ];
+        $blockers[] = "You have {$classes} classes but only {$teachers} teachers. "
+            . "At one period only {$teachers} classes can be taught. Add teachers or use Rebalance.";
+    } else {
+        $checks[] = [
+            'ok' => true,
+            'label' => "Teacher headcount vs classes ($teachers teachers / $classes classes)",
+        ];
     }
 
+    if ($classes > 0 && $rooms < $classes) {
+        $checks[] = [
+            'ok' => false,
+            'label' => "Rooms ($rooms) below classes ($classes)",
+        ];
+        $blockers[] = "Need at least {$classes} rooms (one per class is safest). Use Prepare to auto-add classrooms.";
+    } else {
+        $checks[] = [
+            'ok' => $rooms >= $classes || $classes === 0,
+            'label' => "Rooms vs classes ($rooms rooms / $classes classes)",
+        ];
+    }
+
+    $teacherRows = getTeachers($schoolId);
+    $idle = 0;
+    $atCap = 0;
+    foreach ($teacherRows as $t) {
+        $load = getTeacherTotalWeeklyLessons($schoolId, (int) $t['id']);
+        $max = $t['max_lessons_per_week'];
+        if ($load === 0) {
+            $idle++;
+        }
+        if ($max !== null && (int) $max > 0 && $load >= (int) $max) {
+            $atCap++;
+        }
+    }
+    if ($idle > 0 && $atCap > 0) {
+        $checks[] = [
+            'ok' => false,
+            'label' => "Load imbalance: {$atCap} teacher(s) at max cap, {$idle} with zero lessons",
+        ];
+        $blockers[] = "Rebalance subject assignments so idle teachers share the load.";
+    } else {
+        $checks[] = [
+            'ok' => true,
+            'label' => $idle > 0
+                ? "Teacher load distribution ({$idle} without subjects — optional)"
+                : 'Teacher load distribution looks balanced',
+        ];
+    }
+
+    $scale = $classes <= 8 ? 'small' : ($classes <= 30 ? 'medium' : 'large');
     $okCount = count(array_filter($checks, static fn($c) => $c['ok']));
     $score = (int) round(100 * $okCount / max(1, count($checks)));
+    if (!empty($blockers) && $score >= 90) {
+        $score = 70;
+    }
     $level = $score >= 90 ? 'ready' : ($score >= 60 ? 'almost' : 'setup');
 
     return [
@@ -188,14 +272,11 @@ function getSchoolReadiness(int $schoolId): array
         'level' => $level,
         'scale' => $scale,
         'checks' => $checks,
-        'stats' => compact('teachers', 'rooms', 'bands', 'classes', 'subjects', 'unassigned'),
+        'blockers' => $blockers,
+        'stats' => compact('teachers', 'rooms', 'bands', 'classes', 'subjects', 'unassigned', 'slotCount'),
     ];
 }
 
-/**
- * Extra preflight: rooms vs classes and aggregate teacher capacity.
- * @return list<string>
- */
 function runRoomTeacherPreflight(int $schoolId): array
 {
     $problems = [];
@@ -211,10 +292,17 @@ function runRoomTeacherPreflight(int $schoolId): array
         $problems[] = "You have {$classCount} active classes but only {$roomCount} room(s). "
             . "At any period, only {$roomCount} classes can have a lesson at the same time. "
             . "Add more rooms (one per class is safest), or deactivate some classes. "
-            . "Use Prepare school for generation below to auto-add placeholder classrooms.";
+            . "Use Prepare / Rebalance to auto-add placeholder classrooms.";
     }
 
     $teachers = getTeachers($schoolId);
+    $teacherCount = count($teachers);
+    if ($classCount > 0 && $teacherCount < $classCount) {
+        $problems[] = "You have {$classCount} active classes but only {$teacherCount} teacher(s). "
+            . "Primary-style schools need roughly one teacher per class (or shared specialists with care). "
+            . "Use Rebalance school for generation to add teachers and assign subjects fairly.";
+    }
+
     $totalLoad = 0;
     $totalCap = 0;
     $uncapped = 0;
@@ -235,11 +323,137 @@ function runRoomTeacherPreflight(int $schoolId): array
     return $problems;
 }
 
-/**
- * Make a tight school more likely to generate: ensure enough rooms and
- * raise teacher max_lessons when load exceeds the stated maximum.
- * @return list<string>
- */
+function demoTeacherNamePool(): array
+{
+    return [
+        'Alice Wanjiku', 'Brian Otieno', 'Cynthia Achieng', 'David Kamau',
+        'Esther Njeri', 'Francis Mwangi', 'Grace Akinyi', 'Henry Omondi',
+        'Irene Chebet', 'James Kiprop', 'Karen Wambui', 'Luke Odhiambo',
+        'Mary Atieno', 'Nathan Kiptoo', 'Olivia Nyambura', 'Peter Mutua',
+        'Queen Auma', 'Robert Cheruiyot', 'Sarah Muthoni', 'Thomas Njoroge',
+        'Ursula Jelagat', 'Victor Ochieng', 'Winnie Achieng', 'Xavier Kimani',
+    ];
+}
+
+function rebalanceSchoolForSolvability(int $schoolId): array
+{
+    ensureFlexibleSchema();
+    $actions = [];
+    $pdo = db();
+
+    $classes = array_values(array_filter(getClasses($schoolId), static fn($c) => (bool) $c['active']));
+    $classCount = count($classes);
+    if ($classCount === 0) {
+        return ['No active classes — add classes first.'];
+    }
+
+    $rooms = getRooms($schoolId);
+    $needRooms = $classCount - count($rooms);
+    if ($needRooms > 0) {
+        $existingNames = array_map(static fn($r) => (string) $r['name'], $rooms);
+        $created = 0;
+        $n = 1;
+        while ($created < $needRooms) {
+            $name = 'Classroom ' . $n;
+            $n++;
+            if (in_array($name, $existingNames, true)) {
+                continue;
+            }
+            $stmt = $pdo->prepare(
+                'INSERT INTO rooms (school_id, name, capacity, room_type) VALUES (?, ?, ?, ?)'
+            );
+            $stmt->execute([$schoolId, $name, 40, 'classroom']);
+            $existingNames[] = $name;
+            $created++;
+        }
+        $actions[] = "Added {$created} classroom(s) so rooms ≥ classes.";
+    }
+
+    $teachers = getTeachers($schoolId);
+    $needTeachers = $classCount - count($teachers);
+    if ($needTeachers > 0) {
+        $pool = demoTeacherNamePool();
+        $existingNames = array_map(static fn($t) => (string) $t['name'], $teachers);
+        $created = 0;
+        $i = 0;
+        while ($created < $needTeachers) {
+            $name = $pool[$i % count($pool)] ?? ('Teacher ' . ($i + 1));
+            if ($i >= count($pool)) {
+                $name = 'Teacher ' . ($i + 1);
+            }
+            $candidate = $name;
+            $suffix = 2;
+            while (in_array($candidate, $existingNames, true)) {
+                $candidate = $name . ' ' . $suffix;
+                $suffix++;
+            }
+            $staffId = 'T-' . str_pad((string) (count($existingNames) + 1), 3, '0', STR_PAD_LEFT);
+            $stmt = $pdo->prepare(
+                'INSERT INTO teachers (school_id, name, staff_id, max_lessons_per_week) VALUES (?, ?, ?, ?)'
+            );
+            $stmt->execute([$schoolId, $candidate, $staffId, 35]);
+            $existingNames[] = $candidate;
+            $created++;
+            $i++;
+        }
+        $actions[] = "Added {$created} teacher(s) so headcount ≥ active classes (class-teacher model).";
+        $teachers = getTeachers($schoolId);
+    }
+
+    usort($classes, static fn($a, $b) => strcmp((string) $a['name'], (string) $b['name']));
+    usort($teachers, static fn($a, $b) => strcmp((string) $a['name'], (string) $b['name']));
+    $assignCount = 0;
+    foreach ($classes as $idx => $class) {
+        $teacher = $teachers[$idx % count($teachers)];
+        $tid = (int) $teacher['id'];
+        $stmt = $pdo->prepare(
+            'UPDATE subjects SET assigned_teacher_id = ? WHERE school_id = ? AND class_id = ?'
+        );
+        $stmt->execute([$tid, $schoolId, (int) $class['id']]);
+        $assignCount += $stmt->rowCount();
+    }
+    $actions[] = "Assigned subjects with class-teacher model ({$assignCount} subject row(s) updated).";
+
+    try {
+        $pdo->prepare(
+            'UPDATE subjects SET duration_slots = COALESCE(duration_slots, 1), min_days_between = 0 WHERE school_id = ?'
+        )->execute([$schoolId]);
+        $actions[] = 'Set lesson duration to 1 slot and min-days-between to 0 for solvability.';
+    } catch (Throwable $e) {
+        error_log('rebalance soft constraints: ' . $e->getMessage());
+    }
+
+    $teachers = getTeachers($schoolId);
+    $raised = 0;
+    foreach ($teachers as $teacher) {
+        $load = getTeacherTotalWeeklyLessons($schoolId, (int) $teacher['id']);
+        $target = $load > 0 ? min(40, max($load + 5, 25)) : 30;
+        $stmt = $pdo->prepare(
+            'UPDATE teachers SET max_lessons_per_week = ? WHERE id = ? AND school_id = ?'
+        );
+        $stmt->execute([$target, (int) $teacher['id'], $schoolId]);
+        $raised++;
+    }
+    if ($raised > 0) {
+        $actions[] = "Set realistic max lessons/week for {$raised} teacher(s) (load + headroom, max 40).";
+    }
+
+    try {
+        $school = getSchoolRow($schoolId);
+        $limit = (int) ($school['generation_time_limit'] ?? 300);
+        if ($limit > 600 || $limit < 120) {
+            $pdo->prepare('UPDATE schools SET generation_time_limit = ? WHERE id = ?')
+                ->execute([300, $schoolId]);
+            $actions[] = 'Set generator time limit to 300 seconds (balanced for medium schools).';
+        }
+        $pdo->prepare('UPDATE schools SET prefer_spread = FALSE WHERE id = ?')->execute([$schoolId]);
+    } catch (Throwable $e) {
+        error_log('rebalance school settings: ' . $e->getMessage());
+    }
+
+    return $actions;
+}
+
 function prepareSchoolForGeneration(int $schoolId): array
 {
     ensureFlexibleSchema();
@@ -277,7 +491,7 @@ function prepareSchoolForGeneration(int $schoolId): array
             continue;
         }
         $max = $teacher['max_lessons_per_week'];
-        $target = max($load + 5, 40);
+        $target = min(40, max($load + 5, 25));
         if ($max === null || (int) $max < $load) {
             $stmt = $pdo->prepare(
                 'UPDATE teachers SET max_lessons_per_week = ? WHERE id = ? AND school_id = ?'
@@ -290,8 +504,11 @@ function prepareSchoolForGeneration(int $schoolId): array
         $actions[] = "Raised max lessons/week for {$raised} teacher(s) so assigned load fits under their cap.";
     }
 
-    if (empty($actions)) {
-        $actions[] = 'No changes needed — rooms and teacher caps already look sufficient. If Generate still fails, reduce subject lessons/week or add teachers.';
+    if (count($teachers) < count($classes)) {
+        $actions[] = 'Teacher headcount is still below class count. Click “Rebalance school for generation” '
+            . 'to add teachers and assign subjects with a class-teacher model (recommended for primary).';
+    } elseif (empty($actions)) {
+        $actions[] = 'No light changes needed. If Generate still fails, use Rebalance school for generation.';
     }
 
     return $actions;

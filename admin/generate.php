@@ -40,13 +40,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'prepa
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'rebalance') {
+    verifyCsrf();
+    try {
+        $actions = rebalanceSchoolForSolvability($schoolId);
+        foreach ($actions as $a) {
+            $adminMessages[] = ['type' => 'success', 'text' => $a];
+        }
+        $adminMessages[] = [
+            'type' => 'success',
+            'text' => 'Rebalance complete. Readiness should improve — click Regenerate next.',
+        ];
+        $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
+        $stmt->execute([$schoolId]);
+        $school = $stmt->fetch();
+    } catch (Throwable $e) {
+        $adminMessages[] = ['type' => 'error', 'text' => 'Rebalance failed: ' . $e->getMessage()];
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'generate') {
     verifyCsrf();
 
     try {
-        $prepActions = prepareSchoolForGeneration($schoolId);
+        $classN = count(array_filter(getClasses($schoolId), static fn($c) => (bool) $c['active']));
+        $teachN = count(getTeachers($schoolId));
+        if ($classN > 0 && $teachN < $classN) {
+            $prepActions = rebalanceSchoolForSolvability($schoolId);
+            $adminMessages[] = ['type' => 'success', 'text' => 'Auto-rebalanced: teachers were fewer than classes.'];
+        } else {
+            $prepActions = prepareSchoolForGeneration($schoolId);
+        }
         foreach ($prepActions as $a) {
-            if (stripos($a, 'No changes needed') === false) {
+            if (stripos($a, 'No changes needed') === false && stripos($a, 'No light changes') === false) {
                 $adminMessages[] = ['type' => 'success', 'text' => $a];
             }
         }
@@ -275,24 +301,44 @@ require __DIR__ . '/_header.php';
         </div>
     <?php endif; ?>
 
+    <?php if (!empty($readiness['blockers'])): ?>
+        <div class="error" style="margin-bottom:14px;">
+            <strong>Fix before you can rely on Generate:</strong>
+            <ul style="margin:8px 0 0;padding-left:20px;">
+                <?php foreach ($readiness['blockers'] as $b): ?>
+                    <li><?php echo htmlspecialchars($b); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
     <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px;">
+        <form method="post" style="display:inline;">
+            <input type="hidden" name="action" value="rebalance">
+            <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
+            <button type="submit" class="btn-secondary" onclick="return confirm('Rebalance will add teachers if short, assign one teacher per class for all subjects, set realistic caps, and soften spread constraints. Continue?');">
+                Rebalance school for generation
+            </button>
+        </form>
         <form method="post" style="display:inline;">
             <input type="hidden" name="action" value="prepare">
             <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
-            <button type="submit" class="btn-secondary" onclick="return confirm('Add missing classrooms and raise tight teacher caps so Generate is more likely to succeed?');">
-                Prepare school for generation
+            <button type="submit" class="btn-secondary" onclick="return confirm('Add missing classrooms and raise tight teacher caps only (no reassignment)?');">
+                Prepare (rooms & caps)
             </button>
         </form>
         <form method="post" style="display:inline;">
             <input type="hidden" name="action" value="generate">
             <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
-            <button type="submit" onclick="return confirm('Regenerate the whole-school timetable now? This may take a moment.');">
+            <button type="submit" onclick="return confirm('Regenerate the whole-school timetable now? This may take 1–5 minutes.');">
                 Regenerate Whole-School Timetable
             </button>
         </form>
     </div>
     <p class="empty" style="margin-top:10px;font-size:0.85em;">
-        Generate now auto-prepares rooms and teacher caps when needed. Use <strong>Prepare</strong> only if you want to review changes first.
+        <strong>Rebalance</strong> fixes unsolvable demos (few teachers, uneven load).
+        <strong>Prepare</strong> only adds rooms / raises caps.
+        Generate auto-rebalances when teachers < classes.
     </p>
 
     <?php if (isSuperAdmin() && $rawOutputForAdminView !== null): ?>
@@ -309,16 +355,6 @@ require __DIR__ . '/_header.php';
     <?php foreach (($latestFailedDiagnosis['summary'] ?? []) as $line): ?>
         <div class="error"><?php echo htmlspecialchars($line); ?></div>
     <?php endforeach; ?>
-    <?php if (!empty($latestFailedDiagnosis['details'])): ?>
-        <details>
-            <summary style="cursor:pointer; color: var(--text-muted); font-size: 0.85rem;">Lessons that could not be placed (<?php echo count($latestFailedDiagnosis['details']); ?>)</summary>
-            <ul style="margin: 8px 0 0; padding-left: 20px;">
-                <?php foreach (array_slice($latestFailedDiagnosis['details'], 0, 50) as $d): ?>
-                    <li><?php echo htmlspecialchars($d); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </details>
-    <?php endif; ?>
 </div>
 <?php endif; ?>
 
