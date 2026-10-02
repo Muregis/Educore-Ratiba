@@ -17,47 +17,68 @@ $stmt->execute([$schoolId]);
 $latestGeneration = $stmt->fetch();
 
 $editMode = $_GET['mode'] ?? 'class';
-$selectedId = (int)($_GET['selected_id'] ?? 0);
+$selectedId = (int) ($_GET['selected_id'] ?? 0);
 $error = null;
 
 $editItems = [];
 try {
     if ($editMode === 'teacher') {
         $s = db()->prepare('SELECT * FROM teachers WHERE school_id = ? ORDER BY name');
-        $s->execute([$schoolId]); $editItems = $s->fetchAll();
+        $s->execute([$schoolId]);
+        $editItems = $s->fetchAll();
     } elseif ($editMode === 'room') {
         $s = db()->prepare('SELECT * FROM rooms WHERE school_id = ? ORDER BY name');
-        $s->execute([$schoolId]); $editItems = $s->fetchAll();
+        $s->execute([$schoolId]);
+        $editItems = $s->fetchAll();
     } elseif ($editMode === 'subject') {
         $s = db()->prepare('SELECT DISTINCT id, name FROM subjects WHERE school_id = ? ORDER BY name');
-        $s->execute([$schoolId]); $editItems = $s->fetchAll();
+        $s->execute([$schoolId]);
+        $editItems = $s->fetchAll();
     } else {
         $editMode = 'class';
         $editItems = getClasses($schoolId);
     }
-} catch (Throwable $e) { $error = $e->getMessage(); }
+} catch (Throwable $e) {
+    $error = $e->getMessage();
+}
 
 $slots = [];
 $hourSlotsInUse = [];
 if ($latestGeneration && $selectedId !== 0) {
-    $map = ['class'=>'class_id','teacher'=>'teacher_id','room'=>'room_id','subject'=>'subject_id'];
+    $map = ['class' => 'class_id', 'teacher' => 'teacher_id', 'room' => 'room_id', 'subject' => 'subject_id'];
     $col = $map[$editMode] ?? 'class_id';
-    $stmt = db()->prepare("SELECT scheduled_slots.*, subjects.name AS subject_name, teachers.name AS teacher_name, rooms.name AS room_name, classes.name AS class_name FROM scheduled_slots LEFT JOIN subjects ON scheduled_slots.subject_id = subjects.id LEFT JOIN teachers ON scheduled_slots.teacher_id = teachers.id LEFT JOIN rooms ON scheduled_slots.room_id = rooms.id LEFT JOIN classes ON scheduled_slots.class_id = classes.id WHERE scheduled_slots.generated_timetable_id = ? AND scheduled_slots.$col = ? ORDER BY scheduled_slots.day_of_week, scheduled_slots.hour_slot");
+    $stmt = db()->prepare(
+        "SELECT scheduled_slots.*, subjects.name AS subject_name, teachers.name AS teacher_name,
+                rooms.name AS room_name, classes.name AS class_name
+         FROM scheduled_slots
+         LEFT JOIN subjects ON scheduled_slots.subject_id = subjects.id
+         LEFT JOIN teachers ON scheduled_slots.teacher_id = teachers.id
+         LEFT JOIN rooms ON scheduled_slots.room_id = rooms.id
+         LEFT JOIN classes ON scheduled_slots.class_id = classes.id
+         WHERE scheduled_slots.generated_timetable_id = ? AND scheduled_slots.$col = ?
+         ORDER BY scheduled_slots.day_of_week, scheduled_slots.hour_slot"
+    );
     $stmt->execute([$latestGeneration['id'], $selectedId]);
     $slots = $stmt->fetchAll();
-    foreach ($slots as $s) { $hourSlotsInUse[$s['hour_slot']] = true; }
+    foreach ($slots as $s) {
+        $hourSlotsInUse[$s['hour_slot']] = true;
+    }
 }
 $days = getSchoolDayNames($schoolId);
-if (count($days) < 1) $days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+if (count($days) < 1) {
+    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+}
 $hourSlotsSorted = array_keys($hourSlotsInUse);
-// Class mode: only hours for this class's band
 if ($editMode === 'class' && $selectedId !== 0) {
     $bandPrefix = '';
     try {
-        $bc = db()->prepare('SELECT b.band_key FROM classes c JOIN bands b ON c.band_id = b.id WHERE c.id = ? AND c.school_id = ?');
+        $bc = db()->prepare(
+            'SELECT b.band_key FROM classes c JOIN bands b ON c.band_id = b.id WHERE c.id = ? AND c.school_id = ?'
+        );
         $bc->execute([$selectedId, $schoolId]);
         $bandPrefix = (string) ($bc->fetchColumn() ?: '');
-    } catch (Throwable) {}
+    } catch (Throwable) {
+    }
     if ($bandPrefix !== '') {
         $hourSlotsSorted = array_values(array_filter(
             $hourSlotsSorted,
@@ -68,7 +89,13 @@ if ($editMode === 'class' && $selectedId !== 0) {
         ));
     }
 }
-sort($hourSlotsSorted);
+usort($hourSlotsSorted, static function ($a, $b) {
+    $ca = preg_replace('/^[^_]*__/', '', (string) $a) ?? (string) $a;
+    $cb = preg_replace('/^[^_]*__/', '', (string) $b) ?? (string) $b;
+    $ta = preg_match('/(\d{2}:\d{2})/', $ca, $ma) ? $ma[1] : $ca;
+    $tb = preg_match('/(\d{2}:\d{2})/', $cb, $mb) ? $mb[1] : $cb;
+    return strcmp($ta, $tb) ?: strcmp((string) $a, (string) $b);
+});
 
 $pageTitle = 'Edit Timetable — ' . ($school['name'] ?? '');
 require __DIR__ . '/_header.php';
@@ -111,6 +138,7 @@ foreach ($slots as $slot) {
 <p class="empty">No slots for this selection. <a href="generate.php">Generate</a></p>
 <?php else: ?>
 <div id="move-feedback"></div>
+<input type="hidden" id="csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
 <div style="margin-bottom:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
 <button type="button" class="btn btn-secondary" id="swapBtn" onclick="toggleSwap()">Enable Swap Mode</button>
 <span id="swap-status" class="empty">Click a lesson to select it for move</span>
@@ -134,7 +162,12 @@ foreach ($slots as $slot) {
 <?php if ($slot): ?>
 <div data-slot-id="<?php echo (int)$slot['id']; ?>" onclick="onSlotClick(<?php echo (int)$slot['id']; ?>)" style="cursor:pointer;padding:6px;border-radius:6px;background:#fff;border:1px solid #e2e8f0;">
 <div style="font-weight:700;"><?php echo htmlspecialchars($slot['subject_name'] ?? '—'); ?></div>
+<?php if ($editMode === 'teacher' || $editMode === 'room' || $editMode === 'subject'): ?>
+<div style="font-size:0.75rem;color:#0f172a;"><?php echo htmlspecialchars($slot['class_name'] ?? '—'); ?></div>
+<?php endif; ?>
+<?php if ($editMode === 'class' || $editMode === 'room' || $editMode === 'subject'): ?>
 <div style="font-size:0.75rem;color:#475569;"><?php echo htmlspecialchars($slot['teacher_name'] ?? '—'); ?></div>
+<?php endif; ?>
 <div style="font-size:0.75rem;color:#1d4ed8;"><?php echo htmlspecialchars($slot['room_name'] ?? ''); ?></div>
 <?php if (!empty($slot['is_manual_override'])): ?><span style="font-size:0.7rem;color:#d97706;">Manual</span><?php endif; ?>
 </div>
@@ -152,6 +185,7 @@ foreach ($slots as $slot) {
 </div>
 <script>
 let swapMode = false, selectedSlotId = null, selectedForMove = null;
+function csrf(){ return document.getElementById('csrf_token')?.value || ''; }
 function toggleSwap(){
   swapMode = !swapMode; selectedSlotId = null;
   document.getElementById('swapBtn').textContent = swapMode ? 'Disable Swap Mode' : 'Enable Swap Mode';
@@ -177,7 +211,8 @@ function onSlotClick(id){
   document.getElementById('swap-status').textContent = 'Lesson selected — click an empty cell to move';
 }
 async function doSwap(a,b){
-  const fd = new FormData(); fd.append('action','swap_slots'); fd.append('slot_id_1',a); fd.append('slot_id_2',b);
+  const fd = new FormData(); fd.append('action','swap_slots'); fd.append('_csrf_token', csrf());
+  fd.append('slot_id_1',a); fd.append('slot_id_2',b);
   const res = await fetch('edit_actions.php',{method:'POST',body:fd});
   const data = await res.json();
   const f = document.getElementById('move-feedback');
@@ -187,7 +222,8 @@ async function doSwap(a,b){
 async function moveSelectedToEmpty(el){
   const id = selectedForMove || selectedSlotId;
   if (!id){ document.getElementById('move-feedback').innerHTML='<div class="error">Click a lesson first, then an empty cell.</div>'; return; }
-  const fd = new FormData(); fd.append('action','move_slot'); fd.append('slot_id',id);
+  const fd = new FormData(); fd.append('action','move_slot'); fd.append('_csrf_token', csrf());
+  fd.append('slot_id',id);
   fd.append('new_day', el.getAttribute('data-day')); fd.append('new_hour_slot', el.getAttribute('data-hour'));
   const res = await fetch('edit_actions.php',{method:'POST',body:fd});
   const data = await res.json();
