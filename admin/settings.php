@@ -124,4 +124,10 @@ require __DIR__ . '/_header.php';
         <?php echo (int) $readiness['stats']['subjects']; ?> subjects</p>
 </div>
 
+<div class="card">
+    <h2>Account</h2>
+    <p class="empty" style="margin-bottom:12px;">Update the password for your school admin login.</p>
+    <a class="btn" href="change_password.php">Change password</a>
+</div>
+
 <?php require __DIR__ . '/_footer.php'; ?>
