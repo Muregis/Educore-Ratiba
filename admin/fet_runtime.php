@@ -97,24 +97,35 @@ function diagnoseFetFailureV2(string $rawOutput, array $activityMeta): array
 
 function resolveFetEnginePath(string $configured): string
 {
-    $candidates = array_filter(array_unique([
+    $isWindowsOs = PHP_OS_FAMILY === 'Windows';
+    $looksWindows = static function (string $path): bool {
+        return (bool) preg_match('#^[A-Za-z]:[\\/]#', $path) || str_contains($path, '\\\\');
+    };
+
+    $raw = [
         $configured,
         getenv('FET_ENGINE_PATH') ?: null,
         __DIR__ . '/../engine/fet-cl',
         dirname(__DIR__) . '/engine/fet-cl',
         '/usr/bin/fet-cl',
         '/usr/local/bin/fet-cl',
-    ]));
+    ];
 
-    foreach ($candidates as $path) {
-        if (is_string($path) && $path !== '' && file_exists($path) && is_executable($path)) {
-            return $path;
-        }
-    }
-
-    foreach ($candidates as $path) {
+    $candidates = [];
+    foreach ($raw as $path) {
         if (!is_string($path) || $path === '') {
             continue;
+        }
+        if (!$isWindowsOs && $looksWindows($path)) {
+            continue;
+        }
+        $candidates[$path] = true;
+    }
+    $candidates = array_keys($candidates);
+
+    foreach ($candidates as $path) {
+        if (file_exists($path) && is_executable($path)) {
+            return $path;
         }
         $real = @realpath($path);
         if ($real && is_executable($real)) {
@@ -122,7 +133,10 @@ function resolveFetEnginePath(string $configured): string
         }
     }
 
-    return $configured !== '' ? $configured : '/usr/bin/fet-cl';
+    if (!$isWindowsOs) {
+        return '/usr/bin/fet-cl';
+    }
+    return $configured !== '' ? $configured : 'fet-cl.exe';
 }
 
 function runCommandCapture(string $binary, array $args): array
