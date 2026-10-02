@@ -1,0 +1,34 @@
+name: Uptime check
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Liveness
+        run: |
+          set -e
+          URL="${{ secrets.PRODUCTION_URL }}"
+          if [ -z "$URL" ]; then
+            URL="https://educore-ratiba.onrender.com"
+          fi
+          code=$(curl -sS -o /tmp/h.json -w "%{http_code}" "$URL/health.php")
+          echo "liveness HTTP $code"
+          cat /tmp/h.json
+          test "$code" = "200"
+
+      - name: Readiness (DB)
+        run: |
+          set -e
+          URL="${{ secrets.PRODUCTION_URL }}"
+          if [ -z "$URL" ]; then
+            URL="https://educore-ratiba.onrender.com"
+          fi
+          code=$(curl -sS -o /tmp/r.json -w "%{http_code}" "$URL/health.php?ready=1")
+          echo "readiness HTTP $code"
+          cat /tmp/r.json
+          test "$code" = "200"

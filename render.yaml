@@ -16,6 +16,8 @@ services:
     envVars:
       - key: APP_ENV
         value: online
+      - key: STATUS_PUBLIC
+        value: "1"
       - key: DB_DRIVER
         value: pgsql
       - key: DB_HOST
