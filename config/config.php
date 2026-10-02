@@ -93,40 +93,57 @@ class Config {
     }
     
     /**
-     * Get FET engine path based on OS and environment
+     * True if a path looks like a Windows absolute path (C:\... or C:/...).
+     * Used so Linux production ignores accidental Laragon env vars.
      */
+    private static function isWindowsPath(string $path): bool {
+        return (bool) preg_match('#^[A-Za-z]:[\\/]#', $path) || str_contains($path, '\\\\');
+    }
+
     private static function getEnginePath(string $baseDir): string {
-        // Check if explicitly set via environment (for online deployment)
+        $isWindows = PHP_OS_FAMILY === 'Windows';
+
+        // Env override — but never accept a Windows path on Linux (common Render misconfig
+        // when local .env with Laragon paths is copied into the service).
         $envPath = getenv('FET_ENGINE_PATH');
-        if ($envPath !== false) {
-            // In online environment, don't check file_exists as it may not be accessible
-            // from the current working directory during config loading
-            return $envPath;
+        if ($envPath !== false && $envPath !== '') {
+            if ($isWindows || !self::isWindowsPath($envPath)) {
+                // Prefer env when the file actually exists; otherwise keep searching.
+                if (file_exists($envPath) && is_executable($envPath)) {
+                    return $envPath;
+                }
+                if ($isWindows) {
+                    return $envPath; // local Windows: keep env even if missing (dev hint)
+                }
+                // Linux: ignore unusable / Windows-looking env and fall through
+            }
         }
-        
-        // Auto-detect based on OS
-        if (PHP_OS_FAMILY === 'Windows') {
+
+        if ($isWindows) {
             $windowsPath = $baseDir . '/engine/fet-cl.exe';
             if (file_exists($windowsPath)) {
                 return $windowsPath;
             }
-            // Fallback for Laragon structure
             $laragonPath = 'C:/laragon/www/fet-timetable/engine/fet-cl.exe';
             if (file_exists($laragonPath)) {
                 return $laragonPath;
             }
-        } else {
-            // Linux/Unix
-            $linuxPath = $baseDir . '/engine/fet-cl';
-            if (file_exists($linuxPath)) {
-                return $linuxPath;
+            return $windowsPath;
+        }
+
+        // Linux / production Docker: prefer system binary from apt install fet
+        foreach ([
+            $baseDir . '/engine/fet-cl',
+            '/usr/bin/fet-cl',
+            '/usr/local/bin/fet-cl',
+        ] as $candidate) {
+            if (file_exists($candidate) && is_executable($candidate)) {
+                return $candidate;
             }
         }
-        
-        // Return default path (will need to be configured)
-        return PHP_OS_FAMILY === 'Windows' 
-            ? $baseDir . '/engine/fet-cl.exe' 
-            : $baseDir . '/engine/fet-cl';
+
+        // Default under app (entrypoint may copy /usr/bin/fet-cl here at start)
+        return $baseDir . '/engine/fet-cl';
     }
     
     /**
@@ -134,11 +151,18 @@ class Config {
      */
     private static function getOutputPath(string $baseDir): string {
         $envPath = getenv('OUTPUT_DIR');
-        if ($envPath !== false) {
-            return $envPath;
+        if ($envPath !== false && $envPath !== '') {
+            // Ignore Windows OUTPUT_DIR on Linux (same Laragon env leak as FET_ENGINE_PATH)
+            if (PHP_OS_FAMILY === 'Windows' || !self::isWindowsPath($envPath)) {
+                return $envPath;
+            }
         }
-        
-        return $baseDir . '/output';
+
+        $default = $baseDir . '/output';
+        if (!is_dir($default)) {
+            @mkdir($default, 0777, true);
+        }
+        return $default;
     }
     
     /**
