@@ -1,1 +1,1 @@
-Redeploy 2026-10-02T06:42Z — aSc view grid with BREAK/LUNCH
+Redeploy 2026-10-02T07:02Z reports PG-safe + class coverage
