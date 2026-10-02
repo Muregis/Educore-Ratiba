@@ -8,7 +8,6 @@ $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
 
-// Summary stats — use TRUE/FALSE for Postgres boolean columns
 $counts = [];
 foreach ([
     'teachers'  => 'SELECT COUNT(*) FROM teachers WHERE school_id = ?',
@@ -22,12 +21,10 @@ foreach ([
     $counts[$key] = (int) $s->fetchColumn();
 }
 
-// Latest generation
 $stmt = db()->prepare('SELECT * FROM generated_timetables WHERE school_id = ? ORDER BY generated_at DESC LIMIT 1');
 $stmt->execute([$schoolId]);
 $latestGeneration = $stmt->fetch();
 
-// Setup checklist: determine readiness
 $steps = [
     ['label' => 'Add Teachers',   'done' => $counts['teachers'] > 0,  'link' => 'teachers.php',  'hint' => 'Add at least one teacher to get started.'],
     ['label' => 'Add Rooms',      'done' => $counts['rooms'] > 0,     'link' => 'rooms.php',     'hint' => 'Add classrooms, labs, and other spaces.'],
@@ -44,6 +41,13 @@ $setupPct    = (int) round($totalDone / $totalSteps * 100);
 
 $pageTitle = 'Dashboard — ' . $school['name'];
 require __DIR__ . '/_header.php';
+
+$genWhen = '';
+if ($latestGeneration) {
+    $genWhen = function_exists('formatAppDateTime')
+        ? formatAppDateTime($latestGeneration['generated_at'])
+        : date('j M Y, g:i A', strtotime($latestGeneration['generated_at']));
+}
 ?>
 
 <?php if (!$isSetupDone): ?>
@@ -73,7 +77,7 @@ require __DIR__ . '/_header.php';
             $isNext = !$isDone && !$nextFound;
             if ($isNext) $nextFound = true;
             $stateClass = $isDone ? 'step-done' : ($isNext ? 'step-next' : 'step-pending');
-            $stateIcon  = $isDone ? '✓' : ($isNext ? ($i+1) : ($i+1));
+            $stateIcon  = $isDone ? '✓' : ($i+1);
         ?>
         <div class="setup-step">
             <div class="step-number <?php echo $stateClass; ?>"><?php echo $stateIcon; ?></div>
@@ -126,7 +130,7 @@ require __DIR__ . '/_header.php';
     <div class="gen-info">
         <div class="gen-row">
             <span class="gen-label">Generated</span>
-            <span><?php echo htmlspecialchars(date('j M Y, g:i A', strtotime($latestGeneration['generated_at']))); ?></span>
+            <span><?php echo htmlspecialchars($genWhen); ?> <span style="color:var(--text-muted);font-size:0.8em">(EAT)</span></span>
         </div>
         <div class="gen-row">
             <span class="gen-label">Status</span>
@@ -171,7 +175,6 @@ require __DIR__ . '/_header.php';
 <?php endif; ?>
 
 <style>
-/* Stats Grid */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -203,7 +206,6 @@ require __DIR__ . '/_header.php';
     font-weight: 800;
     color: var(--primary);
     line-height: 1;
-    letter-spacing: -0.03em;
 }
 .stat-label {
     font-size: 0.78rem;
@@ -211,14 +213,8 @@ require __DIR__ . '/_header.php';
     font-weight: 500;
     margin-top: 2px;
 }
-.stat-arrow {
-    color: var(--primary);
-    font-size: 1.1rem;
-    opacity: 0.5;
-}
+.stat-arrow { color: var(--primary); font-size: 1.1rem; opacity: 0.5; }
 .stat-card:hover .stat-arrow { opacity: 1; }
-
-/* Setup Card */
 .setup-card { border-left: 4px solid var(--primary); }
 .setup-header {
     display: flex;
@@ -228,21 +224,13 @@ require __DIR__ . '/_header.php';
 }
 .setup-progress-ring { position: relative; width: 72px; height: 72px; flex-shrink: 0; }
 .ring-label {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--primary);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700; color: var(--primary);
 }
-
-/* Gen Info */
 .gen-info { display: flex; flex-direction: column; gap: 10px; }
 .gen-row { display: flex; align-items: center; gap: 12px; font-size: 0.875rem; }
 .gen-label { color: var(--text-muted); font-weight: 500; width: 110px; flex-shrink: 0; }
-
 @media (max-width: 640px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .setup-header { flex-direction: column; gap: 12px; }
