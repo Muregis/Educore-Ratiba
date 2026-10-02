@@ -1,1 +1,1 @@
-Redeploy trigger 2026-10-02T06:20Z — path fix for FET_ENGINE_PATH Laragon leak.
+Redeploy 2026-10-02T06:42Z — aSc view grid with BREAK/LUNCH
