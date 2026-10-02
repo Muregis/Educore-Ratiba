@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-// Load centralized error handler (must be first)
 require_once __DIR__ . '/error_handler.php';
 require_once __DIR__ . '/../config/config.php';
 
-// Initialize Kenyan localization
 require_once __DIR__ . '/localization.php';
 initializeKenyanLocalization();
 
@@ -33,6 +31,8 @@ function db(): PDO
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES   => true,
                 ]);
+                // East Africa Time so generated_at / created_at match local clock
+                $pdo->exec("SET TIME ZONE 'Africa/Nairobi'");
             } else {
                 $portPart = $port !== '' ? "port={$port};" : '';
                 $dsn = "mysql:host={$host};{$portPart}dbname={$dbname};charset=utf8mb4";
@@ -64,9 +64,6 @@ function db(): PDO
                 throw new PDOException(
                     "Supabase pooler rejected the connection: missing tenant identifier.\n"
                     . "Set DB_USER to: postgres.YOUR_PROJECT_REF\n"
-                    . "Example: postgres.wofnvdfnsuevnebpkdsw\n"
-                    . "Find PROJECT_REF in Supabase → Project Settings → General (Reference ID),\n"
-                    . "or copy the full Session pooler connection string from the Connect dialog.\n\n"
                     . "Original error: " . $msg,
                     (int) $e->getCode(),
                     $e
@@ -245,7 +242,6 @@ function getSubjectsForClass(int $schoolId, int $classId): array
 
 function getTeacherTotalWeeklyLessons(int $schoolId, int $teacherId): int
 {
-    // Prefer weighted load (duration_slots). Fall back if column not migrated yet.
     try {
         $stmt = db()->prepare(
             'SELECT SUM(s.lessons_per_week * COALESCE(s.duration_slots, 1)) as total
@@ -267,5 +263,4 @@ function getTeacherTotalWeeklyLessons(int $schoolId, int $teacherId): int
     }
 }
 
-// Flexible school settings, day names, readiness scoring
 require_once __DIR__ . '/school_flexibility.php';
