@@ -72,37 +72,29 @@ require __DIR__ . '/_header.php';
 
 <div class="card">
     <h2>Scheduling settings</h2>
-    <p class="empty">Tune Ratiba for your school size and calendar. Works for small primary schools through large multi-stream secondary campuses.</p>
-
+    <p class="empty">Tune Ratiba for your school size and calendar.</p>
     <?php if ($error): ?><div class="error"><?php echo $error; ?></div><?php endif; ?>
     <?php if ($success): ?><div class="success"><?php echo htmlspecialchars($success); ?></div><?php endif; ?>
-
     <form method="post">
         <input type="hidden" name="action" value="save_settings">
-
         <label for="school_type">School type</label>
         <select id="school_type" name="school_type">
             <?php foreach (['primary' => 'Primary', 'secondary' => 'Secondary', 'mixed' => 'Mixed (primary + secondary)', 'tertiary' => 'Tertiary / college', 'international' => 'International', 'other' => 'Other'] as $val => $lab): ?>
                 <option value="<?php echo $val; ?>" <?php echo $currentType === $val ? 'selected' : ''; ?>><?php echo $lab; ?></option>
             <?php endforeach; ?>
         </select>
-
         <label for="days_per_week">Teaching days per week</label>
         <select id="days_per_week" name="days_per_week">
             <option value="5" <?php echo $currentDays === 5 ? 'selected' : ''; ?>>5 days (Mon–Fri)</option>
             <option value="6" <?php echo $currentDays === 6 ? 'selected' : ''; ?>>6 days (Mon–Sat)</option>
             <option value="7" <?php echo $currentDays === 7 ? 'selected' : ''; ?>>7 days (full week)</option>
         </select>
-
         <label for="generation_time_limit">Generator time limit (seconds)</label>
         <input type="number" id="generation_time_limit" name="generation_time_limit" min="60" max="1800" value="<?php echo $currentLimit; ?>">
-        <p class="empty" style="margin-top:4px">Small schools: 120–300. Large campuses (40+ classes): 600–1800.</p>
-
         <label style="display:flex;align-items:center;gap:8px;margin-top:16px">
             <input type="checkbox" name="prefer_spread" value="1" <?php echo $currentSpread ? 'checked' : ''; ?>>
             Prefer spreading subject lessons across different days
         </label>
-
         <button type="submit" style="margin-top:20px">Save settings</button>
     </form>
 </div>
@@ -118,10 +110,13 @@ require __DIR__ . '/_header.php';
             </li>
         <?php endforeach; ?>
     </ul>
-    <p class="empty">Stats: <?php echo (int) $readiness['stats']['classes']; ?> classes ·
-        <?php echo (int) $readiness['stats']['teachers']; ?> teachers ·
-        <?php echo (int) $readiness['stats']['rooms']; ?> rooms ·
-        <?php echo (int) $readiness['stats']['subjects']; ?> subjects</p>
+</div>
+
+<div class="card">
+    <h2>Data backup & portability</h2>
+    <p class="empty">Download a JSON snapshot of this school (teachers, rooms, bands, classes, subjects, calendar, latest timetable). Store it off-platform for compliance.</p>
+    <a class="btn" href="backup_export.php">⬇ Download school backup (JSON)</a>
+    <p class="empty" style="margin-top:12px">Platform-level Postgres dumps are run by ops (docs/SaaS_OPS.md).</p>
 </div>
 
 <div class="card">
