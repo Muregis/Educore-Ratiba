@@ -1,7 +1,6 @@
 <?php
 /**
  * Kenyan Localization Helper
- * Applies Kenyan timezone and date formats throughout the system
  */
 
 function setKenyanTimezone() {
@@ -31,8 +30,8 @@ function formatKenyanTime($time) {
 
 /**
  * Display datetime in East Africa Time (Africa/Nairobi).
- * Bare Y-m-d H:i:s from Postgres is treated as UTC then converted (+3h).
- * Example: "2 Oct 2026, 10:42 AM"
+ * With Postgres SET TIME ZONE 'Africa/Nairobi', bare Y-m-d H:i:s values
+ * are already local — only convert when an explicit offset/Z is present.
  */
 function formatAppDateTime($datetime): string
 {
@@ -45,12 +44,11 @@ function formatAppDateTime($datetime): string
             $dt = DateTimeImmutable::createFromInterface($datetime)->setTimezone($tz);
         } else {
             $raw = trim((string) $datetime);
-            if (preg_match('/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(\.\d+)?$/', $raw)) {
-                $dt = new DateTimeImmutable($raw, new DateTimeZone('UTC'));
-                $dt = $dt->setTimezone($tz);
-            } else {
+            if (preg_match('/([Zz]|[+-]\d{2}(:?\d{2})?)$/', $raw)) {
                 $dt = new DateTimeImmutable($raw);
                 $dt = $dt->setTimezone($tz);
+            } else {
+                $dt = new DateTimeImmutable($raw, $tz);
             }
         }
         return $dt->format('j M Y, g:i A');
@@ -70,12 +68,11 @@ function formatAppDate($date): string
             $dt = DateTimeImmutable::createFromInterface($date)->setTimezone($tz);
         } else {
             $raw = trim((string) $date);
-            if (preg_match('/^\d{4}-\d{2}-\d{2}/', $raw)) {
-                $dt = new DateTimeImmutable($raw, new DateTimeZone('UTC'));
-                $dt = $dt->setTimezone($tz);
-            } else {
+            if (preg_match('/([Zz]|[+-]\d{2}(:?\d{2})?)$/', $raw)) {
                 $dt = new DateTimeImmutable($raw);
                 $dt = $dt->setTimezone($tz);
+            } else {
+                $dt = new DateTimeImmutable($raw, $tz);
             }
         }
         return $dt->format('j M Y');
