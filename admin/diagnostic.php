@@ -8,6 +8,7 @@ session_start();
 require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/generate_engine.php';
+require_once __DIR__ . '/fet_runtime.php';
 
 header('Content-Type: text/plain; charset=utf-8');
 
@@ -33,7 +34,14 @@ echo "proc_open: " . (function_exists('proc_open') && !in_array('proc_open', arr
 $configured = (string) Config::get('paths.engine');
 $resolved = function_exists('resolveFetEnginePath') ? resolveFetEnginePath($configured) : $configured;
 echo "Configured engine path: $configured\n";
+if (PHP_OS_FAMILY !== 'Windows' && preg_match('#^[A-Za-z]:[\\/]#', $configured)) {
+    echo "WARNING: configured path looks like Windows/Laragon — unset FET_ENGINE_PATH on this host.\n";
+}
+
 echo "Resolved engine path:   $resolved\n";
+foreach (['/usr/bin/fet-cl', '/usr/local/bin/fet-cl', dirname(__DIR__) . '/engine/fet-cl'] as $cand) {
+    echo "  candidate $cand : " . (file_exists($cand) ? (is_executable($cand) ? 'OK' : 'not executable') : 'missing') . "\n";
+}
 echo "file_exists: " . (file_exists($resolved) ? 'yes' : 'NO') . "\n";
 echo "is_executable: " . (is_executable($resolved) ? 'yes' : 'NO') . "\n";
 if (is_link($resolved) || is_link($configured)) {
