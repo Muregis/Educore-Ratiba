@@ -1,6 +1,4 @@
 <?php
-// Temporary redirect note: full file restored via multi-part
-// See edit_actions.php for working move/swap API.
 declare(strict_types=1);
 session_start();
 require_once __DIR__ . '/../db/db.php';
@@ -20,7 +18,6 @@ $latestGeneration = $stmt->fetch();
 
 $editMode = $_GET['mode'] ?? 'class';
 $selectedId = (int)($_GET['selected_id'] ?? 0);
-$previewMode = isset($_GET['preview']) && $_GET['preview'] === '1';
 $error = null;
 
 $editItems = [];
@@ -53,6 +50,24 @@ if ($latestGeneration && $selectedId !== 0) {
 $days = getSchoolDayNames($schoolId);
 if (count($days) < 1) $days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
 $hourSlotsSorted = array_keys($hourSlotsInUse);
+// Class mode: only hours for this class's band
+if ($editMode === 'class' && $selectedId !== 0) {
+    $bandPrefix = '';
+    try {
+        $bc = db()->prepare('SELECT b.band_key FROM classes c JOIN bands b ON c.band_id = b.id WHERE c.id = ? AND c.school_id = ?');
+        $bc->execute([$selectedId, $schoolId]);
+        $bandPrefix = (string) ($bc->fetchColumn() ?: '');
+    } catch (Throwable) {}
+    if ($bandPrefix !== '') {
+        $hourSlotsSorted = array_values(array_filter(
+            $hourSlotsSorted,
+            static function ($h) use ($bandPrefix) {
+                $h = (string) $h;
+                return str_starts_with($h, $bandPrefix . '__') || strpos($h, '__') === false;
+            }
+        ));
+    }
+}
 sort($hourSlotsSorted);
 
 $pageTitle = 'Edit Timetable — ' . ($school['name'] ?? '');
