@@ -32,10 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'prepa
         foreach ($actions as $a) {
             $adminMessages[] = ['type' => 'success', 'text' => $a];
         }
-        $adminMessages[] = [
-            'type' => 'success',
-            'text' => 'Preparation done. Review readiness below, then click Regenerate.',
-        ];
+        $adminMessages[] = ['type' => 'success', 'text' => 'Preparation done. Review readiness below, then click Regenerate.'];
     } catch (Throwable $e) {
         $adminMessages[] = ['type' => 'error', 'text' => 'Prepare failed: ' . $e->getMessage()];
     }
@@ -48,10 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'rebal
         foreach ($actions as $a) {
             $adminMessages[] = ['type' => 'success', 'text' => $a];
         }
-        $adminMessages[] = [
-            'type' => 'success',
-            'text' => 'Rebalance complete. Readiness should improve — click Regenerate next.',
-        ];
+        $adminMessages[] = ['type' => 'success', 'text' => 'Rebalance complete. Readiness should improve — click Regenerate next.'];
         $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
         $stmt->execute([$schoolId]);
         $school = $stmt->fetch();
@@ -131,10 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                 $adminMessages[] = ['type' => 'error', 'text' => $line];
             }
             if (empty($adminMessages)) {
-                $adminMessages[] = [
-                    'type' => 'error',
-                    'text' => 'Timetable generation failed. Check teacher loads, rooms, and subject assignments, then try again.',
-                ];
+                $adminMessages[] = ['type' => 'error', 'text' => 'Timetable generation failed. Check teacher loads, rooms, and subject assignments, then try again.'];
             }
         }
 
@@ -197,11 +188,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
             if ($result['solution_xml_path'] !== null) {
                 $slotRows = parseFetSolutionIntoSlots($result['solution_xml_path'], $activityMeta, $schoolId);
                 storeScheduledSlots($generatedTimetableId, $slotRows);
+                require_once __DIR__ . '/purge_cross_band_slots.php';
+                $purged = purgeCrossBandSlots($generatedTimetableId, $schoolId);
+                if ($purged > 0) {
+                    $adminMessages[] = ['type' => 'success', 'text' => "Removed {$purged} cross-band slot(s) that did not match class band hours."];
+                }
                 if (empty($slotRows)) {
-                    $adminMessages[] = [
-                        'type' => 'error',
-                        'text' => 'The timetable generated, but its details could not be loaded for editing.',
-                    ];
+                    $adminMessages[] = ['type' => 'error', 'text' => 'The timetable generated, but its details could not be loaded for editing.'];
                 } else {
                     $adminMessages[] = ['type' => 'success', 'text' => count($slotRows) . ' lessons scheduled. View or edit them from the View / Edit pages.'];
                 }
@@ -209,10 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
         }
       } catch (Throwable $genEx) {
         error_log('Generate failed: ' . $genEx->getMessage());
-        $adminMessages[] = [
-            'type' => 'error',
-            'text' => 'Generation error: ' . $genEx->getMessage(),
-        ];
+        $adminMessages[] = ['type' => 'error', 'text' => 'Generation error: ' . $genEx->getMessage()];
       }
     }
 }
@@ -300,7 +290,7 @@ require __DIR__ . '/_header.php';
             <tbody>
                 <?php foreach ($history as $h): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars(date('j M Y, g:i A', strtotime($h['generated_at']))); ?></td>
+                        <td><?php echo htmlspecialchars(function_exists('formatAppDateTime') ? formatAppDateTime($h['generated_at']) : date('j M Y, g:i A', strtotime($h['generated_at']))); ?></td>
                         <td><?php echo htmlspecialchars(ucfirst($h['status'])); ?></td>
                         <td><?php echo htmlspecialchars($h['triggered_by_type']); ?></td>
                     </tr>
