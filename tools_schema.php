@@ -1,55 +1,35 @@
 <?php
 declare(strict_types=1);
-// Loads db/schema.sql into the sandbox MySQL. Splits on ';' only when
-// it's outside single-quoted strings (COMMENT '...;...' broke the naive
-// split), after stripping comment lines.
-$pdo = new PDO('mysql:host=127.0.0.1;port=3308', 'root', '');
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+    header('Content-Type: text/plain; charset=utf-8');
+    echo "Not found.\n";
+    exit;
+}
+// Loads db/schema.sql into the sandbox MySQL. CLI only.
+$host = $argv[1] ?? '127.0.0.1';
+$port = $argv[2] ?? '3308';
+$user = $argv[3] ?? 'root';
+$pass = $argv[4] ?? '';
+
+$pdo = new PDO("mysql:host={$host};port={$port}", $user, $pass);
 $pdo->exec('CREATE DATABASE IF NOT EXISTS fet_timetable CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
 $pdo->exec('USE fet_timetable');
 
 $schema = file_get_contents(__DIR__ . '/db/schema.sql');
-$schema = preg_replace('/CREATE DATABASE[^;]+;/i', '', $schema);
-$schema = preg_replace('/^USE\s+\w+;\s*$/mi', '', $schema);
-
-$lines = array_filter(
-    explode("\n", $schema),
-    static fn($l) => trim($l) !== '' && !preg_match('/^\s*--/', $l)
-);
-$schema = implode("\n", $lines);
-
-// Split on ; not inside quotes
-$stmts = [];
-$buf = '';
-$inQuote = false;
-$len = strlen($schema);
-for ($i = 0; $i < $len; $i++) {
-    $ch = $schema[$i];
-    if ($ch === "'" && ($i === 0 || $schema[$i - 1] !== '\\')) {
-        $inQuote = !$inQuote;
-    }
-    if ($ch === ';' && !$inQuote) {
-        $stmts[] = trim($buf);
-        $buf = '';
-    } else {
-        $buf .= $ch;
-    }
+if ($schema === false) {
+    fwrite(STDERR, "schema.sql missing\n");
+    exit(1);
 }
-if (trim($buf) !== '') {
-    $stmts[] = trim($buf);
-}
-
-$errors = 0;
-foreach ($stmts as $stmt) {
-    if ($stmt === '') {
-        continue;
-    }
+$schema = preg_replace('/^--.*$/m', '', $schema);
+$parts = preg_split('/;(?=(?:[^\']*\'[^\']*\')*[^\']*$)/', $schema);
+foreach ($parts as $sql) {
+    $sql = trim($sql);
+    if ($sql === '') continue;
     try {
-        $pdo->exec($stmt);
-    } catch (PDOException $e) {
-        $errors++;
-        echo 'ERR: ', substr($e->getMessage(), 0, 140), PHP_EOL;
-        echo '  stmt: ', substr(preg_replace('/\s+/', ' ', $stmt), 0, 100), PHP_EOL;
+        $pdo->exec($sql);
+    } catch (Throwable $e) {
+        fwrite(STDERR, $e->getMessage() . "\n");
     }
 }
-$n = $pdo->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='fet_timetable'")->fetchColumn();
-echo "tables: {$n}, errors: {$errors}", PHP_EOL;
+echo "Schema loaded.\n";
