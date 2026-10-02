@@ -31,7 +31,6 @@ function db(): PDO
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES   => true,
                 ]);
-                // East Africa Time so generated_at / created_at match local clock
                 $pdo->exec("SET TIME ZONE 'Africa/Nairobi'");
             } else {
                 $portPart = $port !== '' ? "port={$port};" : '';
@@ -175,7 +174,6 @@ function logAudit(
             $_SERVER['HTTP_USER_AGENT'] ?? null,
         ]);
     } catch (Throwable) {
-        // Silently ignore
     }
 }
 
@@ -188,6 +186,11 @@ function requireLoginAndGetSchoolId(): int
 {
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
+    }
+
+    // Enforce CSRF on state-changing requests for authenticated admins
+    if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && function_exists('verifyCsrf')) {
+        verifyCsrf();
     }
 
     if (isset($_SESSION['school_admin_id']) && isset($_SESSION['school_id'])) {
