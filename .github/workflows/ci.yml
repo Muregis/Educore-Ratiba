@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  php:
+    name: PHP syntax & Composer
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer:v2
+          coverage: none
+
+      - name: Validate composer.json
+        run: |
+          if [ -f composer.json ]; then
+            composer validate --no-check-publish --no-check-all || composer validate --no-check-publish
+          fi
+
+      - name: Install dependencies (if lock present)
+        run: |
+          if [ -f composer.lock ]; then
+            composer install --no-interaction --prefer-dist --no-progress
+          fi
+
+      - name: PHP syntax check on entrypoints
+        run: |
+          set -e
+          for f in index.php login.php logout.php health.php status.php sso.php; do
+            if [ -f "$f" ]; then
+              php -l "$f"
+            fi
+          done
+          if [ -d admin ]; then
+            find admin -name '*.php' -print0 | xargs -0 -n1 php -l
+          fi
