@@ -5,12 +5,18 @@
 !.env.*.example
 !.env.*.template
 
+# Local DB credentials (never commit real secrets)
+db/db.php
+!db/db.example.php
+
 # Database dumps (keep schema only)
 *.sql
 !db/schema.sql
 !db/schema_postgres.sql
 
-# FET engine output
+# FET engine binary & output (binary is user-supplied)
+engine/fet-cl*
+engine/*.exe
 output/
 data/last_run*.log
 
