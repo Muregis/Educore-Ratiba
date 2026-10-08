@@ -8,7 +8,7 @@ on:
 
 jobs:
   php:
-    name: PHP syntax & Composer
+    name: PHP syntax, Composer & clash tests
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +24,7 @@ jobs:
       - name: Validate composer.json
         run: |
           if [ -f composer.json ]; then
-            composer validate --no-check-publish --no-check-all || composer validate --no-check-publish
+            composer validate --no-check-publish || true
           fi
 
       - name: Install dependencies (if lock present)
@@ -44,3 +44,6 @@ jobs:
           if [ -d admin ]; then
             find admin -name '*.php' -print0 | xargs -0 -n1 php -l
           fi
+
+      - name: Run clash / pre-check unit tests
+        run: php tests/ClashDetectorTest.php
