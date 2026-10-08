@@ -15,7 +15,7 @@ Kenyan schools need conflict-free weekly timetables that respect grade-band less
 - **Whole-school FET runs** — one generation pass per school so shared teachers/rooms cannot double-book across classes
 - **Multi-school isolation** — each school has its own teachers, rooms, classes, subjects, and admin login
 - **Pre-flight checks** — class load vs band slots; teacher load vs maximum before invoking FET
-- **Manual adjustments** with live clash validation (teacher / room / class)
+- **Manual adjustments** with live clash validation (teacher / room / class) in `admin/edit_actions.php`
 - **PDF / print export** (Dompdf)
 - **Offline / local-install mode** with conservative sync to a central server when online
 - **CBC + 8-4-4 + tertiary exam-slot** band templates
@@ -36,21 +36,23 @@ School admin (PHP HTML)
 
 ## Testing & CI
 
+Clash rules are covered by pure-PHP unit tests (no DB, no FET binary, no secrets):
+
 ```bash
 php tests/ClashDetectorTest.php
 ```
 
-| Test | Result |
-|------|--------|
-| Teacher double-booking | Covered |
-| Room double-booking | Covered |
-| Class double-booking | Covered |
-| Valid schedule conflict-free | Covered |
-| Teacher / class workload pre-checks | Covered |
+| Scenario | Covered |
+|----------|---------|
+| Teacher A booked Mon P2 in two classes | Yes |
+| Room 1 double-booked same day/period | Yes |
+| Class 7A two subjects same slot | Yes |
+| Valid multi-class parallel schedule | Yes |
+| Teacher / class workload pre-checks | Yes |
 
-CI (`.github/workflows/ci.yml`): PHP syntax + Composer + clash unit tests. No production data or secrets required.
+Manual edit path (`admin/edit_actions.php`) also rejects teacher/room/class clashes against `scheduled_slots` at runtime.
 
-Wire `ClashDetector` into admin edit/generate paths as the next step so UI and tests share the same rules.
+CI (`.github/workflows/ci.yml` on **main**): PHP syntax + Composer + `php tests/ClashDetectorTest.php`.
 
 ## Security
 
@@ -68,11 +70,12 @@ git clone https://github.com/Muregis/Educore-Ratiba.git
 cd Educore-Ratiba
 composer install
 mysql -u root -p < db/schema.sql
+php tests/ClashDetectorTest.php   # should print all PASS
 ```
 
 ## Status
 
-Active development. Clash unit tests live on `test/clash-precheck-suite`.
+Active development. Clash unit tests and CI are on **main**.
 
 ## License
 
