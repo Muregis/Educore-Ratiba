@@ -44,10 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'creat
         $error = 'Band key and label are required.';
     } else {
         try {
+            $defaultBreak = '[{"time":"10:00-10:20","label":"BREAK"},{"time":"12:20-14:00","label":"LUNCH"}]';
             $stmt = db()->prepare(
-                'INSERT INTO bands (school_id, band_key, label, lessons_per_day, lesson_length_minutes, active) VALUES (?, ?, ?, ?, ?, TRUE)'
+                'INSERT INTO bands (school_id, band_key, label, lessons_per_day, lesson_length_minutes, day_start_time, break_config, active) VALUES (?, ?, ?, ?, ?, ?, ?, TRUE)'
             );
-            $stmt->execute([$schoolId, $bandKey, $label, $lessonsPerDay, $lessonLength]);
+            $stmt->execute([$schoolId, $bandKey, $label, $lessonsPerDay, $lessonLength, '08:00', $defaultBreak]);
             $success = 'Band added successfully.';
             logAudit('create', 'band', (int) db()->lastInsertId(), ['band_key' => $bandKey, 'label' => $label]);
         } catch (Throwable $e) {

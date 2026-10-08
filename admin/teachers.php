@@ -112,14 +112,14 @@ if ($search !== '') {
     $stmt->execute([$schoolId, $searchParam, $searchParam, $searchParam]);
     $totalCount = $stmt->fetchColumn();
 
-    $stmt = db()->prepare('SELECT * FROM teachers WHERE school_id = ? AND (name LIKE ? OR staff_id LIKE ? OR tsc_number LIKE ?) ORDER BY name LIMIT ? OFFSET ?');
+    $stmt = db()->prepare('SELECT id, school_id, staff_id, name, subjects_taught, max_lessons_per_week, tsc_number FROM teachers WHERE school_id = ? AND (name LIKE ? OR staff_id LIKE ? OR tsc_number LIKE ?) ORDER BY name LIMIT ? OFFSET ?');
     $stmt->execute([$schoolId, $searchParam, $searchParam, $searchParam, $perPage, $offset]);
 } else {
     $stmt = db()->prepare('SELECT COUNT(*) FROM teachers WHERE school_id = ?');
     $stmt->execute([$schoolId]);
     $totalCount = $stmt->fetchColumn();
 
-    $stmt = db()->prepare('SELECT * FROM teachers WHERE school_id = ? ORDER BY name LIMIT ? OFFSET ?');
+    $stmt = db()->prepare('SELECT id, school_id, staff_id, name, subjects_taught, max_lessons_per_week, tsc_number FROM teachers WHERE school_id = ? ORDER BY name LIMIT ? OFFSET ?');
     $stmt->execute([$schoolId, $perPage, $offset]);
 }
 $teachers = $stmt->fetchAll();

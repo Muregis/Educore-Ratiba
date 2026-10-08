@@ -12,6 +12,12 @@ CREATE TABLE IF NOT EXISTS schools (
                     CHECK (deployment_type IN ('server-hosted', 'local-install')),
     educore_school_id VARCHAR(100) UNIQUE,
     sync_token      VARCHAR(64) UNIQUE,
+    school_type VARCHAR(40) DEFAULT 'secondary',
+    days_per_week INT NOT NULL DEFAULT 5,
+    day_names JSONB DEFAULT '["Monday","Tuesday","Wednesday","Thursday","Friday"]'::jsonb,
+    generation_time_limit INT NOT NULL DEFAULT 300,
+    prefer_spread BOOLEAN NOT NULL DEFAULT TRUE,
+    settings_json JSONB DEFAULT '{}'::jsonb,
     created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -43,6 +49,7 @@ CREATE TABLE IF NOT EXISTS bands (
     lesson_length_minutes INT NOT NULL,
     break_config          JSONB,
     remedial_hours        JSONB,
+    day_start_time VARCHAR(8) DEFAULT '08:00',
     active                BOOLEAN NOT NULL DEFAULT TRUE,
     created_at            TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE (school_id, band_key)
@@ -64,7 +71,10 @@ CREATE TABLE IF NOT EXISTS teachers (
     school_id            INT NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
     staff_id             VARCHAR(50),
     name                 VARCHAR(150) NOT NULL,
+    tsc_number           VARCHAR(50),
     subjects_taught      TEXT,
+    unavailable_json     JSONB DEFAULT '[]'::jsonb,
+    preferred_max_daily  INT,
     max_lessons_per_week INT,
     created_at           TIMESTAMPTZ DEFAULT NOW()
 );
@@ -89,6 +99,9 @@ CREATE TABLE IF NOT EXISTS subjects (
     class_id            INT NOT NULL REFERENCES classes(id) ON DELETE CASCADE,
     name                VARCHAR(150) NOT NULL,
     lessons_per_week    INT NOT NULL,
+    duration_slots INT NOT NULL DEFAULT 1,
+    min_days_between INT NOT NULL DEFAULT 0,
+    requires_room_type VARCHAR(50),
     assigned_teacher_id INT REFERENCES teachers(id) ON DELETE SET NULL,
     created_at          TIMESTAMPTZ DEFAULT NOW()
 );
@@ -130,6 +143,7 @@ CREATE TABLE IF NOT EXISTS generated_timetables (
     generated_at         TIMESTAMPTZ DEFAULT NOW(),
     xml_snapshot         TEXT,
     html_output_path     VARCHAR(500),
+    failure_summary      JSONB,
     status               VARCHAR(20) NOT NULL
                          CHECK (status IN ('success', 'failed', 'partial')),
     triggered_by_admin_id INT,
@@ -196,3 +210,26 @@ CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log (created_at);
 -- Optional: create a starter super-admin after you generate a hash
 -- INSERT INTO super_admins (username, password_hash)
 -- VALUES ('admin', '$2y$10$...paste PHP password_hash result...');
+
+-- School Calendar
+CREATE TABLE IF NOT EXISTS school_calendar (
+    id SERIAL PRIMARY KEY,
+    school_id INTEGER NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+    year INTEGER NOT NULL,
+    term_number INTEGER NOT NULL,
+    term_name VARCHAR(120) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_current BOOLEAN DEFAULT FALSE
+);
+
+-- School Holidays
+CREATE TABLE IF NOT EXISTS school_holidays (
+    id SERIAL PRIMARY KEY,
+    school_id INTEGER NOT NULL REFERENCES schools(id) ON DELETE CASCADE,
+    holiday_name VARCHAR(160) NOT NULL,
+    holiday_date DATE NOT NULL,
+    holiday_type VARCHAR(40) DEFAULT 'public',
+    affects_timetabling BOOLEAN DEFAULT TRUE,
+    notes TEXT
+);

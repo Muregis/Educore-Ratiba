@@ -248,11 +248,7 @@ require __DIR__ . '/_header.php';
             
             <label for="day_of_week">Day of Week</label>
             <select id="day_of_week" name="day_of_week" required>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
+                <?php require __DIR__ . '/_day_options.php'; ?>
             </select>
             
             <label for="room_id">Room (optional)</label>
@@ -356,3 +352,4 @@ require __DIR__ . '/_header.php';
 </div>
 
 <?php require __DIR__ . '/_footer.php'; ?>
+

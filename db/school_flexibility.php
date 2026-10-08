@@ -1,80 +1,10 @@
 <?php
 declare(strict_types=1);
 
-/**
- * Idempotent schema upgrade for flexible timetable columns.
- * Runs on Prepare/Generate so production does not depend on manual SQL.
- */
-function ensureFlexibleSchema(): void
-{
-    static $done = false;
-    if ($done) {
-        return;
-    }
-    $done = true;
+require_once __DIR__ . '/../config/SchoolConfig.php';
 
-    $pdo = db();
-    $driver = strtolower((string) ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) ?: ''));
-
-    $pgAlters = [
-        "ALTER TABLE schools ADD COLUMN IF NOT EXISTS school_type VARCHAR(40) DEFAULT 'secondary'",
-        "ALTER TABLE schools ADD COLUMN IF NOT EXISTS days_per_week INT NOT NULL DEFAULT 5",
-        "ALTER TABLE schools ADD COLUMN IF NOT EXISTS day_names JSONB DEFAULT '[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\"]'::jsonb",
-        "ALTER TABLE schools ADD COLUMN IF NOT EXISTS generation_time_limit INT NOT NULL DEFAULT 300",
-        "ALTER TABLE schools ADD COLUMN IF NOT EXISTS prefer_spread BOOLEAN NOT NULL DEFAULT TRUE",
-        "ALTER TABLE schools ADD COLUMN IF NOT EXISTS settings_json JSONB DEFAULT '{}'::jsonb",
-        "ALTER TABLE bands ADD COLUMN IF NOT EXISTS day_start_time VARCHAR(8) DEFAULT '08:00'",
-        "ALTER TABLE subjects ADD COLUMN IF NOT EXISTS duration_slots INT NOT NULL DEFAULT 1",
-        "ALTER TABLE subjects ADD COLUMN IF NOT EXISTS min_days_between INT NOT NULL DEFAULT 0",
-        "ALTER TABLE subjects ADD COLUMN IF NOT EXISTS requires_room_type VARCHAR(50)",
-        "ALTER TABLE teachers ADD COLUMN IF NOT EXISTS unavailable_json JSONB DEFAULT '[]'::jsonb",
-        "ALTER TABLE teachers ADD COLUMN IF NOT EXISTS preferred_max_daily INT",
-        "ALTER TABLE generated_timetables ADD COLUMN IF NOT EXISTS failure_summary JSONB",
-        "CREATE INDEX IF NOT EXISTS idx_subjects_school_class ON subjects (school_id, class_id)",
-        "CREATE INDEX IF NOT EXISTS idx_classes_school_active ON classes (school_id, active)",
-        "CREATE INDEX IF NOT EXISTS idx_teachers_school ON teachers (school_id)",
-    ];
-
-    if ($driver === 'pgsql') {
-        foreach ($pgAlters as $sql) {
-            try {
-                $pdo->exec($sql);
-            } catch (Throwable $e) {
-                error_log('ensureFlexibleSchema: ' . $e->getMessage());
-            }
-        }
-        return;
-    }
-
-    $mysqlCols = [
-        ['schools', 'school_type', "VARCHAR(40) DEFAULT 'secondary'"],
-        ['schools', 'days_per_week', 'INT NOT NULL DEFAULT 5'],
-        ['schools', 'day_names', 'JSON NULL'],
-        ['schools', 'generation_time_limit', 'INT NOT NULL DEFAULT 300'],
-        ['schools', 'prefer_spread', 'TINYINT(1) NOT NULL DEFAULT 1'],
-        ['schools', 'settings_json', 'JSON NULL'],
-        ['bands', 'day_start_time', "VARCHAR(8) DEFAULT '08:00'"],
-        ['subjects', 'duration_slots', 'INT NOT NULL DEFAULT 1'],
-        ['subjects', 'min_days_between', 'INT NOT NULL DEFAULT 0'],
-        ['subjects', 'requires_room_type', 'VARCHAR(50) NULL'],
-        ['teachers', 'unavailable_json', 'JSON NULL'],
-        ['teachers', 'preferred_max_daily', 'INT NULL'],
-        ['generated_timetables', 'failure_summary', 'JSON NULL'],
-    ];
-    foreach ($mysqlCols as [$table, $col, $type]) {
-        try {
-            $check = $pdo->prepare(
-                'SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
-                 WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?'
-            );
-            $check->execute([$table, $col]);
-            if (!(int) $check->fetchColumn()) {
-                $pdo->exec("ALTER TABLE `{$table}` ADD COLUMN `{$col}` {$type}");
-            }
-        } catch (Throwable $e) {
-            error_log("ensureFlexibleSchema {$table}.{$col}: " . $e->getMessage());
-        }
-    }
+function ensureFlexibleSchema(): void {
+    // Handled by migrations
 }
 
 function getSchoolRow(int $schoolId): ?array
@@ -87,48 +17,17 @@ function getSchoolRow(int $schoolId): ?array
 /** @return list<string> */
 function getSchoolDayNames(int $schoolId): array
 {
-    $defaults = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    $school = getSchoolRow($schoolId);
-    if (!$school) {
-        return $defaults;
-    }
-
-    $raw = $school['day_names'] ?? null;
-    if (is_string($raw) && $raw !== '') {
-        $decoded = json_decode($raw, true);
-        if (is_array($decoded) && count($decoded) >= 1) {
-            return array_values(array_map('strval', $decoded));
-        }
-    }
-    if (is_array($raw) && count($raw) >= 1) {
-        return array_values(array_map('strval', $raw));
-    }
-
-    $n = (int) ($school['days_per_week'] ?? 5);
-    if ($n >= 6) {
-        return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    }
-    return $defaults;
+    return SchoolConfig::getDays($schoolId);
 }
 
 function schoolPrefersSpread(int $schoolId): bool
 {
-    $school = getSchoolRow($schoolId);
-    if (!$school) {
-        return true;
-    }
-    $v = $school['prefer_spread'] ?? true;
-    if (is_bool($v)) {
-        return $v;
-    }
-    return (string) $v === '1' || (string) $v === 't' || (string) $v === 'true';
+    return SchoolConfig::getPreferSpread($schoolId);
 }
 
 function getSchoolGenerationTimeLimit(int $schoolId): int
 {
-    $school = getSchoolRow($schoolId);
-    $limit = (int) ($school['generation_time_limit'] ?? 300);
-    return max(60, min(1800, $limit > 0 ? $limit : 300));
+    return SchoolConfig::getTimeLimit($schoolId);
 }
 
 function countSlotsForLatestSuccess(int $schoolId): int
@@ -549,4 +448,10 @@ function prepareSchoolForGeneration(int $schoolId): array
         $actions[] = 'No changes needed — rooms and teacher caps already look sufficient.';
     }
     return $actions;
+}
+
+
+
+function formatHourSlotLabel($hour) {
+    return preg_replace('/^[^_]*__/', '', (string)$hour) ?: (string)$hour;
 }

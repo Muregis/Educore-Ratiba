@@ -65,9 +65,7 @@ if ($latestGeneration && $selectedId !== 0) {
     }
 }
 $days = getSchoolDayNames($schoolId);
-if (count($days) < 1) {
-    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-}
+
 $hourSlotsSorted = array_keys($hourSlotsInUse);
 if ($editMode === 'class' && $selectedId !== 0) {
     $bandPrefix = '';
@@ -90,8 +88,8 @@ if ($editMode === 'class' && $selectedId !== 0) {
     }
 }
 usort($hourSlotsSorted, static function ($a, $b) {
-    $ca = preg_replace('/^[^_]*__/', '', (string) $a) ?? (string) $a;
-    $cb = preg_replace('/^[^_]*__/', '', (string) $b) ?? (string) $b;
+    $ca = formatHourSlotLabel($a);
+    $cb = formatHourSlotLabel($b);
     $ta = preg_match('/(\d{2}:\d{2})/', $ca, $ma) ? $ma[1] : $ca;
     $tb = preg_match('/(\d{2}:\d{2})/', $cb, $mb) ? $mb[1] : $cb;
     return strcmp($ta, $tb) ?: strcmp((string) $a, (string) $b);
@@ -144,35 +142,35 @@ foreach ($slots as $slot) {
 <span id="swap-status" class="empty">Click a lesson to select it for move</span>
 </div>
 <div style="overflow-x:auto;">
-<table style="width:100%;border-collapse:collapse;min-width:720px;font-size:0.85rem;">
-<thead><tr style="background:#1e3a5f;color:#fff;">
-<th style="border:1px solid #334155;padding:8px;">Time</th>
-<?php foreach ($days as $day): ?><th style="border:1px solid #334155;padding:8px;"><?php echo htmlspecialchars($day); ?></th><?php endforeach; ?>
+<table class="tt-grid">
+<thead><tr>
+<th>Time</th>
+<?php foreach ($days as $day): ?><th><?php echo htmlspecialchars($day); ?></th><?php endforeach; ?>
 </tr></thead>
 <tbody>
 <?php foreach ($hourSlotsSorted as $hour):
-  $hourLabel = preg_replace('/^[^_]*__/', '', (string)$hour) ?: (string)$hour;
+  $hourLabel = formatHourSlotLabel($hour);
 ?>
 <tr>
-<td style="border:1px solid #cbd5e1;padding:6px;background:#f1f5f9;font-weight:600;white-space:nowrap;"><?php echo htmlspecialchars($hourLabel); ?></td>
+<td class="tt-time"><?php echo htmlspecialchars($hourLabel); ?></td>
 <?php foreach ($days as $day):
   $slot = $grid[$day][$hour] ?? null;
 ?>
-<td style="border:1px solid #cbd5e1;padding:4px;vertical-align:top;min-width:120px;">
+<td>
 <?php if ($slot): ?>
-<div data-slot-id="<?php echo (int)$slot['id']; ?>" onclick="onSlotClick(<?php echo (int)$slot['id']; ?>)" style="cursor:pointer;padding:6px;border-radius:6px;background:#fff;border:1px solid #e2e8f0;">
-<div style="font-weight:700;"><?php echo htmlspecialchars($slot['subject_name'] ?? '—'); ?></div>
+<div data-slot-id="<?php echo (int)$slot['id']; ?>" onclick="onSlotClick(<?php echo (int)$slot['id']; ?>)" class="tt-slot-card">
+<div class="tt-cell-subject"><?php echo htmlspecialchars($slot['subject_name'] ?? '—'); ?></div>
 <?php if ($editMode === 'teacher' || $editMode === 'room' || $editMode === 'subject'): ?>
-<div style="font-size:0.75rem;color:#0f172a;"><?php echo htmlspecialchars($slot['class_name'] ?? '—'); ?></div>
+<div class="tt-cell-meta"><?php echo htmlspecialchars($slot['class_name'] ?? '—'); ?></div>
 <?php endif; ?>
 <?php if ($editMode === 'class' || $editMode === 'room' || $editMode === 'subject'): ?>
-<div style="font-size:0.75rem;color:#475569;"><?php echo htmlspecialchars($slot['teacher_name'] ?? '—'); ?></div>
+<div class="tt-cell-meta"><?php echo htmlspecialchars($slot['teacher_name'] ?? '—'); ?></div>
 <?php endif; ?>
-<div style="font-size:0.75rem;color:#1d4ed8;"><?php echo htmlspecialchars($slot['room_name'] ?? ''); ?></div>
-<?php if (!empty($slot['is_manual_override'])): ?><span style="font-size:0.7rem;color:#d97706;">Manual</span><?php endif; ?>
+<div class="tt-cell-room"><?php echo htmlspecialchars($slot['room_name'] ?? ''); ?></div>
+<?php if (!empty($slot['is_manual_override'])): ?><span class="tt-slot-manual">Manual</span><?php endif; ?>
 </div>
 <?php else: ?>
-<div onclick="moveSelectedToEmpty(this)" data-day="<?php echo htmlspecialchars($day); ?>" data-hour="<?php echo htmlspecialchars($hour); ?>" style="cursor:pointer;text-align:center;color:#cbd5e1;padding:16px 0;">—</div>
+<div onclick="moveSelectedToEmpty(this)" data-day="<?php echo htmlspecialchars($day); ?>" data-hour="<?php echo htmlspecialchars($hour); ?>" class="tt-slot-empty">—</div>
 <?php endif; ?>
 </td>
 <?php endforeach; ?>
@@ -198,7 +196,7 @@ function onSlotClick(id){
       selectedSlotId = id;
       document.getElementById('swap-status').textContent = 'Select second lesson to swap';
       const el = document.querySelector('[data-slot-id="'+id+'"]');
-      if (el) el.style.outline = '3px solid #4f46e5';
+      if (el) el.style.outline = '3px solid var(--primary-dark)';
     } else if (selectedSlotId !== id) {
       doSwap(selectedSlotId, id);
     }
@@ -207,7 +205,7 @@ function onSlotClick(id){
   selectedForMove = id;
   document.querySelectorAll('[data-slot-id]').forEach(el => el.style.outline = '');
   const el = document.querySelector('[data-slot-id="'+id+'"]');
-  if (el) el.style.outline = '3px solid #4f46e5';
+  if (el) el.style.outline = '3px solid var(--primary-dark)';
   document.getElementById('swap-status').textContent = 'Lesson selected — click an empty cell to move';
 }
 async function doSwap(a,b){
@@ -233,3 +231,6 @@ async function moveSelectedToEmpty(el){
 }
 </script>
 <?php require __DIR__ . '/_footer.php'; ?>
+
+
+

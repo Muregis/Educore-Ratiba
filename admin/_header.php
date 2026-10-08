@@ -22,6 +22,8 @@ if (function_exists('getCsrfToken')) {
 <meta name="csrf-token" content="<?php echo htmlspecialchars(function_exists('getCsrfToken') ? getCsrfToken() : ''); ?>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/shell.css">
+<link rel="stylesheet" href="assets/mobile.css">
+<link rel="stylesheet" href="assets/timetable.css">
 <script src="assets/shell.js"></script>
 </head>
 <body>

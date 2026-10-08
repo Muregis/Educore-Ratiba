@@ -255,11 +255,7 @@ require __DIR__ . '/_header.php';
             <label for="day_of_week">Day of Week (optional - leave empty for flexible scheduling)</label>
             <select id="day_of_week" name="day_of_week">
                 <option value="">— Flexible —</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
+                <?php require __DIR__ . '/_day_options.php'; ?>
             </select>
             
             <label for="duration_slots">Duration (slots)</label>
@@ -387,11 +383,7 @@ require __DIR__ . '/_header.php';
             <label for="edit-day_of_week">Day of Week (optional - leave empty for flexible scheduling)</label>
             <select id="edit-day_of_week" name="day_of_week">
                 <option value="">— Flexible —</option>
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <option value="Wednesday">Wednesday</option>
-                <option value="Thursday">Thursday</option>
-                <option value="Friday">Friday</option>
+                <?php require __DIR__ . '/_day_options.php'; ?>
             </select>
             
             <label for="edit-duration_slots">Duration (slots)</label>
@@ -454,3 +446,4 @@ document.getElementById('edit-modal').addEventListener('click', function(e) {
 </script>
 
 <?php require __DIR__ . '/_footer.php'; ?>
+

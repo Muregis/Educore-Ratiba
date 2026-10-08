@@ -50,9 +50,7 @@ function applyBandHourLocksToFetXml(string $xmlPath, int $schoolId): void
 
     $classes = array_filter(getClasses($schoolId), static fn($c) => (bool) ($c['active'] ?? true));
     $days = getSchoolDayNames($schoolId);
-    if ($days === []) {
-        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    }
+    
 
     if (!isset($xml->Time_Constraints_List)) {
         $xml->addChild('Time_Constraints_List');
@@ -109,3 +107,4 @@ function applyBandHourLocksToFetXml(string $xmlPath, int $schoolId): void
 
     $xml->asXML($xmlPath);
 }
+

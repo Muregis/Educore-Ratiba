@@ -28,12 +28,7 @@ function buildBandPeriodTimeline(array $band): array
             $breakConfig = $decoded;
         }
     }
-    if ($breakConfig === []) {
-        $breakConfig = [
-            ['time' => '10:00-10:20', 'label' => 'BREAK'],
-            ['time' => '12:40-13:20', 'label' => 'LUNCH'],
-        ];
-    }
+    
 
     $parsedBreaks = [];
     foreach ($breakConfig as $bc) {
@@ -97,7 +92,7 @@ function buildBandPeriodTimeline(array $band): array
 
 function hourClockPart(string $hour): string
 {
-    $h = preg_replace('/^[^_]*__/', '', $hour) ?? $hour;
+    $h = formatHourSlotLabel($hour);
     return trim($h);
 }
 
@@ -214,7 +209,7 @@ if (empty($periods) && !empty($hourSlotsFromData)) {
         $isBreak = (bool) preg_match('/\b(BREAK|LUNCH|TEA)\b/i', $k);
         $periods[] = [
             'key' => $k,
-            'label' => preg_replace('/^[^_]*__/', '', $k) ?? $k,
+            'label' => formatHourSlotLabel($k),
             'is_break' => $isBreak,
             'break_label' => $isBreak ? (preg_match('/\b(LUNCH|BREAK|TEA)\b/i', $k, $m) ? strtoupper($m[1]) : 'BREAK') : null,
         ];
@@ -256,90 +251,7 @@ $pageTitle = 'View Timetables — ' . $school['name'];
 require __DIR__ . '/_header.php';
 ?>
 
-<style>
-.tt-wrap { overflow-x: auto; margin-top: 12px; }
-.tt-grid {
-    width: 100%;
-    min-width: 720px;
-    border-collapse: collapse;
-    table-layout: fixed;
-    font-size: 0.82rem;
-    background: #fff;
-}
-.tt-grid th, .tt-grid td {
-    border: 1px solid #1e293b;
-    padding: 6px 8px;
-    vertical-align: top;
-}
-.tt-grid thead th {
-    background: #1e3a5f;
-    color: #fff;
-    font-weight: 600;
-    text-align: center;
-    font-size: 0.8rem;
-}
-.tt-grid .tt-time {
-    width: 100px;
-    background: #f1f5f9;
-    font-weight: 600;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    text-align: center;
-    color: #0f172a;
-}
-.tt-grid .tt-break-row td {
-    background: #fef3c7;
-    text-align: center;
-    font-weight: 700;
-    color: #92400e;
-    letter-spacing: 0.06em;
-    font-size: 0.78rem;
-    padding: 8px;
-}
-.tt-grid .tt-break-row .tt-time { background: #fde68a; }
-.tt-cell-subject {
-    font-weight: 700;
-    color: #0f172a;
-    line-height: 1.25;
-    margin-bottom: 2px;
-}
-.tt-cell-meta {
-    font-size: 0.72rem;
-    color: #334155;
-    line-height: 1.35;
-}
-.tt-cell-room { font-weight: 600; color: #1d4ed8; }
-.tt-cell-empty { text-align: center; color: #cbd5e1; font-size: 0.9rem; }
-.tt-title-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 8px;
-    margin: 16px 0 8px;
-}
-.tt-title-bar h3 { margin: 0; }
-.tt-sub { font-size: 0.85rem; color: var(--text-muted, #64748b); }
-.tt-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 0.75rem;
-    color: #64748b;
-    margin-top: 10px;
-}
-.tt-legend span { display: inline-flex; align-items: center; gap: 6px; }
-.tt-swatch {
-    width: 14px; height: 14px;
-    border: 1px solid #94a3b8;
-    border-radius: 2px;
-}
-@media print {
-    .sidebar, .mobile-topbar, .btn, form, .tt-legend, nav, .shell-nav { display: none !important; }
-    .tt-grid { min-width: 0; font-size: 9pt; }
-    .card { border: none; box-shadow: none; }
-}
-</style>
+
 
 <div class="card">
     <h2>Class timetables</h2>
@@ -353,14 +265,14 @@ require __DIR__ . '/_header.php';
                         <li><?php echo htmlspecialchars($line); ?></li>
                     <?php endforeach; ?>
                 </ul>
-                <p style="margin-top: 10px;"><a href="generate.php">Fix the issues, then generate again</a></p>
+                <p class="mt-3"><a href="generate.php">Fix the issues, then generate again</a></p>
             </div>
         <?php else: ?>
             <p class="empty">No successful timetable yet. <a href="generate.php">Generate one</a> first.</p>
         <?php endif; ?>
     <?php else: ?>
         <?php if ($latestAny && $latestAny['status'] === 'failed' && $latestSuccess): ?>
-            <div class="error" style="margin-bottom:12px;">
+            <div class="error mb-3">
                 Latest run failed, but showing the last successful timetable
                 (<?php echo htmlspecialchars(date('j M Y, g:i A', strtotime($latestSuccess['generated_at']))); ?>).
             </div>
@@ -376,7 +288,7 @@ require __DIR__ . '/_header.php';
             <a class="btn btn-secondary" href="../export/export_teachers.php" target="_blank">Download All Teacher Timetables</a>
         </p>
 
-        <form method="get" style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; margin-bottom:8px;">
+        <form method="get" class="flex flex-wrap gap-3 items-end mb-2">
             <div style="min-width:240px;">
                 <label for="class_id">Choose a class</label>
                 <select id="class_id" name="class_id">
@@ -393,8 +305,8 @@ require __DIR__ . '/_header.php';
 
         <?php if ($selectedClassId !== null): ?>
             <?php if (empty($periods) && empty($slots)): ?>
-                <div class="card" style="background:var(--bg-light);">
-                    <p class="empty" style="text-align:center; padding:24px 0;">
+                <div class="card bg-light">
+                    <p class="empty text-center">
                         This class has no scheduled slots in the current timetable.
                         <a href="generate.php">Generate</a> or pick another class.
                     </p>
@@ -470,16 +382,16 @@ require __DIR__ . '/_header.php';
                     </table>
                 </div>
                 <div class="tt-legend">
-                    <span><span class="tt-swatch" style="background:#fef3c7;"></span> Break / lunch (not taught)</span>
-                    <span><span class="tt-swatch" style="background:#fff; border-color:#1e293b;"></span> Lesson · teacher · room code</span>
+                    <span><span class="tt-swatch" style="background:var(--warning);"></span> Break / lunch (not taught)</span>
+                    <span><span class="tt-swatch" style="background:var(--bg-white); border-color:var(--primary);"></span> Lesson · teacher · room code</span>
                 </div>
-                <p style="margin-top:12px;">
+                <p class="mt-3">
                     <a class="btn btn-secondary" href="../export/export.php?scope=class&class_id=<?php echo (int) $selectedClassId; ?>" target="_blank">Download this class PDF</a>
                     <a class="btn btn-secondary" href="edit-timetable.php?class_id=<?php echo (int) $selectedClassId; ?>">Manual edits</a>
                 </p>
             <?php endif; ?>
         <?php else: ?>
-            <h3 style="margin-top: 20px; margin-bottom: 10px;">All classes</h3>
+            <h3 class="mt-5">All classes</h3>
             <table>
                 <thead><tr><th>Class</th><th>Band</th><th>Lessons scheduled</th><th>Actions</th></tr></thead>
                 <tbody>
@@ -502,7 +414,7 @@ require __DIR__ . '/_header.php';
                 </tbody>
             </table>
 
-            <h3 style="margin-top: 30px; margin-bottom: 10px;">Teacher Timetables</h3>
+            <h3 class="mt-5">Teacher Timetables</h3>
             <table>
                 <thead><tr><th>Teacher</th><th>Staff ID</th><th>Actions</th></tr></thead>
                 <tbody>
@@ -529,3 +441,8 @@ require __DIR__ . '/_header.php';
 </div>
 
 <?php require __DIR__ . '/_footer.php'; ?>
+
+
+
+
+

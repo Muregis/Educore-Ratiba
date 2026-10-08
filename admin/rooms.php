@@ -109,14 +109,14 @@ if ($search !== '') {
     $stmt->execute([$schoolId, $searchParam, $searchParam]);
     $totalCount = $stmt->fetchColumn();
     
-    $stmt = db()->prepare('SELECT * FROM rooms WHERE school_id = ? AND (name LIKE ? OR room_type LIKE ?) ORDER BY name LIMIT ? OFFSET ?');
+    $stmt = db()->prepare('SELECT id, school_id, name, capacity, room_type FROM rooms WHERE school_id = ? AND (name LIKE ? OR room_type LIKE ?) ORDER BY name LIMIT ? OFFSET ?');
     $stmt->execute([$schoolId, $searchParam, $searchParam, $perPage, $offset]);
 } else {
     $stmt = db()->prepare('SELECT COUNT(*) FROM rooms WHERE school_id = ?');
     $stmt->execute([$schoolId]);
     $totalCount = $stmt->fetchColumn();
     
-    $stmt = db()->prepare('SELECT * FROM rooms WHERE school_id = ? ORDER BY name LIMIT ? OFFSET ?');
+    $stmt = db()->prepare('SELECT id, school_id, name, capacity, room_type FROM rooms WHERE school_id = ? ORDER BY name LIMIT ? OFFSET ?');
     $stmt->execute([$schoolId, $perPage, $offset]);
 }
 $rooms = $stmt->fetchAll();

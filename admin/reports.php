@@ -135,9 +135,9 @@ $nav = ['teacher_workload'=>'Teacher Workload','room_utilization'=>'Room Utiliza
 <?php if ($reportType === 'school_statistics'): ?>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
 <?php foreach ($rows as $lab=>$val): ?>
-<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;text-align:center;">
-<div style="font-size:1.75rem;font-weight:700;color:#4f46e5;"><?php echo (int)$val; ?></div>
-<div style="color:#64748b;font-size:0.85rem;"><?php echo htmlspecialchars($lab); ?></div>
+<div style="background:var(--bg-white);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+<div style="font-size:1.75rem;font-weight:700;color:var(--primary-dark);"><?php echo (int)$val; ?></div>
+<div style="color:var(--text-muted);font-size:0.85rem;"><?php echo htmlspecialchars($lab); ?></div>
 </div>
 <?php endforeach; ?>
 </div>
@@ -152,3 +152,4 @@ $nav = ['teacher_workload'=>'Teacher Workload','room_utilization'=>'Room Utiliza
 <?php endif; ?>
 </div>
 <?php require __DIR__ . '/_footer.php'; ?>
+

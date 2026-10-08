@@ -17,8 +17,8 @@ $error = null;
 $success = null;
 
 $dayPresets = [
-    '5' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    '6' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    '5' => array_slice(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], 0, 5),
+    '6' => array_slice(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], 0, 6),
     '7' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 ];
 

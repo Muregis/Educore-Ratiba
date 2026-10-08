@@ -1,0 +1,115 @@
+/* Timetable Grid Styles */
+.tt-wrap { overflow-x: auto; margin-top: 12px; }
+.tt-grid {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 0.82rem;
+    background: var(--bg-white);
+}
+.tt-grid th, .tt-grid td {
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    vertical-align: top;
+}
+.tt-grid thead th {
+    background: var(--primary-dark);
+    color: var(--bg-white);
+    font-weight: 600;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 8px;
+}
+.tt-grid .tt-time {
+    width: 100px;
+    background: var(--bg-light);
+    font-weight: 600;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    text-align: center;
+    color: var(--text);
+}
+.tt-grid .tt-break-row td {
+    background: var(--warning);
+    text-align: center;
+    font-weight: 700;
+    color: var(--bg-white);
+    letter-spacing: 0.06em;
+    font-size: 0.78rem;
+    padding: 8px;
+}
+.tt-grid .tt-break-row .tt-time { background: var(--warning); }
+.tt-cell-subject {
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 2px;
+}
+.tt-cell-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+}
+.tt-cell-room { font-weight: 600; color: var(--primary-dark); }
+.tt-cell-empty { text-align: center; color: var(--border); font-size: 0.9rem; }
+.tt-title-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin: 16px 0 8px;
+}
+.tt-title-bar h3 { margin: 0; }
+.tt-sub { font-size: 0.85rem; color: var(--text-muted); }
+.tt-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 10px;
+}
+.tt-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.tt-swatch {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+}
+
+/* Edit Timetable specific */
+.tt-slot-card {
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    background: var(--bg-white);
+    border: 1px solid var(--border);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+.tt-slot-card:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+.tt-slot-empty {
+    cursor: pointer;
+    text-align: center;
+    color: var(--border);
+    padding: 16px 0;
+    transition: background 0.1s;
+    border-radius: 6px;
+}
+.tt-slot-empty:hover {
+    background: var(--bg-light);
+}
+.tt-slot-manual {
+    font-size: 0.7rem;
+    color: var(--warning);
+}
+
+@media print {
+    .sidebar, .mobile-topbar, .btn, form, .tt-legend, nav, .shell-nav, .menu-toggle { display: none !important; }
+    .tt-grid { min-width: 0; font-size: 9pt; }
+    .card { border: none; box-shadow: none; padding: 0; }
+    .tt-wrap { overflow: visible; }
+}

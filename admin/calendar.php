@@ -12,29 +12,6 @@ $error = null;
 $success = null;
 $currentYear = (int) date('Y');
 
-function ensureCalendarTables(): void
-{
-    $driver = strtolower((string) (db()->getAttribute(PDO::ATTR_DRIVER_NAME) ?: ''));
-    if ($driver === 'pgsql') {
-        db()->exec("CREATE TABLE IF NOT EXISTS school_calendar (
-            id SERIAL PRIMARY KEY, school_id INTEGER NOT NULL, year INTEGER NOT NULL,
-            term_number INTEGER NOT NULL, term_name VARCHAR(120) NOT NULL,
-            start_date DATE NOT NULL, end_date DATE NOT NULL, is_current BOOLEAN DEFAULT FALSE)");
-        db()->exec("CREATE TABLE IF NOT EXISTS school_holidays (
-            id SERIAL PRIMARY KEY, school_id INTEGER NOT NULL, holiday_name VARCHAR(160) NOT NULL,
-            holiday_date DATE NOT NULL, holiday_type VARCHAR(40) DEFAULT 'public',
-            affects_timetabling BOOLEAN DEFAULT TRUE, notes TEXT)");
-    } else {
-        db()->exec("CREATE TABLE IF NOT EXISTS school_calendar (
-            id INT AUTO_INCREMENT PRIMARY KEY, school_id INT NOT NULL, year INT NOT NULL,
-            term_number INT NOT NULL, term_name VARCHAR(120) NOT NULL,
-            start_date DATE NOT NULL, end_date DATE NOT NULL, is_current TINYINT(1) DEFAULT 0)");
-        db()->exec("CREATE TABLE IF NOT EXISTS school_holidays (
-            id INT AUTO_INCREMENT PRIMARY KEY, school_id INT NOT NULL, holiday_name VARCHAR(160) NOT NULL,
-            holiday_date DATE NOT NULL, holiday_type VARCHAR(40) DEFAULT 'public',
-            affects_timetabling TINYINT(1) DEFAULT 1, notes TEXT)");
-    }
-}
 
 function seedKenyaCalendarDefaults(int $schoolId, int $year): array
 {
@@ -74,7 +51,7 @@ function seedKenyaCalendarDefaults(int $schoolId, int $year): array
     return $actions;
 }
 
-try { ensureCalendarTables(); } catch (Throwable $e) { $error = 'Calendar tables: ' . $e->getMessage(); }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();

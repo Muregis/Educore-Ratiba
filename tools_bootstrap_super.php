@@ -34,3 +34,4 @@ try {
     fwrite(STDERR, 'Error: ' . $e->getMessage() . "\n");
     exit(1);
 }
+
