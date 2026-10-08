@@ -1,27 +1,33 @@
 # Environment variables
 .env
+.env.*
+!.env.example
+!.env.*.example
+!.env.*.template
 
-# Database
+# Database dumps (keep schema only)
 *.sql
 !db/schema.sql
 !db/schema_postgres.sql
 
-# FET Engine output
+# FET engine output
 output/
 data/last_run*.log
 
-# Vendor
+# Vendor / dependencies
 vendor/
+composer.phar
 
-# IDE
+# IDE / OS
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# OS
 .DS_Store
 Thumbs.db
 
-# Logs
+# Logs & temp
 *.log
+tmp/
+temp/
+.cache/
