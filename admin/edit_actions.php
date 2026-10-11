@@ -18,6 +18,7 @@ if (!$latest) {
 $ttId = (int) $latest['id'];
 $action = $_POST['action'] ?? '';
 $adminId = (int) ($_SESSION['school_admin_id'] ?? $_SESSION['super_admin_id'] ?? 0);
+require_once __DIR__ . '/../tests/ClashDetector.php';
 
 function clashExcluding(int $ttId, array $excludeIds, int $teacherId, ?int $roomId, int $classId, string $day, string $hour): ?string
 {
@@ -36,17 +37,38 @@ function clashExcluding(int $ttId, array $excludeIds, int $teacherId, ?int $room
            AND ss.hour_slot = ?"
     );
     $stmt->execute($params);
-    foreach ($stmt->fetchAll() as $row) {
-        if ((int) $row['teacher_id'] === $teacherId) {
-            return ($row['teacher_name'] ?? 'Teacher') . ' is already teaching ' . ($row['class_name'] ?? 'a class') . ' at this time.';
-        }
-        if ($roomId !== null && (int) ($row['room_id'] ?? 0) === $roomId) {
-            return ($row['room_name'] ?? 'Room') . ' is already in use.';
-        }
-        if ((int) $row['class_id'] === $classId) {
-            return ($row['class_name'] ?? 'Class') . ' already has a lesson at this time.';
-        }
+    $rows = $stmt->fetchAll();
+
+    // Build slot list containing existing slots plus proposed slot
+    $candidateSlots = [];
+    foreach ($rows as $r) {
+        $candidateSlots[] = [
+            'id' => $r['id'],
+            'teacher_id' => $r['teacher_id'],
+            'teacher_name' => $r['teacher_name'] ?? null,
+            'room_id' => $r['room_id'],
+            'room_name' => $r['room_name'] ?? null,
+            'class_id' => $r['class_id'],
+            'class_name' => $r['class_name'] ?? null,
+            'subject_id' => $r['subject_id'] ?? null,
+            'day' => $day,
+            'period' => $hour,
+        ];
     }
+    $candidateSlots[] = [
+        'id' => '__proposed__',
+        'teacher_id' => $teacherId,
+        'room_id' => $roomId,
+        'class_id' => $classId,
+        'day' => $day,
+        'period' => $hour,
+    ];
+
+    $conflicts = ClashDetector::findConflicts($candidateSlots);
+    if (!empty($conflicts)) {
+        return $conflicts[0];
+    }
+
     return null;
 }
 

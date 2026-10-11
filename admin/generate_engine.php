@@ -374,9 +374,10 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
             $weight = ($g['min_days'] > 1) ? '100' : '20';
             $minDaysEl = $timeConstraints->addChild('ConstraintMinDaysBetweenActivities');
             $minDaysEl->addChild('Weight_Percentage', $weight);
+            $minDaysEl->addChild('Consecutive_If_Same_Day', 'true');
             $minDaysEl->addChild('Number_of_Activities', (string) count($g['ids']));
             foreach ($g['ids'] as $aid) {
-                $minDaysEl->addChild('Activity_Index', (string) $aid);
+                $minDaysEl->addChild('Activity_Id', (string) $aid);
             }
             $minDaysEl->addChild('MinDays', (string) $g['min_days']);
             $minDaysEl->addChild('Active', 'true');
@@ -389,8 +390,8 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
     $basicSpace->addChild('Weight_Percentage', '100');
     $basicSpace->addChild('Active', 'true');
 
-    // Write to a temp file
-    $tmpPath = sys_get_temp_dir() . '/fet_school_' . $schoolId . '_' . time() . '.xml';
+    // Write to a temp file with unique entropy
+    $tmpPath = sys_get_temp_dir() . '/fet_school_' . $schoolId . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.xml';
     $xml->asXML($tmpPath);
 
     // Stash activity metadata alongside for later translation of FET's
@@ -490,77 +491,8 @@ function diagnoseFetFailure(string $rawOutput, array $activityMeta): array
  */
 function runFetEngine(string $xmlPath, string $engineExePath, string $outputDir, ?int $timeLimitSeconds = null): array
 {
-    if (!is_dir($outputDir)) {
-        @mkdir($outputDir, 0777, true);
-    }
-
-    // Check if engine executable exists and is executable
-    if (!file_exists($engineExePath)) {
-        return [
-            'success' => false,
-            'raw_output' => "FET engine not found at: $engineExePath",
-            'html_output_path' => null,
-            'solution_xml_path' => null,
-        ];
-    }
-
-    if (!is_executable($engineExePath)) {
-        return [
-            'success' => false,
-            'raw_output' => "FET engine exists but is not executable: $engineExePath",
-            'html_output_path' => null,
-            'solution_xml_path' => null,
-        ];
-    }
-
-    $cmd = '"' . $engineExePath . '" --inputfile="' . $xmlPath . '" --outputdir="' . $outputDir . '"';
-    if ($timeLimitSeconds !== null && $timeLimitSeconds > 0) {
-        $cmd .= ' --timelimitseconds=' . (int) $timeLimitSeconds;
-    }
-    $cmd .= ' 2>&1';
-    $rawOutput = (string) shell_exec($cmd);
-    $success = stripos($rawOutput, 'Generation successful') !== false;
-
-    $htmlPath = null;
-    $solutionXmlPath = null;
-    if ($success) {
-        $timetablesDir = $outputDir . '/timetables';
-        if (is_dir($timetablesDir)) {
-            $allIndexFiles = [];
-            // FET creates subdirectories named after the input XML file.
-            foreach ((glob($timetablesDir . '/*', GLOB_ONLYDIR) ?: []) as $folder) {
-                foreach ((glob($folder . '/*_index.html') ?: []) as $f) {
-                    $allIndexFiles[] = $f;
-                }
-            }
-            if (!empty($allIndexFiles)) {
-                usort($allIndexFiles, static fn($a, $b) => filemtime($b) - filemtime($a));
-                $htmlPath = $allIndexFiles[0];
-                // FET also writes a solution .xml alongside the HTML in
-                // the same folder - this is what we actually parse into
-                // scheduled_slots (structured and stable), not the HTML.
-                $folderOfNewest = dirname($htmlPath);
-                $xmlCandidates = glob($folderOfNewest . '/*_activities.xml') ?: [];
-                if (!empty($xmlCandidates)) {
-                    usort($xmlCandidates, static fn($a, $b) => filemtime($b) - filemtime($a));
-                    $solutionXmlPath = $xmlCandidates[0];
-                } else {
-                    error_log("FET generated HTML but no activities XML found in: $folderOfNewest");
-                }
-            } else {
-                error_log("FET generation succeeded but no _index.html files found in: $timetablesDir");
-            }
-        } else {
-            error_log("FET generation succeeded but timetables directory does not exist: $timetablesDir");
-        }
-    }
-
-    return [
-        'success' => $success,
-        'raw_output' => $rawOutput,
-        'html_output_path' => $htmlPath,
-        'solution_xml_path' => $solutionXmlPath,
-    ];
+    require_once __DIR__ . '/fet_runtime.php';
+    return runFetEngineV2($xmlPath, $engineExePath, $outputDir, $timeLimitSeconds);
 }
 
 /**

@@ -151,7 +151,11 @@ function runCommandCapture(string $binary, array $args): array
             1 => ['pipe', 'w'],
             2 => ['pipe', 'w'],
         ];
-        $proc = @proc_open($cmd, $descriptors, $pipes, null, null);
+        // Prefer array invocation (bypasses OS shell completely)
+        $proc = @proc_open($cmdParts, $descriptors, $pipes, null, null);
+        if (!is_resource($proc)) {
+            $proc = @proc_open($cmd, $descriptors, $pipes, null, null);
+        }
         if (is_resource($proc)) {
             fclose($pipes[0]);
             $stdout = stream_get_contents($pipes[1]) ?: '';
@@ -238,11 +242,12 @@ function runFetEngineV2(string $xmlPath, string $engineExePath, string $outputDi
             . " engine={$engineExePath}]";
     }
 
-    $success = stripos($rawOutput, 'Generation successful') !== false;
+    $generationReported = stripos($rawOutput, 'Generation successful') !== false;
+    $exitCodeOk = ($captured['exit_code'] === null || $captured['exit_code'] === 0);
 
     $htmlPath = null;
     $solutionXmlPath = null;
-    if ($success) {
+    if ($generationReported && $exitCodeOk) {
         $timetablesDir = $outputDir . '/timetables';
         if (is_dir($timetablesDir)) {
             $allIndexFiles = [];
@@ -269,6 +274,9 @@ function runFetEngineV2(string $xmlPath, string $engineExePath, string $outputDi
             error_log("FET generation succeeded but timetables directory does not exist: $timetablesDir");
         }
     }
+
+    // Success requires BOTH output confirmation, clean exit, and valid solution XML on disk
+    $success = $generationReported && $exitCodeOk && $solutionXmlPath !== null && file_exists($solutionXmlPath) && (filesize($solutionXmlPath) > 0);
 
     return [
         'success' => $success,

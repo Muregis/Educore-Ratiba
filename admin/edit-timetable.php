@@ -104,6 +104,7 @@ foreach ($slots as $slot) {
 }
 ?>
 <div class="card">
+<input type="hidden" id="csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
 <h2 style="margin-top:0">Edit Timetable</h2>
 <p class="empty">Click a lesson, then an empty cell to <strong>move</strong> it. Enable Swap Mode and pick two lessons to <strong>swap</strong>.</p>
 <?php if ($error): ?><div class="error"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>

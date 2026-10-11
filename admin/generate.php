@@ -197,6 +197,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                     $adminMessages[] = ['type' => 'error', 'text' => 'The timetable generated, but its details could not be loaded for editing.'];
                 } else {
                     $adminMessages[] = ['type' => 'success', 'text' => count($slotRows) . ' lessons scheduled. View or edit them from the View / Edit pages.'];
+
+                    // Run authoritative conflict validation
+                    require_once __DIR__ . '/../tests/ClashDetector.php';
+                    $conflicts = ClashDetector::findConflicts($slotRows);
+                    if (!empty($conflicts)) {
+                        $adminMessages[] = [
+                            'type' => 'error',
+                            'text' => 'Conflict warning: ' . count($conflicts) . ' potential clash(es) detected: ' . implode('; ', array_slice($conflicts, 0, 3)),
+                        ];
+                    } else {
+                        $adminMessages[] = [
+                            'type' => 'success',
+                            'text' => 'Conflict check passed: 100% clash-free schedule (0 teacher, class, room, or duplicate conflicts).',
+                        ];
+                    }
                 }
             }
         }
