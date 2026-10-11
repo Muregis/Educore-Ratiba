@@ -11,8 +11,42 @@ class Config {
     private static string $environment;
     
     public static function init(): void {
+        self::loadDotEnv(dirname(__DIR__));
         self::$environment = self::detectEnvironment();
         self::$config = self::loadConfig();
+    }
+
+    /**
+     * Reads .env file if present without overriding existing environment vars
+     */
+    private static function loadDotEnv(string $dir): void {
+        $envFile = $dir . '/.env';
+        if (!is_file($envFile) || !is_readable($envFile)) {
+            return;
+        }
+        $lines = @file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false) {
+            return;
+        }
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#')) {
+                continue;
+            }
+            if (!str_contains($line, '=')) {
+                continue;
+            }
+            [$key, $val] = explode('=', $line, 2);
+            $key = trim($key);
+            $val = trim($val);
+            if ($val !== '' && (($val[0] === '"' && str_ends_with($val, '"')) || ($val[0] === "'" && str_ends_with($val, "'")))) {
+                $val = substr($val, 1, -1);
+            }
+            if (getenv($key) === false) {
+                putenv("{$key}={$val}");
+                $_ENV[$key] = $val;
+            }
+        }
     }
     
     /**

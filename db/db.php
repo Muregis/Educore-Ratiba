@@ -35,7 +35,8 @@ function db(): PDO
                 $pdo->exec("SET TIME ZONE 'Africa/Nairobi'");
             } else {
                 $portPart = $port !== '' ? "port={$port};" : '';
-                $dsn = "mysql:host={$host};{$portPart}dbname={$dbname};charset=utf8mb4";
+                $resolvedHost = ($port !== '' && $host === 'localhost') ? '127.0.0.1' : $host;
+                $dsn = "mysql:host={$resolvedHost};{$portPart}dbname={$dbname};charset=utf8mb4";
 
                 $pdo = new PDO($dsn, $username, $password, [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

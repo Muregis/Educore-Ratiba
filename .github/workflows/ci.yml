@@ -22,10 +22,7 @@ jobs:
           coverage: none
 
       - name: Validate composer.json
-        run: |
-          if [ -f composer.json ]; then
-            composer validate --no-check-publish || true
-          fi
+        run: composer validate --strict
 
       - name: Install dependencies (if lock present)
         run: |
@@ -33,7 +30,7 @@ jobs:
             composer install --no-interaction --prefer-dist --no-progress
           fi
 
-      - name: PHP syntax check on entrypoints
+      - name: PHP syntax check on all files
         run: |
           set -e
           for f in index.php login.php logout.php health.php status.php sso.php; do
@@ -41,9 +38,11 @@ jobs:
               php -l "$f"
             fi
           done
-          if [ -d admin ]; then
-            find admin -name '*.php' -print0 | xargs -0 -n1 php -l
-          fi
+          for d in admin config db export tests; do
+            if [ -d "$d" ]; then
+              find "$d" -name '*.php' -print0 | xargs -0 -n1 php -l
+            fi
+          done
 
       - name: Run clash / pre-check unit tests
         run: php tests/ClashDetectorTest.php
