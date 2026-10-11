@@ -21,7 +21,7 @@
 1. Upgrade Render off **Starter**; use **Standard+** and **≥2 instances** for 99.9%-class uptime.
 2. Enable Supabase **PITR** (Pro) plus logical dumps.
 3. Put Cloudflare (or similar) in front for TLS/DDoS.
-4. External uptime monitor hitting `/health.php` and `/health.php?ready=1`.
+4. External uptime monitor hitting `/health.php` and `/health.php?ready=1` (see [KEEP_ALIVE.md](KEEP_ALIVE.md) for 24/7 anti-sleep setup).
 5. Alert on 2 consecutive failures.
 
 ## Health endpoints

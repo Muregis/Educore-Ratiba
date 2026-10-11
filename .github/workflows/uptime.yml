@@ -1,34 +1,51 @@
-name: Uptime check
+name: Uptime & Keep-Alive Check
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    # Run every 10 minutes to prevent Render from sleeping (Render sleeps after 15 min idle)
+    # and keeps Supabase awake (Supabase pauses free tier after 7 days inactivity).
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 
 jobs:
-  ping:
+  keepalive:
     runs-on: ubuntu-latest
     steps:
-      - name: Liveness
+      - name: Ping Render Web Service (Liveness)
         run: |
           set -e
           URL="${{ secrets.PRODUCTION_URL }}"
           if [ -z "$URL" ]; then
             URL="https://educore-ratiba.onrender.com"
           fi
-          code=$(curl -sS -o /tmp/h.json -w "%{http_code}" "$URL/health.php")
-          echo "liveness HTTP $code"
+          echo "Pinging $URL/health.php..."
+          # Render cold-start can take up to 50s if waking up, allow max-time 60s with retries
+          code=$(curl -sS --max-time 60 --retry 2 -o /tmp/h.json -w "%{http_code}" "$URL/health.php")
+          echo "Liveness HTTP $code"
           cat /tmp/h.json
           test "$code" = "200"
 
-      - name: Readiness (DB)
+      - name: Ping Database Connection (Readiness & Supabase Keep-Alive)
         run: |
           set -e
           URL="${{ secrets.PRODUCTION_URL }}"
           if [ -z "$URL" ]; then
             URL="https://educore-ratiba.onrender.com"
           fi
-          code=$(curl -sS -o /tmp/r.json -w "%{http_code}" "$URL/health.php?ready=1")
-          echo "readiness HTTP $code"
+          echo "Pinging $URL/health.php?ready=1 to query Supabase (SELECT 1)..."
+          code=$(curl -sS --max-time 60 --retry 2 -o /tmp/r.json -w "%{http_code}" "$URL/health.php?ready=1")
+          echo "Readiness HTTP $code"
           cat /tmp/r.json
           test "$code" = "200"
+
+      - name: Supabase Direct Keep-Alive (Optional Fallback)
+        if: ${{ env.SUPABASE_URL != '' && env.SUPABASE_ANON_KEY != '' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging Supabase REST API directly to guarantee activity..."
+          curl -sS --max-time 15 \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/" || true
