@@ -313,12 +313,20 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
     $basicTime->addChild('Weight_Percentage', '100');
     $basicTime->addChild('Active', 'true');
 
-    // Lock every band's break slots, on every day, for every class in
-    // that band (ConstraintStudentsSetNotAvailableTimes is per-Year).
+    // Lock non-teaching hours for each class in a single consolidated
+    // ConstraintStudentsSetNotAvailableTimes. This locks BOTH the band's break
+    // slots AND all other bands' hours. FET strictly requires all unavailable
+    // slots for a single Students set to be declared in one constraint.
     foreach ($classes as $class) {
         $bandId = $class['band_id'];
-        $breakNames = $bandHourNames[$bandId]['break'] ?? [];
-        if (empty($breakNames)) {
+        $allowedTeaching = array_flip($bandHourNames[$bandId]['teaching'] ?? []);
+        $forbiddenHours = [];
+        foreach (array_keys($allHourEntries) as $hn) {
+            if (!isset($allowedTeaching[$hn])) {
+                $forbiddenHours[] = $hn;
+            }
+        }
+        if (empty($forbiddenHours)) {
             continue;
         }
         $notAvail = $timeConstraints->addChild('ConstraintStudentsSetNotAvailableTimes');
@@ -326,15 +334,15 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
         $notAvail->addChild('Students', htmlspecialchars($class['name']));
         $entries = [];
         foreach ($days as $d) {
-            foreach ($breakNames as $bn) {
-                $entries[] = [$d, $bn];
+            foreach ($forbiddenHours as $fhn) {
+                $entries[] = [$d, $fhn];
             }
         }
         $notAvail->addChild('Number_of_Not_Available_Times', (string) count($entries));
-        foreach ($entries as [$d, $bn]) {
+        foreach ($entries as [$d, $fhn]) {
             $nat = $notAvail->addChild('Not_Available_Time');
             $nat->addChild('Day', $d);
-            $nat->addChild('Hour', htmlspecialchars($bn));
+            $nat->addChild('Hour', htmlspecialchars($fhn));
         }
         $notAvail->addChild('Active', 'true');
     }

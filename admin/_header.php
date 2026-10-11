@@ -124,3 +124,13 @@ if (function_exists('getCsrfToken')) {
 </header>
 
 <main class="app-main">
+<?php if (!empty($_SESSION['flash_success'])): ?>
+<div class="alert alert-success" style="background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-weight:500;">
+    <?php echo htmlspecialchars($_SESSION['flash_success']); unset($_SESSION['flash_success']); ?>
+</div>
+<?php endif; ?>
+<?php if (!empty($_SESSION['flash_error'])): ?>
+<div class="alert alert-danger" style="background:#fef2f2;color:#991b1b;border:1px solid #fecaca;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-weight:500;">
+    <?php echo htmlspecialchars($_SESSION['flash_error']); unset($_SESSION['flash_error']); ?>
+</div>
+<?php endif; ?>

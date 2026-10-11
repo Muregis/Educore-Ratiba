@@ -2,9 +2,10 @@
 declare(strict_types=1);
 
 /**
- * Post-process FET XML so each class is unavailable outside its own
- * band's teaching hours. Reads Hours_List from the XML itself so names
- * always match what buildWholeSchoolXml wrote.
+ * Post-process FET XML so each class has exactly ONE consolidated
+ * ConstraintStudentsSetNotAvailableTimes covering both its band's break
+ * slots and all other bands' hours. FET ignores duplicate constraints for
+ * the same Students set, so this function deduplicates and ensures strict locks.
  */
 function applyBandHourLocksToFetXml(string $xmlPath, int $schoolId): void
 {
@@ -12,16 +13,20 @@ function applyBandHourLocksToFetXml(string $xmlPath, int $schoolId): void
         return;
     }
 
-    $xml = @simplexml_load_file($xmlPath);
-    if ($xml === false) {
+    $dom = new DOMDocument('1.0', 'UTF-8');
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = true;
+    if (!@$dom->load($xmlPath)) {
         return;
     }
 
-    // Collect every hour name from the XML Hours_List
+    // Collect every hour name from Hours_List
     $allHours = [];
-    if (isset($xml->Hours_List->Hour)) {
-        foreach ($xml->Hours_List->Hour as $hourEl) {
-            $name = trim((string) ($hourEl->Name ?? ''));
+    $hourNodes = $dom->getElementsByTagName('Hour');
+    foreach ($hourNodes as $hnNode) {
+        $nameNodes = $hnNode->getElementsByTagName('Name');
+        if ($nameNodes->length > 0) {
+            $name = trim($nameNodes->item(0)->textContent);
             if ($name !== '') {
                 $allHours[$name] = true;
             }
@@ -50,13 +55,26 @@ function applyBandHourLocksToFetXml(string $xmlPath, int $schoolId): void
 
     $classes = array_filter(getClasses($schoolId), static fn($c) => (bool) ($c['active'] ?? true));
     $days = getSchoolDayNames($schoolId);
-    
 
-    if (!isset($xml->Time_Constraints_List)) {
-        $xml->addChild('Time_Constraints_List');
+    $tclList = $dom->getElementsByTagName('Time_Constraints_List');
+    if ($tclList->length === 0) {
+        $tclNode = $dom->createElement('Time_Constraints_List');
+        $dom->documentElement->appendChild($tclNode);
+    } else {
+        $tclNode = $tclList->item(0);
     }
-    $tcl = $xml->Time_Constraints_List;
 
+    // Remove any existing ConstraintStudentsSetNotAvailableTimes to prevent duplicates
+    $existing = [];
+    $cNodes = $tclNode->getElementsByTagName('ConstraintStudentsSetNotAvailableTimes');
+    for ($i = 0; $i < $cNodes->length; $i++) {
+        $existing[] = $cNodes->item($i);
+    }
+    foreach ($existing as $exNode) {
+        $tclNode->removeChild($exNode);
+    }
+
+    // Insert single consolidated constraint per class
     foreach ($classes as $class) {
         $bandId = (int) ($class['band_id'] ?? 0);
         $prefix = $bandKeyById[$bandId] ?? '';
@@ -87,24 +105,22 @@ function applyBandHourLocksToFetXml(string $xmlPath, int $schoolId): void
             continue;
         }
 
-        $notAvail = $tcl->addChild('ConstraintStudentsSetNotAvailableTimes');
-        $notAvail->addChild('Weight_Percentage', '100');
-        $notAvail->addChild('Students', (string) $class['name']);
-        $entries = [];
+        $notAvail = $dom->createElement('ConstraintStudentsSetNotAvailableTimes');
+        $notAvail->appendChild($dom->createElement('Weight_Percentage', '100'));
+        $notAvail->appendChild($dom->createElement('Students', (string) $class['name']));
+        $notAvail->appendChild($dom->createElement('Number_of_Not_Available_Times', (string) (count($days) * count($forbidden))));
+
         foreach ($days as $d) {
             foreach ($forbidden as $hn) {
-                $entries[] = [$d, $hn];
+                $nat = $dom->createElement('Not_Available_Time');
+                $nat->appendChild($dom->createElement('Day', $d));
+                $nat->appendChild($dom->createElement('Hour', $hn));
+                $notAvail->appendChild($nat);
             }
         }
-        $notAvail->addChild('Number_of_Not_Available_Times', (string) count($entries));
-        foreach ($entries as [$d, $hn]) {
-            $nat = $notAvail->addChild('Not_Available_Time');
-            $nat->addChild('Day', $d);
-            $nat->addChild('Hour', $hn);
-        }
-        $notAvail->addChild('Active', 'true');
+        $notAvail->appendChild($dom->createElement('Active', 'true'));
+        $tclNode->appendChild($notAvail);
     }
 
-    $xml->asXML($xmlPath);
+    $dom->save($xmlPath);
 }
-
