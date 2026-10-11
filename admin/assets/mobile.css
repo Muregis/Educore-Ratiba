@@ -1,99 +1,402 @@
-/* Mobile Responsive Improvements for Kenyan Schools - Tailwind Enhanced */
+/* ==========================================================================
+   EduCore Ratiba — Mobile Responsive Optimizations for Kenyan Schools
+   Optimized for mobile browsers (iOS Safari, Android Chrome, Opera Mini)
+   ========================================================================== */
 
-/* Base mobile styles - minimal custom CSS, most handled by Tailwind */
+/* 1. Base Mobile Layout & Typography (< 768px) */
 @media (max-width: 768px) {
-    /* Force horizontal scroll for tables on mobile */
-    .table-wrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+    :root {
+        --topbar-h: 52px;
     }
-    
-    table {
-        min-width: 600px; /* Force horizontal scroll on mobile */
+
+    body {
+        font-size: 0.875rem;
+        -webkit-text-size-adjust: 100%;
     }
-    
-    /* Larger touch targets for mobile */
-    button, .btn, input, select {
+
+    /* iOS Safari zoom prevention on inputs: must be >= 16px */
+    input, select, textarea {
+        font-size: 16px !important;
+        min-height: 44px;
+        padding: 10px 12px;
+    }
+
+    /* Touch target baseline for interactive controls */
+    button, .btn, select, .menu-toggle {
         min-height: 44px;
     }
-    
-    /* Remove tap highlight on mobile */
-    button, a, input, select {
+
+    /* Remove default tap highlight gray box */
+    button, a, input, select, textarea, [role="button"] {
         -webkit-tap-highlight-color: transparent;
     }
-}
 
-/* Touch-friendly improvements */
-@media (hover: none) and (pointer: coarse) {
-    /* Ensure touch targets are large enough */
-    button, a, input[type="checkbox"], input[type="radio"] {
-        min-height: 44px;
-        min-width: 44px;
-    }
-    
-    /* Prevent text selection on buttons */
-    button, a {
-        user-select: none;
+    /* Prevent accidental text selection during multi-tap actions */
+    button, .btn, .day-tab, .tt-slot-card, .menu-toggle {
         -webkit-user-select: none;
+        user-select: none;
     }
-}
 
-/* Small phone optimization */
-@media (max-width: 480px) {
-    /* Stack table columns differently on very small screens */
+    /* Layout Spacing */
+    .app-main {
+        padding: 12px 10px 40px !important;
+    }
+
+    .card {
+        padding: 14px 12px !important;
+        border-radius: 8px !important;
+        margin-bottom: 14px !important;
+    }
+
+    /* Prevent any table inside a card from bursting the viewport */
+    .card > table,
+    .table-wrap,
+    .tt-wrap {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 10px;
+    }
+
+    /* Table typography */
     table {
         font-size: 0.8125rem;
     }
-    
-    /* Compact forms */
-    input, select {
-        padding: 10px 12px;
+
+    th, td {
+        padding: 8px 6px;
+    }
+
+    /* Row actions wrap smoothly on phone screens */
+    .row-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .row-actions .btn,
+    .row-actions button {
+        padding: 6px 10px;
+        font-size: 0.78rem;
+        min-height: 36px;
+    }
+
+    /* Title bars and headers */
+    .tt-title-bar {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 4px !important;
+        margin: 12px 0 6px !important;
+    }
+
+    .tt-title-bar h3 {
+        font-size: 1.05rem;
+    }
+
+    .tt-sub {
+        font-size: 0.78rem;
     }
 }
 
-/* Landscape mobile */
-@media (max-width: 768px) and (orientation: landscape) {
-    .wizard-container {
-        max-height: 80vh;
-        overflow-y: auto;
+/* 2. Coarse Pointer (Touchscreen) Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch targets for buttons, selects and navigation */
+    .btn,
+    button:not(.toggle-password),
+    .sidebar-nav a,
+    .day-tab {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
     }
-    
-    .progress-bar {
-        position: sticky;
-        top: 0;
+
+    /* Checkbox & Radio comfortable touch zones */
+    input[type="checkbox"],
+    input[type="radio"] {
+        min-width: 22px;
+        min-height: 22px;
+        cursor: pointer;
+    }
+
+    /* Active touch feedback */
+    .btn:active,
+    button:active,
+    .day-tab:active,
+    .tt-slot-card:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+    }
+}
+
+/* 3. Mobile Day Filter Tabs for Timetables */
+.mobile-day-tabs {
+    display: none; /* hidden on desktop */
+}
+
+@media (max-width: 768px) {
+    .mobile-day-tabs {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 6px;
+        padding: 4px 2px 10px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .mobile-day-tabs::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+
+    .day-tab {
+        flex-shrink: 0;
         background: var(--bg-white);
-        padding: 8px 0;
-        z-index: 10;
+        border: 1.5px solid var(--border);
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.15s ease;
+        min-height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
-}
 
-/* Print styles for reports */
-@media print {
-    .no-print {
+    .day-tab:hover {
+        background: var(--bg-light);
+        color: var(--text);
+    }
+
+    .day-tab.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #ffffff;
+        box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Day filtering behavior on timetable grid */
+    .tt-grid.filtering-day th[data-day]:not(.day-visible),
+    .tt-grid.filtering-day td[data-day]:not(.day-visible) {
         display: none !important;
     }
-    
+
+    .tt-grid.filtering-day {
+        min-width: 100% !important;
+        table-layout: auto !important;
+    }
+
+    .tt-grid.filtering-day .tt-time {
+        width: 80px !important;
+        min-width: 80px !important;
+    }
+
+    .tt-grid.filtering-day .tt-break-row td:not(.tt-time) {
+        /* When only 1 day is visible, break row spans across that single column */
+        text-align: center;
+    }
+}
+
+/* 4. Sticky Timetable Columns & Scroll Affordances */
+@media (max-width: 768px) {
+    .tt-wrap {
+        position: relative;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+    }
+
+    /* Sticky Time column remains anchored on horizontal scroll */
+    .tt-grid .tt-time {
+        position: sticky;
+        left: 0;
+        z-index: 5;
+        background: #f8fafc !important;
+        border-right: 2px solid var(--border) !important;
+        box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .tt-grid thead th.tt-time {
+        z-index: 8;
+        background: var(--primary-dark) !important;
+    }
+
+    .tt-grid .tt-break-row .tt-time {
+        background: var(--warning) !important;
+        z-index: 5;
+    }
+
+    /* Slot touch card improvements */
+    .tt-slot-card {
+        padding: 8px 6px;
+        min-height: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .tt-slot-empty {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        background: rgba(0, 0, 0, 0.015);
+    }
+}
+
+/* 5. Mobile Floating Action Bar for Timetable Editing */
+.tt-mobile-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .tt-mobile-bar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #0f172a;
+        color: #f8fafc;
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.25);
+        z-index: 400;
+        animation: slideUpBar 0.25s ease-out;
+    }
+
+    @keyframes slideUpBar {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+
+    .tt-mobile-bar-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+    }
+
+    .tt-mobile-bar-icon {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .tt-mobile-bar-actions {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+
+    .tt-mobile-bar .btn {
+        min-height: 36px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* 6. Small Phone (< 480px) Layout Optimizations */
+@media (max-width: 480px) {
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .topbar-title {
+        font-size: 0.88rem;
+    }
+
+    .topbar-school {
+        display: none !important; /* free up space for page title */
+    }
+
+    .menu-toggle {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Stack buttons that are grouped horizontally */
+    .action-row {
+        flex-direction: column;
+    }
+
+    .action-row .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Setup cards and dashboard stats */
+    .setup-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .setup-progress-ring {
+        align-self: center;
+    }
+}
+
+/* 7. Safe Area Inset Support (iPhone Notch, Dynamic Island, Home Bar) */
+@supports (padding-top: env(safe-area-inset-top)) {
+    .topbar {
+        padding-top: env(safe-area-inset-top, 0px);
+        height: calc(var(--topbar-h) + env(safe-area-inset-top, 0px));
+    }
+
+    .sidebar {
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 12px);
+    }
+
+    .app-main {
+        padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+}
+
+/* 8. Print Styles */
+@media print {
+    .no-print,
+    .mobile-day-tabs,
+    .tt-mobile-bar,
+    .menu-toggle,
+    .sidebar-close-btn {
+        display: none !important;
+    }
+
     .card {
         border: none;
         box-shadow: none;
         padding: 0;
     }
-    
+
     table {
         page-break-inside: auto;
     }
-    
+
     tr {
         page-break-inside: avoid;
         page-break-after: auto;
     }
-    
+
     body {
         background: white;
         color: black;
     }
-    
-    header, .mobile-menu-btn {
+
+    header, .sidebar, .sidebar-overlay {
         display: none !important;
     }
 }

@@ -232,8 +232,15 @@ if ($latestGeneration) {
 .gen-row { display: flex; align-items: center; gap: 12px; font-size: 0.875rem; }
 .gen-label { color: var(--text-muted); font-weight: 500; width: 110px; flex-shrink: 0; }
 @media (max-width: 640px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card { padding: 12px 14px; gap: 10px; }
+    .stat-number { font-size: 1.4rem; }
     .setup-header { flex-direction: column; gap: 12px; }
+    .action-row { flex-direction: column; }
+    .action-row .btn { width: 100%; justify-content: center; }
+}
+@media (max-width: 380px) {
+    .stats-grid { grid-template-columns: 1fr; }
 }
 </style>
 

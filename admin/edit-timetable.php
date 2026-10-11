@@ -142,11 +142,19 @@ foreach ($slots as $slot) {
 <button type="button" class="btn btn-secondary" id="swapBtn" onclick="toggleSwap()">Enable Swap Mode</button>
 <span id="swap-status" class="empty">Click a lesson to select it for move</span>
 </div>
-<div style="overflow-x:auto;">
+
+<div class="mobile-day-tabs" role="tablist" aria-label="Select day">
+    <button type="button" class="day-tab active" data-day="all" onclick="filterTimetableDay(this, 'all')">All Days</button>
+    <?php foreach ($days as $day): ?>
+        <button type="button" class="day-tab" data-day="<?php echo htmlspecialchars($day); ?>" onclick="filterTimetableDay(this, '<?php echo htmlspecialchars($day); ?>')"><?php echo htmlspecialchars($day); ?></button>
+    <?php endforeach; ?>
+</div>
+
+<div class="tt-wrap">
 <table class="tt-grid">
 <thead><tr>
-<th>Time</th>
-<?php foreach ($days as $day): ?><th><?php echo htmlspecialchars($day); ?></th><?php endforeach; ?>
+<th class="tt-time">Time</th>
+<?php foreach ($days as $day): ?><th data-day="<?php echo htmlspecialchars($day); ?>"><?php echo htmlspecialchars($day); ?></th><?php endforeach; ?>
 </tr></thead>
 <tbody>
 <?php foreach ($hourSlotsSorted as $hour):
@@ -157,7 +165,7 @@ foreach ($slots as $slot) {
 <?php foreach ($days as $day):
   $slot = $grid[$day][$hour] ?? null;
 ?>
-<td>
+<td data-day="<?php echo htmlspecialchars($day); ?>">
 <?php if ($slot): ?>
 <div data-slot-id="<?php echo (int)$slot['id']; ?>" onclick="onSlotClick(<?php echo (int)$slot['id']; ?>)" class="tt-slot-card">
 <div class="tt-cell-subject"><?php echo htmlspecialchars($slot['subject_name'] ?? '—'); ?></div>
@@ -180,55 +188,124 @@ foreach ($slots as $slot) {
 </tbody>
 </table>
 </div>
+
+<div class="tt-mobile-bar" id="mobileActionBar" style="display:none;">
+    <div class="tt-mobile-bar-info">
+        <span class="tt-mobile-bar-icon" id="mobileBarIcon">📌</span>
+        <span id="mobileBarText">Lesson selected</span>
+    </div>
+    <div class="tt-mobile-bar-actions">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelSelection()">Cancel</button>
+    </div>
+</div>
+
 <?php endif; endif; ?>
 </div>
 <script>
 let swapMode = false, selectedSlotId = null, selectedForMove = null;
 function csrf(){ return document.getElementById('csrf_token')?.value || ''; }
+
+function showMobileBar(icon, text) {
+  const bar = document.getElementById('mobileActionBar');
+  if (!bar) return;
+  document.getElementById('mobileBarIcon').textContent = icon;
+  document.getElementById('mobileBarText').textContent = text;
+  bar.style.display = 'flex';
+}
+
+function hideMobileBar() {
+  const bar = document.getElementById('mobileActionBar');
+  if (bar) bar.style.display = 'none';
+}
+
+function cancelSelection() {
+  selectedSlotId = null;
+  selectedForMove = null;
+  document.querySelectorAll('.tt-slot-card').forEach(el => el.classList.remove('selected-slot'));
+  document.getElementById('swap-status').textContent = swapMode ? 'Select first lesson to swap' : 'Click a lesson to select it for move';
+  hideMobileBar();
+}
+
 function toggleSwap(){
-  swapMode = !swapMode; selectedSlotId = null;
+  swapMode = !swapMode;
+  cancelSelection();
   document.getElementById('swapBtn').textContent = swapMode ? 'Disable Swap Mode' : 'Enable Swap Mode';
   document.getElementById('swap-status').textContent = swapMode ? 'Select first lesson to swap' : 'Click a lesson to select it for move';
-  document.querySelectorAll('[data-slot-id]').forEach(el => el.style.outline = '');
 }
+
 function onSlotClick(id){
+  const el = document.querySelector('[data-slot-id="'+id+'"]');
+  const subj = el?.querySelector('.tt-cell-subject')?.textContent?.trim() || 'Lesson';
+
   if (swapMode) {
     if (!selectedSlotId) {
       selectedSlotId = id;
-      document.getElementById('swap-status').textContent = 'Select second lesson to swap';
-      const el = document.querySelector('[data-slot-id="'+id+'"]');
-      if (el) el.style.outline = '3px solid var(--primary-dark)';
+      document.querySelectorAll('.tt-slot-card').forEach(c => c.classList.remove('selected-slot'));
+      if (el) el.classList.add('selected-slot');
+      document.getElementById('swap-status').textContent = 'Selected: ' + subj + ' — select 2nd lesson to swap';
+      showMobileBar('🔄', 'Swap: ' + subj + ' → Tap 2nd slot');
     } else if (selectedSlotId !== id) {
       doSwap(selectedSlotId, id);
     }
     return;
   }
+
   selectedForMove = id;
-  document.querySelectorAll('[data-slot-id]').forEach(el => el.style.outline = '');
-  const el = document.querySelector('[data-slot-id="'+id+'"]');
-  if (el) el.style.outline = '3px solid var(--primary-dark)';
-  document.getElementById('swap-status').textContent = 'Lesson selected — click an empty cell to move';
+  document.querySelectorAll('.tt-slot-card').forEach(c => c.classList.remove('selected-slot'));
+  if (el) el.classList.add('selected-slot');
+  document.getElementById('swap-status').textContent = 'Selected: ' + subj + ' — click empty cell to move';
+  showMobileBar('📌', 'Move: ' + subj + ' → Tap empty cell');
 }
+
 async function doSwap(a,b){
+  showMobileBar('⏳', 'Swapping lessons…');
   const fd = new FormData(); fd.append('action','swap_slots'); fd.append('_csrf_token', csrf());
   fd.append('slot_id_1',a); fd.append('slot_id_2',b);
-  const res = await fetch('edit_actions.php',{method:'POST',body:fd});
-  const data = await res.json();
-  const f = document.getElementById('move-feedback');
-  if (data.ok){ f.innerHTML='<div class="success">Swapped. Reloading…</div>'; setTimeout(()=>location.reload(),700); }
-  else { f.innerHTML='<div class="error">'+(data.error||'Swap failed')+'</div>'; selectedSlotId=null; }
+  try {
+    const res = await fetch('edit_actions.php',{method:'POST',body:fd});
+    const data = await res.json();
+    const f = document.getElementById('move-feedback');
+    if (data.ok){
+      f.innerHTML='<div class="success">Swapped successfully. Reloading…</div>';
+      showMobileBar('✓', 'Swapped. Reloading…');
+      setTimeout(()=>location.reload(),700);
+    } else {
+      f.innerHTML='<div class="error">'+(data.error||'Swap failed')+'</div>';
+      showMobileBar('⚠️', data.error || 'Swap failed');
+      selectedSlotId=null;
+    }
+  } catch(e) {
+    document.getElementById('move-feedback').innerHTML='<div class="error">Network error during swap.</div>';
+    showMobileBar('⚠️', 'Network error');
+  }
 }
+
 async function moveSelectedToEmpty(el){
   const id = selectedForMove || selectedSlotId;
-  if (!id){ document.getElementById('move-feedback').innerHTML='<div class="error">Click a lesson first, then an empty cell.</div>'; return; }
+  if (!id){
+    document.getElementById('move-feedback').innerHTML='<div class="error">Click a lesson first, then an empty cell.</div>';
+    return;
+  }
+  showMobileBar('⏳', 'Moving lesson…');
   const fd = new FormData(); fd.append('action','move_slot'); fd.append('_csrf_token', csrf());
   fd.append('slot_id',id);
   fd.append('new_day', el.getAttribute('data-day')); fd.append('new_hour_slot', el.getAttribute('data-hour'));
-  const res = await fetch('edit_actions.php',{method:'POST',body:fd});
-  const data = await res.json();
-  const f = document.getElementById('move-feedback');
-  if (data.ok){ f.innerHTML='<div class="success">Moved. Reloading…</div>'; setTimeout(()=>location.reload(),700); }
-  else f.innerHTML='<div class="error">'+(data.error||'Move failed')+'</div>';
+  try {
+    const res = await fetch('edit_actions.php',{method:'POST',body:fd});
+    const data = await res.json();
+    const f = document.getElementById('move-feedback');
+    if (data.ok){
+      f.innerHTML='<div class="success">Moved successfully. Reloading…</div>';
+      showMobileBar('✓', 'Moved. Reloading…');
+      setTimeout(()=>location.reload(),700);
+    } else {
+      f.innerHTML='<div class="error">'+(data.error||'Move failed')+'</div>';
+      showMobileBar('⚠️', data.error || 'Move failed');
+    }
+  } catch(e) {
+    document.getElementById('move-feedback').innerHTML='<div class="error">Network error during move.</div>';
+    showMobileBar('⚠️', 'Network error');
+  }
 }
 </script>
 <?php require __DIR__ . '/_footer.php'; ?>

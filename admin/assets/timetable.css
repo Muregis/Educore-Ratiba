@@ -1,5 +1,10 @@
 /* Timetable Grid Styles */
-.tt-wrap { overflow-x: auto; margin-top: 12px; }
+.tt-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 12px;
+    position: relative;
+}
 .tt-grid {
     width: 100%;
     min-width: 720px;
@@ -20,15 +25,30 @@
     text-align: center;
     font-size: 0.8rem;
     padding: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 6;
 }
 .tt-grid .tt-time {
     width: 100px;
+    min-width: 85px;
     background: var(--bg-light);
     font-weight: 600;
     font-size: 0.75rem;
     white-space: nowrap;
     text-align: center;
     color: var(--text);
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.04);
+}
+.tt-grid thead th.tt-time {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background: var(--primary-dark);
 }
 .tt-grid .tt-break-row td {
     background: var(--warning);
@@ -39,7 +59,12 @@
     font-size: 0.78rem;
     padding: 8px;
 }
-.tt-grid .tt-break-row .tt-time { background: var(--warning); }
+.tt-grid .tt-break-row .tt-time {
+    background: var(--warning);
+    position: sticky;
+    left: 0;
+    z-index: 5;
+}
 .tt-cell-subject {
     font-weight: 700;
     color: var(--text);
@@ -78,6 +103,27 @@
     border-radius: 2px;
 }
 
+/* Day filtering via data-filter-day on .tt-wrap */
+.tt-wrap[data-filter-day]:not([data-filter-day="all"]) th[data-day],
+.tt-wrap[data-filter-day]:not([data-filter-day="all"]) td[data-day] {
+    display: none;
+}
+.tt-wrap[data-filter-day="Monday"] [data-day="Monday"],
+.tt-wrap[data-filter-day="Tuesday"] [data-day="Tuesday"],
+.tt-wrap[data-filter-day="Wednesday"] [data-day="Wednesday"],
+.tt-wrap[data-filter-day="Thursday"] [data-day="Thursday"],
+.tt-wrap[data-filter-day="Friday"] [data-day="Friday"],
+.tt-wrap[data-filter-day="Saturday"] [data-day="Saturday"],
+.tt-wrap[data-filter-day="Sunday"] [data-day="Sunday"] {
+    display: table-cell !important;
+}
+.tt-wrap[data-filter-day]:not([data-filter-day="all"]) .tt-grid {
+    min-width: 100% !important;
+}
+.tt-wrap[data-filter-day]:not([data-filter-day="all"]) .tt-break-row td:not(.tt-time) {
+    text-align: center;
+}
+
 /* Edit Timetable specific */
 .tt-slot-card {
     cursor: pointer;
@@ -85,11 +131,19 @@
     border-radius: 6px;
     background: var(--bg-white);
     border: 1px solid var(--border);
-    transition: transform 0.1s, box-shadow 0.1s;
+    transition: transform 0.1s, box-shadow 0.1s, outline 0.1s;
+    user-select: none;
+    -webkit-user-select: none;
 }
 .tt-slot-card:hover {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transform: translateY(-1px);
+}
+.tt-slot-card.selected-slot {
+    outline: 3px solid var(--primary-dark) !important;
+    background: #eef2ff;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    transform: scale(1.02);
 }
 .tt-slot-empty {
     cursor: pointer;
@@ -98,6 +152,8 @@
     padding: 16px 0;
     transition: background 0.1s;
     border-radius: 6px;
+    user-select: none;
+    -webkit-user-select: none;
 }
 .tt-slot-empty:hover {
     background: var(--bg-light);
@@ -108,8 +164,10 @@
 }
 
 @media print {
-    .sidebar, .mobile-topbar, .btn, form, .tt-legend, nav, .shell-nav, .menu-toggle { display: none !important; }
+    .sidebar, .mobile-topbar, .btn, form, .tt-legend, nav, .shell-nav, .menu-toggle, .mobile-day-tabs, .tt-mobile-bar { display: none !important; }
     .tt-grid { min-width: 0; font-size: 9pt; }
     .card { border: none; box-shadow: none; padding: 0; }
     .tt-wrap { overflow: visible; }
+    .tt-grid .tt-time { position: static; box-shadow: none; }
+    .tt-grid thead th { position: static; }
 }

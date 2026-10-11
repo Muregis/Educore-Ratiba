@@ -328,13 +328,20 @@ require __DIR__ . '/_header.php';
                     </span>
                 </div>
 
+                <div class="mobile-day-tabs" role="tablist" aria-label="Select day">
+                    <button type="button" class="day-tab active" data-day="all" onclick="filterTimetableDay(this, 'all')">All Days</button>
+                    <?php foreach ($dayNames as $day): ?>
+                        <button type="button" class="day-tab" data-day="<?php echo htmlspecialchars($day); ?>" onclick="filterTimetableDay(this, '<?php echo htmlspecialchars($day); ?>')"><?php echo htmlspecialchars($day); ?></button>
+                    <?php endforeach; ?>
+                </div>
+
                 <div class="tt-wrap">
                     <table class="tt-grid">
                         <thead>
                             <tr>
                                 <th class="tt-time">Time</th>
                                 <?php foreach ($dayNames as $day): ?>
-                                    <th><?php echo htmlspecialchars($day); ?></th>
+                                    <th data-day="<?php echo htmlspecialchars($day); ?>"><?php echo htmlspecialchars($day); ?></th>
                                 <?php endforeach; ?>
                             </tr>
                         </thead>
@@ -343,7 +350,7 @@ require __DIR__ . '/_header.php';
                                 <?php if ($period['is_break']): ?>
                                     <tr class="tt-break-row">
                                         <td class="tt-time"><?php echo htmlspecialchars($period['label']); ?></td>
-                                        <td colspan="<?php echo count($dayNames); ?>">
+                                        <td colspan="<?php echo count($dayNames); ?>" class="tt-break-cell">
                                             <?php echo htmlspecialchars($period['break_label'] ?? 'BREAK'); ?>
                                         </td>
                                     </tr>
@@ -352,7 +359,7 @@ require __DIR__ . '/_header.php';
                                         <td class="tt-time"><?php echo htmlspecialchars($period['label']); ?></td>
                                         <?php foreach ($dayNames as $day): ?>
                                             <?php $slot = findSlotForPeriod($grid, $day, $period); ?>
-                                            <td>
+                                            <td data-day="<?php echo htmlspecialchars($day); ?>">
                                                 <?php if ($slot): ?>
                                                     <?php
                                                     $title = $slot['subject_name'] ?? $slot['activity_name'] ?? '—';

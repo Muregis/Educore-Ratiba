@@ -32,6 +32,7 @@ if (function_exists('getCsrfToken')) {
     <div class="sidebar-brand">
         <span class="logo-icon" aria-hidden="true">📅</span>
         <a href="dashboard.php" class="brand-text">EduCore Ratiba</a>
+        <button type="button" class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close navigation">&times;</button>
     </div>
     <?php if (!empty($school['name'])): ?>
     <div class="sidebar-school" title="<?php echo htmlspecialchars($school['name']); ?>">

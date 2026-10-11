@@ -59,7 +59,7 @@ getCsrfToken();
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Login — EduCore Ratiba</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -148,6 +148,15 @@ getCsrfToken();
         padding: 6px 10px; line-height: 1;
     }
     .toggle-password:hover { color: var(--primary); }
+    @media (max-width: 480px) {
+        body { padding: max(16px, env(safe-area-inset-top, 16px)) max(14px, env(safe-area-inset-right, 14px)) max(16px, env(safe-area-inset-bottom, 16px)) max(14px, env(safe-area-inset-left, 14px)); }
+        .login-card { padding: 26px 18px; border-radius: 12px; }
+        .logo-icon { width: 50px; height: 50px; font-size: 26px; border-radius: 12px; margin-bottom: 12px; }
+        .login-card h1 { font-size: 1.3rem; }
+        .login-card .subtitle { font-size: 0.8rem; margin-bottom: 20px; }
+        input { font-size: 16px !important; }
+        .toggle-password { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+    }
 </style>
 </head>
 <body>
