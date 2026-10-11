@@ -2,221 +2,364 @@
 
 The initial order of activities (id-s):
 
-No: 1, Id: 1, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
-No: 2, Id: 2, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
-No: 3, Id: 3, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
-No: 4, Id: 4, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
-No: 5, Id: 5, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
-No: 6, Id: 6, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
-No: 7, Id: 7, Duration: 1, Teachers: Form Teacher 3, Subject: Mathematics, Activity tags: , Students: Form 3
-No: 8, Id: 8, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 9, Id: 9, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 10, Id: 10, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 11, Id: 11, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 12, Id: 12, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 13, Id: 13, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 14, Id: 14, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 15, Id: 15, Duration: 1, Teachers: Form Teacher 3, Subject: English, Activity tags: , Students: Form 3
-No: 16, Id: 16, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
-No: 17, Id: 17, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
-No: 18, Id: 18, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
-No: 19, Id: 19, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
-No: 20, Id: 20, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
-No: 21, Id: 21, Duration: 1, Teachers: Form Teacher 3, Subject: Kiswahili, Activity tags: , Students: Form 3
-No: 22, Id: 22, Duration: 1, Teachers: Form Teacher 3, Subject: Physical Education / Life Skills, Activity tags: , Students: Form 3
-No: 23, Id: 23, Duration: 1, Teachers: Form Teacher 3, Subject: Physical Education / Life Skills, Activity tags: , Students: Form 3
-No: 24, Id: 24, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
-No: 25, Id: 25, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
-No: 26, Id: 26, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
-No: 27, Id: 27, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
-No: 28, Id: 28, Duration: 1, Teachers: Form Teacher 3, Subject: Chemistry, Activity tags: , Students: Form 3
-No: 29, Id: 29, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
-No: 30, Id: 30, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
-No: 31, Id: 31, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
-No: 32, Id: 32, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
-No: 33, Id: 33, Duration: 1, Teachers: Form Teacher 3, Subject: Biology, Activity tags: , Students: Form 3
-No: 34, Id: 34, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
-No: 35, Id: 35, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
-No: 36, Id: 36, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
-No: 37, Id: 37, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
-No: 38, Id: 38, Duration: 1, Teachers: Form Teacher 3, Subject: Geography, Activity tags: , Students: Form 3
-No: 39, Id: 39, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
-No: 40, Id: 40, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
-No: 41, Id: 41, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
-No: 42, Id: 42, Duration: 1, Teachers: Form Teacher 3, Subject: Business Studies, Activity tags: , Students: Form 3
-No: 43, Id: 43, Duration: 1, Teachers: Form Teacher 3, Subject: CRE, Activity tags: , Students: Form 3
-No: 44, Id: 44, Duration: 1, Teachers: Form Teacher 3, Subject: CRE, Activity tags: , Students: Form 3
-No: 45, Id: 45, Duration: 1, Teachers: Form Teacher 3, Subject: CRE, Activity tags: , Students: Form 3
-No: 46, Id: 152, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
-No: 47, Id: 153, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
-No: 48, Id: 154, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
-No: 49, Id: 155, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
-No: 50, Id: 156, Duration: 1, Teachers: JSS Teacher 7, Subject: English, Activity tags: , Students: Grade 7
-No: 51, Id: 157, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
-No: 52, Id: 158, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
-No: 53, Id: 159, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
-No: 54, Id: 160, Duration: 1, Teachers: JSS Teacher 7, Subject: Kiswahili, Activity tags: , Students: Grade 7
-No: 55, Id: 161, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
-No: 56, Id: 162, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
-No: 57, Id: 163, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
-No: 58, Id: 164, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
-No: 59, Id: 165, Duration: 1, Teachers: JSS Teacher 7, Subject: Mathematics, Activity tags: , Students: Grade 7
-No: 60, Id: 166, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
-No: 61, Id: 167, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
-No: 62, Id: 168, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
-No: 63, Id: 169, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
-No: 64, Id: 170, Duration: 1, Teachers: JSS Teacher 7, Subject: Integrated Science, Activity tags: , Students: Grade 7
-No: 65, Id: 171, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
-No: 66, Id: 172, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
-No: 67, Id: 173, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
-No: 68, Id: 174, Duration: 1, Teachers: JSS Teacher 7, Subject: Pre-Technical Studies, Activity tags: , Students: Grade 7
-No: 69, Id: 175, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
-No: 70, Id: 176, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
-No: 71, Id: 177, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
-No: 72, Id: 178, Duration: 1, Teachers: JSS Teacher 7, Subject: Social Studies, Activity tags: , Students: Grade 7
-No: 73, Id: 179, Duration: 1, Teachers: JSS Teacher 7, Subject: Religious Education, Activity tags: , Students: Grade 7
-No: 74, Id: 180, Duration: 1, Teachers: JSS Teacher 7, Subject: Religious Education, Activity tags: , Students: Grade 7
-No: 75, Id: 181, Duration: 1, Teachers: JSS Teacher 7, Subject: Religious Education, Activity tags: , Students: Grade 7
-No: 76, Id: 182, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
-No: 77, Id: 183, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
-No: 78, Id: 184, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
-No: 79, Id: 185, Duration: 1, Teachers: JSS Teacher 7, Subject: Creative Arts and Sports, Activity tags: , Students: Grade 7
-No: 80, Id: 186, Duration: 1, Teachers: JSS Teacher 7, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 7
-No: 81, Id: 187, Duration: 1, Teachers: JSS Teacher 7, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 7
-No: 82, Id: 188, Duration: 1, Teachers: JSS Teacher 7, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 7
-No: 83, Id: 189, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
-No: 84, Id: 190, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
-No: 85, Id: 191, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
-No: 86, Id: 192, Duration: 1, Teachers: JSS Teacher 7, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 7
-No: 87, Id: 77, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
-No: 88, Id: 78, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
-No: 89, Id: 79, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
-No: 90, Id: 80, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
-No: 91, Id: 81, Duration: 1, Teachers: Senior School Teacher 10, Subject: English, Activity tags: , Students: Grade 10
-No: 92, Id: 82, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
-No: 93, Id: 83, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
-No: 94, Id: 84, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
-No: 95, Id: 85, Duration: 1, Teachers: Senior School Teacher 10, Subject: Kiswahili, Activity tags: , Students: Grade 10
-No: 96, Id: 86, Duration: 1, Teachers: Senior School Teacher 10, Subject: Community Service Learning, Activity tags: , Students: Grade 10
-No: 97, Id: 87, Duration: 1, Teachers: Senior School Teacher 10, Subject: Community Service Learning, Activity tags: , Students: Grade 10
-No: 98, Id: 88, Duration: 1, Teachers: Senior School Teacher 10, Subject: Physical Education, Activity tags: , Students: Grade 10
-No: 99, Id: 89, Duration: 1, Teachers: Senior School Teacher 10, Subject: Physical Education, Activity tags: , Students: Grade 10
-No: 100, Id: 90, Duration: 1, Teachers: Senior School Teacher 10, Subject: Physical Education, Activity tags: , Students: Grade 10
-No: 101, Id: 91, Duration: 1, Teachers: Senior School Teacher 10, Subject: ICT, Activity tags: , Students: Grade 10
-No: 102, Id: 92, Duration: 1, Teachers: Senior School Teacher 10, Subject: ICT, Activity tags: , Students: Grade 10
-No: 103, Id: 93, Duration: 1, Teachers: Senior School Teacher 10, Subject: Life Skills / PRPI, Activity tags: , Students: Grade 10
-No: 104, Id: 94, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
-No: 105, Id: 95, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
-No: 106, Id: 96, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
-No: 107, Id: 97, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
-No: 108, Id: 98, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
-No: 109, Id: 99, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 1, Activity tags: , Students: Grade 10
-No: 110, Id: 100, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
-No: 111, Id: 101, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
-No: 112, Id: 102, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
-No: 113, Id: 103, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
-No: 114, Id: 104, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
-No: 115, Id: 105, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Core Subject 2, Activity tags: , Students: Grade 10
-No: 116, Id: 106, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
-No: 117, Id: 107, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
-No: 118, Id: 108, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
-No: 119, Id: 109, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
-No: 120, Id: 110, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 1, Activity tags: , Students: Grade 10
-No: 121, Id: 111, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
-No: 122, Id: 112, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
-No: 123, Id: 113, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
-No: 124, Id: 114, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
-No: 125, Id: 115, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
-No: 126, Id: 116, Duration: 1, Teachers: Senior School Teacher 10, Subject: Pathway Elective 2, Activity tags: , Students: Grade 10
-No: 127, Id: 117, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
-No: 128, Id: 118, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
-No: 129, Id: 119, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
-No: 130, Id: 120, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
-No: 131, Id: 121, Duration: 1, Teachers: Grade Teacher 4, Subject: English, Activity tags: , Students: Grade 4
-No: 132, Id: 122, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
-No: 133, Id: 123, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
-No: 134, Id: 124, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
-No: 135, Id: 125, Duration: 1, Teachers: Grade Teacher 4, Subject: Kiswahili, Activity tags: , Students: Grade 4
-No: 136, Id: 126, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
-No: 137, Id: 127, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
-No: 138, Id: 128, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
-No: 139, Id: 129, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
-No: 140, Id: 130, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
-No: 141, Id: 131, Duration: 1, Teachers: Grade Teacher 4, Subject: Mathematics, Activity tags: , Students: Grade 4
-No: 142, Id: 132, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
-No: 143, Id: 133, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
-No: 144, Id: 134, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
-No: 145, Id: 135, Duration: 1, Teachers: Grade Teacher 4, Subject: Science and Technology, Activity tags: , Students: Grade 4
-No: 146, Id: 136, Duration: 1, Teachers: Grade Teacher 4, Subject: Social Studies, Activity tags: , Students: Grade 4
-No: 147, Id: 137, Duration: 1, Teachers: Grade Teacher 4, Subject: Social Studies, Activity tags: , Students: Grade 4
-No: 148, Id: 138, Duration: 1, Teachers: Grade Teacher 4, Subject: Social Studies, Activity tags: , Students: Grade 4
-No: 149, Id: 139, Duration: 1, Teachers: Grade Teacher 4, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 4
-No: 150, Id: 140, Duration: 1, Teachers: Grade Teacher 4, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 4
-No: 151, Id: 141, Duration: 1, Teachers: Grade Teacher 4, Subject: Agriculture and Nutrition, Activity tags: , Students: Grade 4
-No: 152, Id: 142, Duration: 1, Teachers: Grade Teacher 4, Subject: Creative Arts, Activity tags: , Students: Grade 4
-No: 153, Id: 143, Duration: 1, Teachers: Grade Teacher 4, Subject: Creative Arts, Activity tags: , Students: Grade 4
-No: 154, Id: 144, Duration: 1, Teachers: Grade Teacher 4, Subject: Creative Arts, Activity tags: , Students: Grade 4
-No: 155, Id: 145, Duration: 1, Teachers: Grade Teacher 4, Subject: Religious Education, Activity tags: , Students: Grade 4
-No: 156, Id: 146, Duration: 1, Teachers: Grade Teacher 4, Subject: Religious Education, Activity tags: , Students: Grade 4
-No: 157, Id: 147, Duration: 1, Teachers: Grade Teacher 4, Subject: Religious Education, Activity tags: , Students: Grade 4
-No: 158, Id: 148, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
-No: 159, Id: 149, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
-No: 160, Id: 150, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
-No: 161, Id: 151, Duration: 1, Teachers: Grade Teacher 4, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 4
-No: 162, Id: 46, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
-No: 163, Id: 47, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
-No: 164, Id: 48, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
-No: 165, Id: 49, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
-No: 166, Id: 50, Duration: 1, Teachers: Grade Teacher 1, Subject: English, Activity tags: , Students: Grade 1
-No: 167, Id: 51, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
-No: 168, Id: 52, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
-No: 169, Id: 53, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
-No: 170, Id: 54, Duration: 1, Teachers: Grade Teacher 1, Subject: Kiswahili, Activity tags: , Students: Grade 1
-No: 171, Id: 55, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
-No: 172, Id: 56, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
-No: 173, Id: 57, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
-No: 174, Id: 58, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
-No: 175, Id: 59, Duration: 1, Teachers: Grade Teacher 1, Subject: Mathematics, Activity tags: , Students: Grade 1
-No: 176, Id: 60, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
-No: 177, Id: 61, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
-No: 178, Id: 62, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
-No: 179, Id: 63, Duration: 1, Teachers: Grade Teacher 1, Subject: Environmental Activities, Activity tags: , Students: Grade 1
-No: 180, Id: 64, Duration: 1, Teachers: Grade Teacher 1, Subject: Creative Arts, Activity tags: , Students: Grade 1
-No: 181, Id: 65, Duration: 1, Teachers: Grade Teacher 1, Subject: Creative Arts, Activity tags: , Students: Grade 1
-No: 182, Id: 66, Duration: 1, Teachers: Grade Teacher 1, Subject: Creative Arts, Activity tags: , Students: Grade 1
-No: 183, Id: 67, Duration: 1, Teachers: Grade Teacher 1, Subject: Physical and Health Education, Activity tags: , Students: Grade 1
-No: 184, Id: 68, Duration: 1, Teachers: Grade Teacher 1, Subject: Physical and Health Education, Activity tags: , Students: Grade 1
-No: 185, Id: 69, Duration: 1, Teachers: Grade Teacher 1, Subject: Physical and Health Education, Activity tags: , Students: Grade 1
-No: 186, Id: 70, Duration: 1, Teachers: Grade Teacher 1, Subject: Religious Education, Activity tags: , Students: Grade 1
-No: 187, Id: 71, Duration: 1, Teachers: Grade Teacher 1, Subject: Religious Education, Activity tags: , Students: Grade 1
-No: 188, Id: 72, Duration: 1, Teachers: Grade Teacher 1, Subject: Religious Education, Activity tags: , Students: Grade 1
-No: 189, Id: 73, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
-No: 190, Id: 74, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
-No: 191, Id: 75, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
-No: 192, Id: 76, Duration: 1, Teachers: Grade Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: Grade 1
-No: 193, Id: 193, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
-No: 194, Id: 194, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
-No: 195, Id: 195, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
-No: 196, Id: 196, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
-No: 197, Id: 197, Duration: 1, Teachers: PP Teacher 1, Subject: Language Activities, Activity tags: , Students: PP1
-No: 198, Id: 198, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
-No: 199, Id: 199, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
-No: 200, Id: 200, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
-No: 201, Id: 201, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
-No: 202, Id: 202, Duration: 1, Teachers: PP Teacher 1, Subject: Mathematical Activities, Activity tags: , Students: PP1
-No: 203, Id: 203, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
-No: 204, Id: 204, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
-No: 205, Id: 205, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
-No: 206, Id: 206, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
-No: 207, Id: 207, Duration: 1, Teachers: PP Teacher 1, Subject: Environmental Activities, Activity tags: , Students: PP1
-No: 208, Id: 208, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
-No: 209, Id: 209, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
-No: 210, Id: 210, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
-No: 211, Id: 211, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
-No: 212, Id: 212, Duration: 1, Teachers: PP Teacher 1, Subject: Psychomotor and Creative Activities, Activity tags: , Students: PP1
-No: 213, Id: 213, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
-No: 214, Id: 214, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
-No: 215, Id: 215, Duration: 1, Teachers: PP Teacher 1, Subject: Religious Education Activities, Activity tags: , Students: PP1
-No: 216, Id: 216, Duration: 1, Teachers: PP Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: PP1
-No: 217, Id: 217, Duration: 1, Teachers: PP Teacher 1, Subject: Pastoral Programme of Instruction, Activity tags: , Students: PP1
+No: 1, Id: 193,     Duration: 2/6, Teachers: Irene Chebet, Subject: Science, Activity tags: , Students: Grade 4 East
+No: 2, Id: 194,     Duration: 2/6, Teachers: Irene Chebet, Subject: Science, Activity tags: , Students: Grade 4 East
+No: 3, Id: 195,     Duration: 2/6, Teachers: Irene Chebet, Subject: Science, Activity tags: , Students: Grade 4 East
+No: 4, Id: 214,     Duration: 2/6, Teachers: Joseph Kimani, Subject: Science, Activity tags: , Students: Grade 5 West
+No: 5, Id: 215,     Duration: 2/6, Teachers: Joseph Kimani, Subject: Science, Activity tags: , Students: Grade 5 West
+No: 6, Id: 216,     Duration: 2/6, Teachers: Joseph Kimani, Subject: Science, Activity tags: , Students: Grade 5 West
+No: 7, Id: 235,     Duration: 2/6, Teachers: Hellen Achieng, Subject: Science, Activity tags: , Students: Grade 6 South
+No: 8, Id: 236,     Duration: 2/6, Teachers: Hellen Achieng, Subject: Science, Activity tags: , Students: Grade 6 South
+No: 9, Id: 237,     Duration: 2/6, Teachers: Hellen Achieng, Subject: Science, Activity tags: , Students: Grade 6 South
+No: 10, Id: 256,     Duration: 2/6, Teachers: Peter Mwangi, Subject: Science, Activity tags: , Students: Grade 4 North
+No: 11, Id: 257,     Duration: 2/6, Teachers: Peter Mwangi, Subject: Science, Activity tags: , Students: Grade 4 North
+No: 12, Id: 258,     Duration: 2/6, Teachers: Peter Mwangi, Subject: Science, Activity tags: , Students: Grade 4 North
+No: 13, Id: 277,     Duration: 2/6, Teachers: Naomi Wafula, Subject: Science, Activity tags: , Students: Grade 5 Central
+No: 14, Id: 278,     Duration: 2/6, Teachers: Naomi Wafula, Subject: Science, Activity tags: , Students: Grade 5 Central
+No: 15, Id: 279,     Duration: 2/6, Teachers: Naomi Wafula, Subject: Science, Activity tags: , Students: Grade 5 Central
+No: 16, Id: 298,     Duration: 2/6, Teachers: Samuel Kiptoo, Subject: Science, Activity tags: , Students: Grade 6 Coast
+No: 17, Id: 299,     Duration: 2/6, Teachers: Samuel Kiptoo, Subject: Science, Activity tags: , Students: Grade 6 Coast
+No: 18, Id: 300,     Duration: 2/6, Teachers: Samuel Kiptoo, Subject: Science, Activity tags: , Students: Grade 6 Coast
+No: 19, Id: 319,     Duration: 2/6, Teachers: Diana Musyoka, Subject: Science, Activity tags: , Students: Grade 4 Valley
+No: 20, Id: 320,     Duration: 2/6, Teachers: Diana Musyoka, Subject: Science, Activity tags: , Students: Grade 4 Valley
+No: 21, Id: 321,     Duration: 2/6, Teachers: Diana Musyoka, Subject: Science, Activity tags: , Students: Grade 4 Valley
+No: 22, Id: 340,     Duration: 2/6, Teachers: Victor Ochieng, Subject: Science, Activity tags: , Students: Grade 5 Highland
+No: 23, Id: 341,     Duration: 2/6, Teachers: Victor Ochieng, Subject: Science, Activity tags: , Students: Grade 5 Highland
+No: 24, Id: 342,     Duration: 2/6, Teachers: Victor Ochieng, Subject: Science, Activity tags: , Students: Grade 5 Highland
+No: 25, Id: 1, Duration: 1/8,     Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 26, Id: 2,     Duration: 1/8, Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 27, Id: 3,     Duration: 1/8, Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 28, Id: 4,     Duration: 1/8, Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 29, Id: 5,     Duration: 1/8, Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 30, Id: 6,     Duration: 1/8, Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 31, Id: 7,     Duration: 1/8, Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 32, Id: 8,     Duration: 1/8, Teachers: Alice Wambui, Subject: Creative Play, Activity tags: , Students: PP1 Sun
+No: 33, Id: 9,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 34, Id: 10,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 35, Id: 11,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 36, Id: 12,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 37, Id: 13,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 38, Id: 14,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 39, Id: 15,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 40, Id: 16,     Duration: 1/8, Teachers: Alice Wambui, Subject: Number Work, Activity tags: , Students: PP1 Sun
+No: 41, Id: 17,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 42, Id: 18,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 43, Id: 19,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 44, Id: 20,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 45, Id: 21,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 46, Id: 22,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 47, Id: 23,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 48, Id: 24,     Duration: 1/8, Teachers: Alice Wambui, Subject: Language Activities, Activity tags: , Students: PP1 Sun
+No: 49, Id: 25,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 50, Id: 26,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 51, Id: 27,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 52, Id: 28,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 53, Id: 29,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 54, Id: 30,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 55, Id: 31,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 56, Id: 32,     Duration: 1/8, Teachers: Brian Otieno, Subject: Creative Play, Activity tags: , Students: PP1 Moon
+No: 57, Id: 33,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 58, Id: 34,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 59, Id: 35,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 60, Id: 36,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 61, Id: 37,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 62, Id: 38,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 63, Id: 39,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 64, Id: 40,     Duration: 1/8, Teachers: Brian Otieno, Subject: Number Work, Activity tags: , Students: PP1 Moon
+No: 65, Id: 41,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 66, Id: 42,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 67, Id: 43,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 68, Id: 44,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 69, Id: 45,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 70, Id: 46,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 71, Id: 47,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 72, Id: 48,     Duration: 1/8, Teachers: Brian Otieno, Subject: Language Activities, Activity tags: , Students: PP1 Moon
+No: 73, Id: 49,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 74, Id: 50,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 75, Id: 51,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 76, Id: 52,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 77, Id: 53,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 78, Id: 54,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 79, Id: 55,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 80, Id: 56,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Creative Play, Activity tags: , Students: PP2 Star
+No: 81, Id: 57,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 82, Id: 58,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 83, Id: 59,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 84, Id: 60,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 85, Id: 61,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 86, Id: 62,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 87, Id: 63,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 88, Id: 64,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Number Work, Activity tags: , Students: PP2 Star
+No: 89, Id: 65,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 90, Id: 66,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 91, Id: 67,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 92, Id: 68,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 93, Id: 69,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 94, Id: 70,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 95, Id: 71,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 96, Id: 72,     Duration: 1/8, Teachers: Cynthia Kariuki, Subject: Language Activities, Activity tags: , Students: PP2 Star
+No: 97, Id: 73,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 98, Id: 74,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 99, Id: 75,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 100, Id: 76,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 101, Id: 77,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 102, Id: 78,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 103, Id: 79,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 104, Id: 80,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Creative Play, Activity tags: , Students: PP2 Cloud
+No: 105, Id: 81,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 106, Id: 82,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 107, Id: 83,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 108, Id: 84,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 109, Id: 85,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 110, Id: 86,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 111, Id: 87,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 112, Id: 88,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Number Work, Activity tags: , Students: PP2 Cloud
+No: 113, Id: 89,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 114, Id: 90,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 115, Id: 91,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 116, Id: 92,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 117, Id: 93,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 118, Id: 94,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 119, Id: 95,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 120, Id: 96,     Duration: 1/8, Teachers: Daniel Mutua, Subject: Language Activities, Activity tags: , Students: PP2 Cloud
+No: 121, Id: 97,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 122, Id: 98,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 123, Id: 99,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 124, Id: 100,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 125, Id: 101,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 126, Id: 102,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 127, Id: 103,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 128, Id: 104,     Duration: 1/8, Teachers: Esther Njeri, Subject: Creative Play, Activity tags: , Students: Grade 1 Red
+No: 129, Id: 105,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 130, Id: 106,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 131, Id: 107,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 132, Id: 108,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 133, Id: 109,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 134, Id: 110,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 135, Id: 111,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 136, Id: 112,     Duration: 1/8, Teachers: Esther Njeri, Subject: Number Work, Activity tags: , Students: Grade 1 Red
+No: 137, Id: 113,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 138, Id: 114,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 139, Id: 115,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 140, Id: 116,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 141, Id: 117,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 142, Id: 118,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 143, Id: 119,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 144, Id: 120,     Duration: 1/8, Teachers: Esther Njeri, Subject: Language Activities, Activity tags: , Students: Grade 1 Red
+No: 145, Id: 121,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 146, Id: 122,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 147, Id: 123,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 148, Id: 124,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 149, Id: 125,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 150, Id: 126,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 151, Id: 127,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 152, Id: 128,     Duration: 1/8, Teachers: Felix Omondi, Subject: Creative Play, Activity tags: , Students: Grade 1 Blue
+No: 153, Id: 129,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 154, Id: 130,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 155, Id: 131,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 156, Id: 132,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 157, Id: 133,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 158, Id: 134,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 159, Id: 135,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 160, Id: 136,     Duration: 1/8, Teachers: Felix Omondi, Subject: Number Work, Activity tags: , Students: Grade 1 Blue
+No: 161, Id: 137,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 162, Id: 138,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 163, Id: 139,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 164, Id: 140,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 165, Id: 141,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 166, Id: 142,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 167, Id: 143,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 168, Id: 144,     Duration: 1/8, Teachers: Felix Omondi, Subject: Language Activities, Activity tags: , Students: Grade 1 Blue
+No: 169, Id: 145,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 170, Id: 146,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 171, Id: 147,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 172, Id: 148,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 173, Id: 149,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 174, Id: 150,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 175, Id: 151,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 176, Id: 152,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Creative Play, Activity tags: , Students: Grade 2 Green
+No: 177, Id: 153,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 178, Id: 154,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 179, Id: 155,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 180, Id: 156,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 181, Id: 157,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 182, Id: 158,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 183, Id: 159,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 184, Id: 160,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Number Work, Activity tags: , Students: Grade 2 Green
+No: 185, Id: 161,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 186, Id: 162,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 187, Id: 163,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 188, Id: 164,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 189, Id: 165,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 190, Id: 166,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 191, Id: 167,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 192, Id: 168,     Duration: 1/8, Teachers: Grace Wanjiru, Subject: Language Activities, Activity tags: , Students: Grade 2 Green
+No: 193, Id: 169,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 194, Id: 170,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 195, Id: 171,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 196, Id: 172,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 197, Id: 173,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 198, Id: 174,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 199, Id: 175,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 200, Id: 176,     Duration: 1/8, Teachers: Hassan Ali, Subject: Creative Play, Activity tags: , Students: Grade 3 Gold
+No: 201, Id: 177,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 202, Id: 178,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 203, Id: 179,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 204, Id: 180,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 205, Id: 181,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 206, Id: 182,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 207, Id: 183,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 208, Id: 184,     Duration: 1/8, Teachers: Hassan Ali, Subject: Number Work, Activity tags: , Students: Grade 3 Gold
+No: 209, Id: 185,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 210, Id: 186,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 211, Id: 187,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 212, Id: 188,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 213, Id: 189,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 214, Id: 190,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 215, Id: 191,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 216, Id: 192,     Duration: 1/8, Teachers: Hassan Ali, Subject: Language Activities, Activity tags: , Students: Grade 3 Gold
+No: 217, Id: 196,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 218, Id: 197,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 219, Id: 198,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 220, Id: 199,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 221, Id: 200,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 222, Id: 201,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 223, Id: 202,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 224, Id: 203,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 225, Id: 204,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 226, Id: 205,     Duration: 1/10, Teachers: Irene Chebet, Subject: Mathematics, Activity tags: , Students: Grade 4 East
+No: 227, Id: 206,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 228, Id: 207,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 229, Id: 208,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 230, Id: 209,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 231, Id: 210,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 232, Id: 211,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 233, Id: 212,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 234, Id: 213,     Duration: 1/8, Teachers: Irene Chebet, Subject: English, Activity tags: , Students: Grade 4 East
+No: 235, Id: 217,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 236, Id: 218,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 237, Id: 219,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 238, Id: 220,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 239, Id: 221,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 240, Id: 222,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 241, Id: 223,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 242, Id: 224,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 243, Id: 225,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 244, Id: 226,     Duration: 1/10, Teachers: Joseph Kimani, Subject: Mathematics, Activity tags: , Students: Grade 5 West
+No: 245, Id: 227,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 246, Id: 228,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 247, Id: 229,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 248, Id: 230,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 249, Id: 231,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 250, Id: 232,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 251, Id: 233,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 252, Id: 234,     Duration: 1/8, Teachers: Joseph Kimani, Subject: English, Activity tags: , Students: Grade 5 West
+No: 253, Id: 238,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 254, Id: 239,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 255, Id: 240,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 256, Id: 241,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 257, Id: 242,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 258, Id: 243,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 259, Id: 244,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 260, Id: 245,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 261, Id: 246,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 262, Id: 247,     Duration: 1/10, Teachers: Hellen Achieng, Subject: Mathematics, Activity tags: , Students: Grade 6 South
+No: 263, Id: 248,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 264, Id: 249,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 265, Id: 250,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 266, Id: 251,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 267, Id: 252,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 268, Id: 253,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 269, Id: 254,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 270, Id: 255,     Duration: 1/8, Teachers: Hellen Achieng, Subject: English, Activity tags: , Students: Grade 6 South
+No: 271, Id: 259,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 272, Id: 260,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 273, Id: 261,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 274, Id: 262,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 275, Id: 263,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 276, Id: 264,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 277, Id: 265,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 278, Id: 266,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 279, Id: 267,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 280, Id: 268,     Duration: 1/10, Teachers: Peter Mwangi, Subject: Mathematics, Activity tags: , Students: Grade 4 North
+No: 281, Id: 269,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 282, Id: 270,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 283, Id: 271,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 284, Id: 272,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 285, Id: 273,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 286, Id: 274,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 287, Id: 275,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 288, Id: 276,     Duration: 1/8, Teachers: Peter Mwangi, Subject: English, Activity tags: , Students: Grade 4 North
+No: 289, Id: 280,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 290, Id: 281,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 291, Id: 282,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 292, Id: 283,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 293, Id: 284,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 294, Id: 285,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 295, Id: 286,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 296, Id: 287,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 297, Id: 288,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 298, Id: 289,     Duration: 1/10, Teachers: Naomi Wafula, Subject: Mathematics, Activity tags: , Students: Grade 5 Central
+No: 299, Id: 290,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 300, Id: 291,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 301, Id: 292,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 302, Id: 293,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 303, Id: 294,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 304, Id: 295,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 305, Id: 296,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 306, Id: 297,     Duration: 1/8, Teachers: Naomi Wafula, Subject: English, Activity tags: , Students: Grade 5 Central
+No: 307, Id: 301,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 308, Id: 302,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 309, Id: 303,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 310, Id: 304,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 311, Id: 305,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 312, Id: 306,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 313, Id: 307,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 314, Id: 308,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 315, Id: 309,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 316, Id: 310,     Duration: 1/10, Teachers: Samuel Kiptoo, Subject: Mathematics, Activity tags: , Students: Grade 6 Coast
+No: 317, Id: 311,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 318, Id: 312,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 319, Id: 313,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 320, Id: 314,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 321, Id: 315,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 322, Id: 316,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 323, Id: 317,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 324, Id: 318,     Duration: 1/8, Teachers: Samuel Kiptoo, Subject: English, Activity tags: , Students: Grade 6 Coast
+No: 325, Id: 322,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 326, Id: 323,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 327, Id: 324,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 328, Id: 325,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 329, Id: 326,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 330, Id: 327,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 331, Id: 328,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 332, Id: 329,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 333, Id: 330,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 334, Id: 331,     Duration: 1/10, Teachers: Diana Musyoka, Subject: Mathematics, Activity tags: , Students: Grade 4 Valley
+No: 335, Id: 332,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 336, Id: 333,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 337, Id: 334,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 338, Id: 335,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 339, Id: 336,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 340, Id: 337,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 341, Id: 338,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 342, Id: 339,     Duration: 1/8, Teachers: Diana Musyoka, Subject: English, Activity tags: , Students: Grade 4 Valley
+No: 343, Id: 343,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 344, Id: 344,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 345, Id: 345,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 346, Id: 346,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 347, Id: 347,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 348, Id: 348,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 349, Id: 349,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 350, Id: 350,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 351, Id: 351,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 352, Id: 352,     Duration: 1/10, Teachers: Victor Ochieng, Subject: Mathematics, Activity tags: , Students: Grade 5 Highland
+No: 353, Id: 353,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
+No: 354, Id: 354,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
+No: 355, Id: 355,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
+No: 356, Id: 356,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
+No: 357, Id: 357,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
+No: 358, Id: 358,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
+No: 359, Id: 359,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
+No: 360, Id: 360,     Duration: 1/8, Teachers: Victor Ochieng, Subject: English, Activity tags: , Students: Grade 5 Highland
 End - the order of activities (id-s)
