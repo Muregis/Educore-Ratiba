@@ -1,201 +1,104 @@
 # EduCore Ratiba
 
-**Ratiba** (Swahili: timetable / schedule) is a Kenyan multi-school timetable management and automated scheduling engine supporting both CBC (Competency-Based Curriculum) and legacy 8-4-4, built on PHP 8+, MySQL/PostgreSQL, and the open-source FET timetabling solver.
+**Ratiba** (Swahili: timetable / schedule) — multi-school timetable management and automated scheduling for Kenyan CBC and legacy 8-4-4, built on PHP 8+, MySQL/PostgreSQL, and the open-source FET timetabling solver.
 
-* **Live Demo:** [educore-ratiba.onrender.com](https://educore-ratiba.onrender.com)
-* **Companion Product:** [EduCore](https://github.com/Muregis/educore-school-management-system) (school management SaaS via optional SSO bridge).
+* **Live:** [educoreratiba.vercel.app](https://educoreratiba.vercel.app) · alternate: [educore-ratiba.onrender.com](https://educore-ratiba.onrender.com)
+* **Companion:** [EduCore](https://github.com/Muregis/educore-school-management-system) (school management SaaS; optional SSO bridge)
 
 ---
 
-## The Problem
+## Problem
 
-Kenyan educational institutions face severe timetabling challenges:
-* **Complex Grade Bands (KICD):** Lessons per week, period lengths (35 vs 40 minutes), and break times differ widely across Early Years (PP1–PP2), Middle School (Grade 1–6), Junior School (Grade 7–9), and Senior Secondary.
-* **Shared Specialist Teachers:** Teachers are shared across classes and streams. Generating class timetables independently leads to severe double-booking.
-* **Specialized Rooms:** Science laboratories, computer labs, workshops, and sports fields cannot host multiple streams simultaneously.
-* **Intermittent Connectivity:** Many rural and sub-county schools operate offline or with erratic internet access.
+Kenyan schools need conflict-aware weekly timetables that respect grade-band lesson counts (KICD), shared teachers and rooms, and weak connectivity. Building one class at a time fails when the same teacher is booked in two places.
 
-Ratiba solves these challenges by combining **multi-school isolation**, **pre-flight configuration validation**, **whole-school FET engine constraint solves**, **live clash detection during manual adjustments**, and **offline/local-install capabilities**.
+## Solution
+
+- **Whole-school FET runs** — one generation pass so shared teachers/rooms are not double-booked across classes
+- **Multi-school isolation** — per-school teachers, rooms, classes, subjects, and admin login
+- **Pre-flight checks** — class/teacher load vs capacity before invoking FET
+- **Manual adjustments** with live clash validation (teacher / room / class)
+- **PDF / print export** (Dompdf)
+- **Offline / local-install** patterns for low-connectivity schools
+- **CBC + 8-4-4** band templates (schools must configure real bells and loads)
 
 ---
 
 ## Architecture
 
 ```
-  ┌────────────────────────────────────────────────────────┐
-  │                 School Administrator                   │
-  │     (Responsive Web UI: Auth, Settings, Classes)       │
-  └───────────────────────────┬────────────────────────────┘
-                              │
-                              ▼
-  ┌────────────────────────────────────────────────────────┐
-  │                  PHP 8 Application Core                │
-  │  - Multi-School Isolation & PDO Database Access        │
-  │  - Pure-PHP Pre-Flight Workload Validator              │
-  │  - Whole-School FET XML Serializer                     │
-  │  - Safe Engine Runner (proc_open with argument bypass) │
-  │  - Solution XML Parser & Scheduled Slot Store          │
-  │  - Live ClashDetector (Post-Gen & Manual Edits)        │
-  │  - Dompdf PDF Timetable Generator                      │
-  └───────────────┬────────────────────────┬───────────────┘
-                  │                        │
-                  ▼                        ▼
-  ┌────────────────────────┐      ┌────────────────────────┐
-  │  Database Layer        │      │   Scheduling Engine    │
-  │  MySQL 8 / PostgreSQL  │      │   FET (fet-cl) 7.9.2   │
-  │  (Multi-tenant scoped) │      │   Heuristic Solver     │
-  └────────────────────────┘      └────────────────────────┘
+School admin (PHP UI)
+        │
+        ▼
+  PHP 8 + PDO  ──▶  MySQL / PostgreSQL
+        │
+        ├── proc_open → FET (fet-cl) whole-school solve
+        ├── parse → scheduled_slots
+        ├── ClashDetector (pre-flight + post-gen + manual edits)
+        └── export/ (PDF)
 ```
 
 ---
 
-## Scheduling Algorithm & FET Integration
+## Constraints & tests
 
-Ratiba delegates heavy NP-complete constraint-satisfaction solving to **FET (Free Educational Timetabling)**:
-
-1. **Pre-flight Checks (`ClashDetector::validatePreflightConfig`):**
-   Validates teacher workloads against stated weekly caps, ensures active classes fit their band teaching capacity, checks that every subject has an assigned teacher, and flags classroom shortages before launching the solver.
-2. **Whole-School XML Generation (`admin/generate_engine.php`):**
-   Constructs a single combined FET XML specification encompassing all active classes, teachers, rooms, and subjects across all grade bands.
-   * Day and period definitions with band-specific prefixes (`demo-lower__08:00-08:35`).
-   * Break and lunch periods locked using `ConstraintStudentsSetNotAvailableTimes`.
-   * Subject distribution spreads enforced using `ConstraintMinDaysBetweenActivities` with `Activity_Id` references.
-   * Space allocation enforced via `ConstraintBasicCompulsorySpace`.
-3. **Safe Engine Execution (`admin/fet_runtime.php`):**
-   * Uses `proc_open` with direct argument arrays, bypassing shell interpreters (`sh`/`cmd.exe`) to prevent command injection.
-   * Strictly enforces time limits per school scale (default 300s–600s).
-   * Verifies engine exit codes (exit 0) **and** confirms generation success via output logs.
-   * Verifies the presence of a non-empty `_activities.xml` solution file before declaring success.
-4. **Solution Ingestion & Post-Generation Clash Check:**
-   * Solution XML is parsed back into normalized `scheduled_slots` rows in the database.
-   * Cross-band slots are audited and purged.
-   * `ClashDetector::findConflicts` validates the resulting schedule to guarantee 100% clash-free schedules before presenting to users.
-
----
-
-## Core Constraints Enforced
-
-| Constraint | Engine Enforcement | Manual Edit Enforcement | Automated Test |
-|------------|--------------------|-------------------------|----------------|
-| **Teacher Double-Booking** | FET Hard Constraint | `ClashDetector::validateManualMove / Swap` | `ClashDetectorTest.php` |
-| **Class Concurrency** | FET Hard Constraint | Blocked if class has simultaneous lesson | `ClashDetectorTest.php` |
-| **Room Double-Booking** | FET Space Constraint | Blocked if room already occupied | `ClashDetectorTest.php` |
-| **Duplicate Slots** | XML Activity IDs | Rejected on duplicate lesson allocation | `ClashDetectorTest.php` |
-| **Workload Limits** | Pre-flight rejection | Teacher weekly cap warnings | `ClashDetectorTest.php` |
-| **Band Hour Availability** | StudentsSetNotAvailableTimes | Grid cells locked to band teaching hours | `ClashDetectorTest.php` |
-| **Subject Day Spread** | MinDaysBetweenActivities | Manual move spread verification | `ClashDetectorTest.php` |
-
----
-
-## Supported Curricula
-
-* **CBC (Competency-Based Curriculum):**
-  * **Pre-Primary (PP1–PP2):** 25–30 min lessons, 5 lessons/day.
-  * **Lower Primary (Grade 1–3):** 35 min lessons, 7 lessons/day.
-  * **Upper Primary (Grade 4–6):** 35 min lessons, 8 lessons/day.
-  * **Junior School (Grade 7–9):** 40–45 min lessons, 9 lessons/day with integrated sciences, pre-technical, agriculture.
-  * **Senior School (Grade 10–12):** Pathway tracks (STEM, Social Sciences, Arts & Sports Science).
-* **Legacy 8-4-4:**
-  * Standard 40-minute and 45-minute lesson blocks (9–10 periods/day).
-* **TVET / Tertiary Modular Timetables:**
-  * Support for elective blocks and modular laboratory slots.
-
-> [!NOTE]
-> The default seed data in `db/schema.sql` and `db/rebalance_demo_academy.sql` provides placeholder CBC and 8-4-4 band templates for demonstration. Production schools should configure their exact timetable bands, lesson lengths, and bell times on the **Bands** and **Settings** pages to match school-specific circulars.
-
----
-
-## Automated Testing & CI
-
-Ratiba includes a pure-PHP automated test suite covering all 8 scheduling and clash constraint categories without requiring an active database or external binary:
+| Constraint | Enforced in |
+|------------|-------------|
+| Teacher double-booking | FET + `ClashDetector` + manual edit path |
+| Class concurrency | FET + ClashDetector |
+| Room double-booking | FET + ClashDetector |
+| Workload pre-checks | ClashDetector pre-flight |
+| FET failure diagnostics | `FetFailureReportingTest.php` |
 
 ```bash
 php tests/ClashDetectorTest.php
 php tests/FetFailureReportingTest.php
 ```
 
-### Test Battery Coverage:
-1. **Teacher Conflicts:** Simultaneous booking across multiple classes and unassigned outdoor rooms.
-2. **Class Conflicts:** Concurrent lesson detection using standard and DB column aliases.
-3. **Room Conflicts:** Double-booking prevention; null/outdoor room safety.
-4. **Duplicate Slots:** Detection of exact slot ID duplicates and identical multi-subject allocations.
-5. **Invalid Workloads:** Rejection of teacher overload, negative loads, zero band slots, and negative lesson counts.
-6. **Manual Adjustments:** Validation of conflict-free moves, move clash rejections, safe swaps, and swap clash rejections.
-7. **Generation Preflight:** Detection of overloaded classes, unassigned subject teachers, and teacher capacity deficits.
-8. **Valid Schedules:** End-to-end multi-teacher/multi-class verification of 100% clash-free schedules.
-9. **FET Failure Diagnostics:** Pinpoints unplaced activities, missing binaries, permission issues, and XML malformations.
+CI (`.github/workflows/ci.yml`): Composer validate, `php -l` on app code, both test scripts.
 
-### GitHub Actions CI (`.github/workflows/ci.yml`):
-* `composer validate --strict` — strict package and dependency validation.
-* Syntax check on all entrypoints, admin, config, db, export, and test PHP files (`php -l`).
-* Execution of the automated clash detection test suite (`ClashDetectorTest.php`).
-* Execution of the automated FET failure reporting test suite (`FetFailureReportingTest.php`).
+> Unit tests prove rule logic without a live FET binary. Production quality still depends on school configuration, engine install, and ops limits documented below.
 
 ---
 
-## Local Setup & Development
+## Quick start
 
-### Requirements
-* PHP 8.1+ with `pdo_mysql`, `curl`, `mbstring`, `fileinfo`, `openssl` extensions
-* MySQL 8.0+ or PostgreSQL 14+
-* Composer v2
-* FET CLI executable (`engine/fet-cl` or `engine/fet-cl.exe`)
+**Requirements:** PHP 8.1+ (PDO MySQL), MySQL/MariaDB or PostgreSQL, Composer, FET binary in `engine/`
 
-### Setup Instructions
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Muregis/Educore-Ratiba.git
-   cd Educore-Ratiba
-   ```
-2. Install dependencies:
-   ```bash
-   composer install
-   ```
-3. Configure environment:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials and FET engine path
-   ```
-4. Initialize database schema:
-   ```bash
-   mysql -u root -p fet_timetable < db/schema.sql
-   mysql -u root -p fet_timetable < db/rebalance_demo_academy.sql
-   ```
-5. Run the development server:
-   ```bash
-   php -S 127.0.0.1:8000 router_dev.php
-   ```
-6. Access the application:
-   * **URL:** `http://127.0.0.1:8000/login.php`
-   * **Demo Admin:** `demo_admin` / `DemoAdmin#2026`
-   * **Health Check:** `http://127.0.0.1:8000/health.php?deep=1`
+```bash
+git clone https://github.com/Muregis/Educore-Ratiba.git
+cd Educore-Ratiba
+composer install
+cp .env.example .env   # set DB + FET path
+mysql -u root -p < db/schema.sql
+php tests/ClashDetectorTest.php
+php -S 127.0.0.1:8000 router_dev.php
+```
+
+Demo credentials (local seed only): see login page / seed scripts — **change before any public demo.**
 
 ---
 
-## Production Deployment
+## Production notes
 
-### Docker Deployment
-The repository includes a production-ready `Dockerfile` and `render.yaml`:
-* Installs Debian's official `fet` package (`/usr/bin/fet-cl`).
-* Configures PHP-FPM with memory and execution time limits.
-* Supports Supabase PostgreSQL Connection Pooler (`DB_DRIVER=pgsql`, port 5432/6543).
+1. Seed data is a **template** — configure bands, subjects, and loads per school circulars.
+2. FET is CPU-heavy — queue or isolate generation under multi-school load.
+3. Offline sync uses conservative last-write-wins; avoid multi-master concurrent edits.
+4. Set strong `SSO_SHARED_SECRET` / sync tokens; HTTPS in production.
 
-### Security Best Practices
-* Always configure strong random strings for `SSO_SHARED_SECRET` and `LOCAL_SYNC_TOKEN`.
-* Deploy behind HTTPS with secure cookie parameters (`session_set_cookie_params`).
-* Never run with default root/empty passwords in production.
-* Review `SECURITY.md` for role isolation and session lifecycle details.
+See `SECURITY.md` where present.
 
 ---
 
-## Known Limitations & Production Notes
+## For employers & schools
 
-1. **Curriculum Placeholders:** Initial seed data contains sample classes and subjects. Schools must review subject allocations before generating production timetables.
-2. **Single-Node FET Concurrency:** High-concurrency generation across dozens of schools simultaneously should be queued or run on worker instances to avoid CPU contention.
-3. **Offline Sync Conflict Resolution:** Local-install sync uses last-write-wins per school timetable generation; multi-master simultaneous edits must be avoided.
+**Inspect:** `tests/ClashDetector*.php`, `admin/edit_actions.php`, CI workflow, live demo generation + a deliberate conflicting move.
+
+**Interview topics:** constraint modeling, pre-flight vs solver, safe `proc_open`, multi-school isolation, what breaks when config is wrong.
 
 ---
 
 ## License
 
-Proprietary — MuregiScore Technologies. Built by **Victor Muregi** · part of the EduCore product family.
+Proprietary — MuregiScore Technologies.
+
+Built by **Victor Muregi** · EduCore product family.
