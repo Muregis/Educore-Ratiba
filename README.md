@@ -2,7 +2,7 @@
 
 **Ratiba** (Swahili: timetable / schedule) is a Kenyan multi-school timetable management and automated scheduling engine supporting both CBC (Competency-Based Curriculum) and legacy 8-4-4, built on PHP 8+, MySQL/PostgreSQL, and the open-source FET timetabling solver.
 
-* **Live Demo:** [educoreratiba.vercel.app](https://educoreratiba.vercel.app)
+* **Live Demo:** [educore-ratiba.onrender.com](https://educore-ratiba.onrender.com)
 * **Companion Product:** [EduCore](https://github.com/Muregis/educore-school-management-system) (school management SaaS via optional SSO bridge).
 
 ---
@@ -111,9 +111,10 @@ Ratiba includes a pure-PHP automated test suite covering all 8 scheduling and cl
 
 ```bash
 php tests/ClashDetectorTest.php
+php tests/FetFailureReportingTest.php
 ```
 
-### Test Battery Coverage (29 automated tests):
+### Test Battery Coverage:
 1. **Teacher Conflicts:** Simultaneous booking across multiple classes and unassigned outdoor rooms.
 2. **Class Conflicts:** Concurrent lesson detection using standard and DB column aliases.
 3. **Room Conflicts:** Double-booking prevention; null/outdoor room safety.
@@ -122,11 +123,13 @@ php tests/ClashDetectorTest.php
 6. **Manual Adjustments:** Validation of conflict-free moves, move clash rejections, safe swaps, and swap clash rejections.
 7. **Generation Preflight:** Detection of overloaded classes, unassigned subject teachers, and teacher capacity deficits.
 8. **Valid Schedules:** End-to-end multi-teacher/multi-class verification of 100% clash-free schedules.
+9. **FET Failure Diagnostics:** Pinpoints unplaced activities, missing binaries, permission issues, and XML malformations.
 
 ### GitHub Actions CI (`.github/workflows/ci.yml`):
 * `composer validate --strict` — strict package and dependency validation.
 * Syntax check on all entrypoints, admin, config, db, export, and test PHP files (`php -l`).
-* Execution of the automated clash detection test suite.
+* Execution of the automated clash detection test suite (`ClashDetectorTest.php`).
+* Execution of the automated FET failure reporting test suite (`FetFailureReportingTest.php`).
 
 ---
 

@@ -64,6 +64,11 @@ EXPOSE 80
 RUN cat > /entrypoint.sh << 'EOS'
 #!/bin/bash
 set -e
+# Ensure persistent output volume is writable by Apache
+mkdir -p /var/www/html/output
+chown -R www-data:www-data /var/www/html/output
+chmod -R 775 /var/www/html/output
+
 # Ensure engine binary is present even if volume mounts overwrite engine/
 if [ ! -x /var/www/html/engine/fet-cl ] && [ -x /usr/bin/fet-cl ]; then
   mkdir -p /var/www/html/engine
