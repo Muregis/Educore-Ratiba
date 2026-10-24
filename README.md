@@ -1,5 +1,7 @@
 # EduCore Ratiba
 
+[![CI](https://github.com/Muregis/Educore-Ratiba/actions/workflows/ci.yml/badge.svg)](https://github.com/Muregis/Educore-Ratiba/actions/workflows/ci.yml)
+
 **Ratiba** (Swahili: timetable / schedule) — multi-school timetable management and automated scheduling for Kenyan CBC and legacy 8-4-4, built on PHP 8+, MySQL/PostgreSQL, and the open-source FET timetabling solver.
 
 * **Live:** [educoreratiba.vercel.app](https://educoreratiba.vercel.app) · alternate: [educore-ratiba.onrender.com](https://educore-ratiba.onrender.com)
