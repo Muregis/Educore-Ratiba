@@ -10,7 +10,7 @@ if (PHP_SAPI !== 'cli') {
 $baseUrl = rtrim($argv[1] ?? '', '/');
 $demoPassword = $argv[2] ?? '';
 if ($baseUrl === '' || $demoPassword === '') {
-    fwrite(STDERR, "usage: php tools_test_login.php <base-url> <demo-password>\n");
+    fwrite(STDERR, "usage: php bin/test_login.php <base-url> <demo-password>\n");
     exit(1);
 }
 echo "Run tests against {$baseUrl} (implement locally).\n";

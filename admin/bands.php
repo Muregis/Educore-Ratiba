@@ -5,6 +5,9 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../db/audit_log.php';
 
 $schoolId = requireLoginAndGetSchoolId();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrf();
+}
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
@@ -201,6 +204,7 @@ require __DIR__ . '/_header.php';
     <?php endif; ?>
     
     <form method="post">
+    <?php echo csrfField(); ?>
         <input type="hidden" name="action" value="create">
         <label for="band_key">Band Key (e.g. pp1-pp2, grade-1-3)</label>
         <input type="text" id="band_key" name="band_key" required placeholder="Use hyphens, no spaces">
@@ -237,6 +241,7 @@ require __DIR__ . '/_header.php';
                         <td class="row-actions">
                             <button type="button" onclick="showEditForm(<?php echo (int) $band['id']; ?>, '<?php echo htmlspecialchars($band['band_key'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($band['label'], ENT_QUOTES); ?>', <?php echo (int) $band['lessons_per_day']; ?>, <?php echo (int) $band['lesson_length_minutes']; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" style="display:inline;">
+    <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="toggle">
                                 <input type="hidden" name="band_id" value="<?php echo (int) $band['id']; ?>">
                                 <input type="hidden" name="active" value="<?php echo $band['active'] ? 0 : 1; ?>">
@@ -245,6 +250,7 @@ require __DIR__ . '/_header.php';
                                 </button>
                             </form>
                             <form method="post" onsubmit="return confirmDelete('Delete this band? It may have classes assigned.');">
+    <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="band_id" value="<?php echo (int) $band['id']; ?>">
                                 <button type="submit" class="btn-danger">Delete</button>
@@ -258,6 +264,7 @@ require __DIR__ . '/_header.php';
         <?php if (!empty($bands)): ?>
         <div style="margin-top: 16px; display: flex; gap: 8px;">
             <form method="post" onsubmit="return confirmDelete('Delete selected bands? They may have classes assigned.');">
+    <?php echo csrfField(); ?>
                 <input type="hidden" name="action" value="bulk_delete">
                 <button type="submit" class="btn-danger">Delete Selected</button>
             </form>
@@ -302,6 +309,7 @@ require __DIR__ . '/_header.php';
     <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
         <h2>Edit Band</h2>
         <form method="post">
+    <?php echo csrfField(); ?>
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="band_id" id="edit-band-id">
             

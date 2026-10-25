@@ -5,6 +5,9 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../db/audit_log.php';
 
 $schoolId = requireLoginAndGetSchoolId();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrf();
+}
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
@@ -241,6 +244,7 @@ require __DIR__ . '/_header.php';
         <a href="classes.php" class="btn">Manage Classes</a>
     <?php else: ?>
         <form method="post">
+    <?php echo csrfField(); ?>
             <input type="hidden" name="action" value="create">
             <label for="class_id">Class</label>
             <select id="class_id" name="class_id" required>
@@ -310,6 +314,7 @@ require __DIR__ . '/_header.php';
                         <td class="row-actions">
                             <button type="button" onclick="showEditForm(<?php echo (int) $activity['id']; ?>, <?php echo (int) $activity['class_id']; ?>, '<?php echo htmlspecialchars($activity['name'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($activity['day_of_week'] ?? '', ENT_QUOTES); ?>', <?php echo (int) $activity['duration_slots']; ?>, '<?php echo htmlspecialchars($activity['frequency'], ENT_QUOTES); ?>', <?php echo isset($activity['assigned_teacher_id']) ? (int) $activity['assigned_teacher_id'] : 'null'; ?>, <?php echo isset($activity['room_id']) ? (int) $activity['room_id'] : 'null'; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this activity?');">
+    <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="activity_id" value="<?php echo (int) $activity['id']; ?>">
                                 <button type="submit" class="btn-danger">Delete</button>
@@ -323,6 +328,7 @@ require __DIR__ . '/_header.php';
         <?php if (!empty($activities)): ?>
         <div style="margin-top: 16px; display: flex; gap: 8px;">
             <form method="post" onsubmit="return confirmDelete('Delete selected activities?');">
+    <?php echo csrfField(); ?>
                 <input type="hidden" name="action" value="bulk_delete">
                 <button type="submit" class="btn-danger">Delete Selected</button>
             </form>
@@ -367,6 +373,7 @@ require __DIR__ . '/_header.php';
     <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
         <h2>Edit Extra Activity</h2>
         <form method="post">
+    <?php echo csrfField(); ?>
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="activity_id" id="edit-activity-id">
             

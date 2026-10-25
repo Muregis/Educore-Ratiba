@@ -5,6 +5,9 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../db/audit_log.php';
 
 $schoolId = requireLoginAndGetSchoolId();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrf();
+}
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
@@ -76,6 +79,7 @@ require __DIR__ . '/_header.php';
     <?php if ($error): ?><div class="error"><?php echo $error; ?></div><?php endif; ?>
     <?php if ($success): ?><div class="success"><?php echo htmlspecialchars($success); ?></div><?php endif; ?>
     <form method="post">
+    <?php echo csrfField(); ?>
         <input type="hidden" name="action" value="save_settings">
         <label for="school_type">School type</label>
         <select id="school_type" name="school_type">
@@ -129,6 +133,7 @@ require __DIR__ . '/_header.php';
     <h2>🇰🇪 KICD Standard Demo Showcase</h2>
     <p class="empty">Load or reset the official Kenya Institute of Curriculum Development (KICD) showcase demo configuration for client presentations. Populates <strong>Kilimani Comprehensive Academy</strong> with Lower Primary (35m), Upper Primary (35m), and Junior Secondary (JSS G7-G9, 40m), 22 TSC teachers, 12 classes, and 440 lessons, automatically generating a 100% conflict-free timetable.</p>
     <form method="post" action="seed_kicd.php" onsubmit="return confirm('Reset this school to the official KICD showcase demo data? All current school records will be replaced with KICD standard configuration.');">
+    <?php echo csrfField(); ?>
         <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(function_exists('getCsrfToken') ? getCsrfToken() : ''); ?>">
         <button type="submit" class="btn" style="background:#0284c7;color:#fff;border-color:#0284c7;margin-top:8px;">✨ Load KICD Standard Demo Data</button>
     </form>

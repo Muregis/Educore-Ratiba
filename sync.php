@@ -106,11 +106,20 @@ if ($action === 'push') {
                 }
                 $row['school_id'] = $schoolId;
                 unset($row['id']);
-                $columns = array_keys($row);
+                $validRow = [];
+                foreach ($row as $colName => $colVal) {
+                    if (is_string($colName) && preg_match('/^[a-zA-Z0-9_]+$/', $colName)) {
+                        $validRow[$colName] = $colVal;
+                    }
+                }
+                if (empty($validRow)) {
+                    continue;
+                }
+                $columns = array_keys($validRow);
                 $columnList = implode(', ', $columns);
                 $placeholders = implode(', ', array_fill(0, count($columns), '?'));
                 $stmt = db()->prepare("INSERT INTO {$table} ({$columnList}) VALUES ({$placeholders})");
-                $stmt->execute(array_values($row));
+                $stmt->execute(array_values($validRow));
             }
         }
 

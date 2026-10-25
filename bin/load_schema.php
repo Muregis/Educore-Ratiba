@@ -16,7 +16,7 @@ $pdo = new PDO("mysql:host={$host};port={$port}", $user, $pass);
 $pdo->exec('CREATE DATABASE IF NOT EXISTS fet_timetable CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
 $pdo->exec('USE fet_timetable');
 
-$schema = file_get_contents(__DIR__ . '/db/schema.sql');
+$schema = file_get_contents(__DIR__ . '/../db/schema.sql');
 if ($schema === false) {
     fwrite(STDERR, "schema.sql missing\n");
     exit(1);

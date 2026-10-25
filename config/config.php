@@ -98,8 +98,8 @@ class Config {
                 'temp' => sys_get_temp_dir(),
             ],
             'database' => [
-                'driver' => getenv('DB_DRIVER') ?: ($baseDir === 'C:/laragon/www/fet-timetable/Educore Ratiba' ? 'mysql' : 'mysql'), // 'mysql' or 'pgsql'
-                'host' => getenv('DB_HOST') ?: ($baseDir === 'C:/laragon/www/fet-timetable/Educore Ratiba' ? 'localhost' : 'localhost'),
+                'driver' => getenv('DB_DRIVER') ?: 'mysql', // 'mysql' or 'pgsql'
+                'host' => getenv('DB_HOST') ?: 'localhost',
                 'port' => getenv('DB_PORT') ?: '',
                 'name' => getenv('DB_NAME') ?: 'fet_timetable',
                 'user' => getenv('DB_USER') ?: 'root',
@@ -158,9 +158,9 @@ class Config {
             if (file_exists($windowsPath)) {
                 return $windowsPath;
             }
-            $laragonPath = 'C:/laragon/www/fet-timetable/engine/fet-cl.exe';
-            if (file_exists($laragonPath)) {
-                return $laragonPath;
+            $parentPath = dirname($baseDir) . '/engine/fet-cl.exe';
+            if (file_exists($parentPath)) {
+                return $parentPath;
             }
             return $windowsPath;
         }

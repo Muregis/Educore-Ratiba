@@ -395,7 +395,9 @@ function seedKicdDemoData(int $schoolId = 1, ?int $adminId = null): array
     }
 
     // 10. Generate FET timetable
-    $school = $pdo->query("SELECT * FROM schools WHERE id = $schoolId")->fetch();
+    $stmtSchool = $pdo->prepare('SELECT * FROM schools WHERE id = ?');
+    $stmtSchool->execute([$schoolId]);
+    $school = $stmtSchool->fetch();
     $xmlPath = buildWholeSchoolXml($schoolId, $school['name']);
     applyBandHourLocksToFetXml($xmlPath, $schoolId);
 

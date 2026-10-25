@@ -9,7 +9,7 @@ if (PHP_SAPI !== 'cli') {
 // LOCAL TEST-ONLY seeder. CLI only.
 $demoPassword = $argv[1] ?? null;
 if ($demoPassword === null || strlen($demoPassword) < 8) {
-    fwrite(STDERR, "Usage: php tools_seed_demo.php <demo-password-at-least-8-chars>\n");
+    fwrite(STDERR, "Usage: php bin/seed_demo.php <demo-password-at-least-8-chars>\n");
     exit(1);
 }
 echo "Seed demo is environment-specific; prefer SQL migrations for production.\n";

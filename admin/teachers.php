@@ -5,6 +5,9 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../db/audit_log.php';
 
 $schoolId = requireLoginAndGetSchoolId();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrf();
+}
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
@@ -154,6 +157,7 @@ require __DIR__ . '/_header.php';
     <?php endif; ?>
     
     <form method="post">
+    <?php echo csrfField(); ?>
         <input type="hidden" name="action" value="create">
         <label for="name">Teacher Name</label>
         <input type="text" id="name" name="name" required>
@@ -189,6 +193,7 @@ require __DIR__ . '/_header.php';
                         <td class="row-actions">
                             <button type="button" onclick="showEditForm(<?php echo (int) $teacher['id']; ?>, '<?php echo htmlspecialchars($teacher['name'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['staff_id'] ?? '', ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['tsc_number'] ?? '', ENT_QUOTES); ?>', <?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : 'null'; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this teacher? They may be assigned to subjects.');">
+    <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="teacher_id" value="<?php echo (int) $teacher['id']; ?>">
                                 <button type="submit" class="btn-danger">Delete</button>
@@ -202,6 +207,7 @@ require __DIR__ . '/_header.php';
         <?php if (!empty($teachers)): ?>
         <div style="margin-top: 16px; display: flex; gap: 8px;">
             <form method="post" onsubmit="return confirmDelete('Delete selected teachers? They may be assigned to subjects.');">
+    <?php echo csrfField(); ?>
                 <input type="hidden" name="action" value="bulk_delete">
                 <button type="submit" class="btn-danger">Delete Selected</button>
             </form>
@@ -250,6 +256,7 @@ require __DIR__ . '/_header.php';
     <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
         <h2>Edit Teacher</h2>
         <form method="post">
+    <?php echo csrfField(); ?>
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="teacher_id" id="edit-teacher-id">
 

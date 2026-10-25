@@ -5,6 +5,9 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../db/audit_log.php';
 
 $schoolId = requireLoginAndGetSchoolId();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrf();
+}
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
@@ -218,6 +221,7 @@ require __DIR__ . '/_header.php';
         <a href="teachers.php" class="btn">Manage Teachers</a>
     <?php else: ?>
         <form method="post">
+    <?php echo csrfField(); ?>
             <input type="hidden" name="action" value="create">
             <label for="class_id">Class</label>
             <select id="class_id" name="class_id" required onchange="updateSubjects()">
@@ -301,6 +305,7 @@ require __DIR__ . '/_header.php';
                         <td><?php echo htmlspecialchars($session['room_name'] ?? '—'); ?></td>
                         <td class="row-actions">
                             <form method="post" onsubmit="return confirmDelete('Delete this remedial session?');">
+    <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="session_id" value="<?php echo (int) $session['id']; ?>">
                                 <button type="submit" class="btn-danger">Delete</button>
@@ -314,6 +319,7 @@ require __DIR__ . '/_header.php';
         <?php if (!empty($sessions)): ?>
         <div style="margin-top: 16px; display: flex; gap: 8px;">
             <form method="post" onsubmit="return confirmDelete('Delete selected remedial sessions?');">
+    <?php echo csrfField(); ?>
                 <input type="hidden" name="action" value="bulk_delete">
                 <button type="submit" class="btn-danger">Delete Selected</button>
             </form>

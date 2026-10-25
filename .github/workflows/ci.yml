@@ -8,7 +8,7 @@ on:
 
 jobs:
   php:
-    name: PHP syntax, Composer & clash tests
+    name: PHP syntax, Composer & test suite
     runs-on: ubuntu-latest
 
     steps:
@@ -33,19 +33,16 @@ jobs:
       - name: PHP syntax check on all files
         run: |
           set -e
-          for f in index.php login.php logout.php health.php status.php sso.php; do
+          for f in index.php login.php logout.php health.php status.php sso.php sync.php; do
             if [ -f "$f" ]; then
               php -l "$f"
             fi
           done
-          for d in admin config db export tests; do
+          for d in admin bin config db export super tests; do
             if [ -d "$d" ]; then
               find "$d" -name '*.php' -print0 | xargs -0 -n1 php -l
             fi
           done
 
-      - name: Run clash / pre-check unit tests
-        run: php tests/ClashDetectorTest.php
-
-      - name: Run FET failure reporting diagnostic tests
-        run: php tests/FetFailureReportingTest.php
+      - name: Run comprehensive master test suite
+        run: composer test

@@ -52,11 +52,15 @@ School admin (PHP UI)
 | FET failure diagnostics | `FetFailureReportingTest.php` |
 
 ```bash
-php tests/ClashDetectorTest.php
-php tests/FetFailureReportingTest.php
+composer test
+# Or run individual test batteries:
+# php tests/ClashDetectorTest.php
+# php tests/FetFailureReportingTest.php
+# php tests/SecurityTest.php
+# php tests/DatabaseCompatibilityTest.php
 ```
 
-CI (`.github/workflows/ci.yml`): Composer validate, `php -l` on app code, both test scripts.
+CI (`.github/workflows/ci.yml`): Composer validate, strict `php -l` on all PHP files, and the full 78-test master test suite (`composer test`).
 
 > Unit tests prove rule logic without a live FET binary. Production quality still depends on school configuration, engine install, and ops limits documented below.
 

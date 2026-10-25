@@ -295,3 +295,34 @@ CREATE TABLE audit_log (
     INDEX idx_entity (entity, entity_id),
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB;
+
+-- ------------------------------------------------------------
+-- SCHOOL CALENDAR — terms, dates and current active term
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS school_calendar (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    school_id INT NOT NULL,
+    year INT NOT NULL,
+    term_number INT NOT NULL,
+    term_name VARCHAR(120) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_current BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (school_id) REFERENCES schools(id) ON DELETE CASCADE,
+    INDEX idx_cal_school (school_id, year)
+) ENGINE=InnoDB;
+
+-- ------------------------------------------------------------
+-- SCHOOL HOLIDAYS — holidays, half-terms, public holidays
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS school_holidays (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    school_id INT NOT NULL,
+    holiday_name VARCHAR(160) NOT NULL,
+    holiday_date DATE NOT NULL,
+    holiday_type VARCHAR(40) DEFAULT 'public',
+    affects_timetabling BOOLEAN DEFAULT TRUE,
+    notes TEXT NULL,
+    FOREIGN KEY (school_id) REFERENCES schools(id) ON DELETE CASCADE,
+    INDEX idx_hol_school (school_id, holiday_date)
+) ENGINE=InnoDB;

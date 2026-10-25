@@ -5,6 +5,9 @@ require_once __DIR__ . '/../db/db.php';
 require_once __DIR__ . '/../db/audit_log.php';
 
 $schoolId = requireLoginAndGetSchoolId();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verifyCsrf();
+}
 $stmt = db()->prepare('SELECT * FROM schools WHERE id = ?');
 $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
@@ -248,6 +251,7 @@ require __DIR__ . '/_header.php';
         <a href="classes.php" class="btn">Manage Classes</a>
     <?php else: ?>
         <form method="post">
+    <?php echo csrfField(); ?>
             <input type="hidden" name="action" value="create">
             <input type="hidden" name="_csrf_token" value="<?php echo htmlspecialchars(getCsrfToken()); ?>">
             <label for="class_id">Class</label>
@@ -313,6 +317,7 @@ require __DIR__ . '/_header.php';
                         <td><?php $mdb = (int) ($subject['min_days_between'] ?? 0); echo $mdb > 0 ? "≥ {$mdb} day(s)" : '—'; ?></td>
                         <td>
                             <form method="post" style="display:inline;">
+    <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="assign_teacher">
                                 <input type="hidden" name="subject_id" value="<?php echo (int) $subject['id']; ?>">
                                 <select name="teacher_id" style="width:120px; margin:0;">
@@ -329,6 +334,7 @@ require __DIR__ . '/_header.php';
                         <td class="row-actions">
                             <button type="button" onclick="showEditForm(<?php echo (int) $subject['id']; ?>, <?php echo (int) $subject['class_id']; ?>, '<?php echo htmlspecialchars($subject['name'], ENT_QUOTES); ?>', <?php echo (int) $subject['lessons_per_week']; ?>, <?php echo (int) ($subject['duration_slots'] ?? 1); ?>, <?php echo (int) ($subject['min_days_between'] ?? 0); ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this subject? This may affect timetable generation.');">
+    <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="subject_id" value="<?php echo (int) $subject['id']; ?>">
                                 <button type="submit" class="btn-danger">Delete</button>
@@ -342,6 +348,7 @@ require __DIR__ . '/_header.php';
         <?php if (!empty($subjects)): ?>
         <div style="margin-top: 16px; display: flex; gap: 8px;">
             <form method="post" onsubmit="return confirmDelete('Delete selected subjects? This may affect timetable generation.');">
+    <?php echo csrfField(); ?>
                 <input type="hidden" name="action" value="bulk_delete">
                 <button type="submit" class="btn-danger">Delete Selected</button>
             </form>
@@ -386,6 +393,7 @@ require __DIR__ . '/_header.php';
     <div class="card" style="max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;">
         <h2>Edit Subject</h2>
         <form method="post">
+    <?php echo csrfField(); ?>
             <input type="hidden" name="action" value="update">
             <input type="hidden" name="subject_id" id="edit-subject-id">
             

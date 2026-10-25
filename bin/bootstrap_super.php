@@ -8,10 +8,10 @@ if (PHP_SAPI !== 'cli') {
 }
 /**
  * One-time super-admin bootstrap. Only creates an account when super_admins is empty.
- * Usage (CLI): php tools_bootstrap_super.php
+ * Usage (CLI): php bin/bootstrap_super.php
  * Default: superadmin / SuperAdmin#2026
  */
-require_once __DIR__ . '/db/db.php';
+require_once __DIR__ . '/../db/db.php';
 
 echo "Bootstrap super admin...\n";
 

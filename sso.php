@@ -19,11 +19,7 @@ require_once __DIR__ . '/config/config.php';
 //   SSO_SHARED_SECRET=<64-char hex>
 // ============================================================
 
-$ssoSecret = (string) Config::get('security.sso_secret', '');
-if ($ssoSecret === '' || $ssoSecret === 'REPLACE_ME_BEFORE_DEPLOYING') {
-    http_response_code(503);
-    die('SSO is not configured. Set SSO_SHARED_SECRET on Render and in EduCore to the same value.');
-}
+
 
 /**
  * Verify HS256 JWT (signature + exp + required claims).
@@ -82,7 +78,18 @@ function insertGetId(string $sql, array $params): int
     return (int) db()->lastInsertId();
 }
 
+$ssoSecret = (string) Config::get('security.sso_secret', '');
+if (PHP_SAPI !== 'cli' || isset($_GET['token'])) {
+    if ($ssoSecret === '' || $ssoSecret === 'REPLACE_ME_BEFORE_DEPLOYING') {
+        http_response_code(503);
+        die('SSO is not configured. Set SSO_SHARED_SECRET on Render and in EduCore to the same value.');
+    }
+}
+
 $token = $_GET['token'] ?? '';
+if (PHP_SAPI === 'cli' && $token === '') {
+    return; // Allow requiring from CLI test suites
+}
 if ($token === '') {
     http_response_code(400);
     die('Missing SSO token. Open Timetable from EduCore, or use a valid sso.php?token=… link.');
