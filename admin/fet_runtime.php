@@ -29,9 +29,19 @@ function diagnoseFetFailureV2(string $rawOutput, array $activityMeta): array
             . 'Open Diagnostic and fix engine/fet-cl permissions.';
         return ['summary' => $summary, 'details' => $details];
     }
-    if (preg_match('/shell_exec|proc_open|disabled|Permission denied/i', $trimmed)) {
+    // Strip trailing runner metadata before regex classification so [runner=proc_open...]
+    // does not falsely trigger "proc_open is disabled"
+    $cleanOutput = trim((string) preg_replace('/\[runner=[^\]]+\]\s*$/', '', $trimmed));
+
+    if (preg_match('/shell_exec.*disabled|proc_open.*disabled|disabled.*(?:proc_open|shell_exec)|Permission denied/i', $cleanOutput)) {
         $summary[] = 'PHP cannot run the scheduling engine (shell_exec/proc_open disabled or permission denied). '
             . 'Contact hosting support or adjust the container PHP config.';
+        return ['summary' => $summary, 'details' => $details];
+    }
+    if (preg_match('/Cannot precompute/i', $cleanOutput)) {
+        $summary[] = 'The scheduling engine detected mathematically impossible or conflicting constraints during pre-computation (data is wrong). '
+            . 'This happens when rooms, classes, or teachers are assigned conflicting mandatory rules (e.g. more lessons forced into a room than weekly slots). '
+            . 'Review room and teacher assignments, or click "Rebalance school" to resolve.';
         return ['summary' => $summary, 'details' => $details];
     }
     if (preg_match('/Cannot open|invalid|parse error|XML/i', $trimmed) && !preg_match('/Generation\s+successful/i', $trimmed)) {

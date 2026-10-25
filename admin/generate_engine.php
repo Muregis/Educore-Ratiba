@@ -404,7 +404,9 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
         $rId = $class['room_id'] ?? null;
         if ($rId !== null && isset($roomNameById[$rId])) {
             $homeRoomEl = $spaceConstraints->addChild('ConstraintStudentsSetHomeRoom');
-            $homeRoomEl->addChild('Weight_Percentage', '100');
+            // Use 95% weight so FET prioritizes the class home room without aborting precomputation
+            // if multiple classes share a facility or room hours are tight.
+            $homeRoomEl->addChild('Weight_Percentage', '95');
             $homeRoomEl->addChild('Students', htmlspecialchars($class['name']));
             $homeRoomEl->addChild('Room', htmlspecialchars($roomNameById[$rId]));
             $homeRoomEl->addChild('Active', 'true');

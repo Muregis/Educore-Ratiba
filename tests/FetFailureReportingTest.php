@@ -61,6 +61,13 @@ assertCheck(
     'Disabled PHP process functions flagged with hosting advice'
 );
 
+// Test 4b: Cannot precompute error with proc_open footer should not falsely claim proc_open is disabled
+$diag = diagnoseFetFailureV2("Cannot precompute - data is wrong - aborting\n[runner=proc_open exit=1 engine=/var/www/html/engine/fet-cl]", []);
+assertCheck(
+    !empty($diag['summary']) && (str_contains($diag['summary'][0], 'pre-computation') || str_contains($diag['summary'][0], 'mathematically impossible')),
+    'Cannot precompute error is accurately diagnosed without false proc_open disabled warning'
+);
+
 // Test 5: XML parse error
 $diag = diagnoseFetFailureV2('Cannot open XML file or invalid XML structure', []);
 assertCheck(
