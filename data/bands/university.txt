@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fet version="6.0.0">
+  <Institution_Name>Metropolitan University</Institution_Name>
+  <Comments>College & University Modular Timetable — 10 modular hour slots/day (08:00-18:00), supporting 2-hour lecture blocks, 3-hour laboratory/practical sessions, and faculty course allocations.</Comments>
+
+  <Days_List>
+    <Number_of_Days>5</Number_of_Days>
+    <Day><Name>Monday</Name></Day>
+    <Day><Name>Tuesday</Name></Day>
+    <Day><Name>Wednesday</Name></Day>
+    <Day><Name>Thursday</Name></Day>
+    <Day><Name>Friday</Name></Day>
+  </Days_List>
+
+  <Hours_List>
+    <Number_of_Hours>10</Number_of_Hours>
+    <Hour><Name>08:00-09:00</Name></Hour>
+    <Hour><Name>09:00-10:00</Name></Hour>
+    <Hour><Name>10:00-11:00</Name></Hour>
+    <Hour><Name>11:00-12:00</Name></Hour>
+    <Hour><Name>12:00-13:00</Name></Hour>
+    <Hour><Name>13:00-14:00</Name></Hour>
+    <Hour><Name>14:00-15:00</Name></Hour>
+    <Hour><Name>15:00-16:00</Name></Hour>
+    <Hour><Name>16:00-17:00</Name></Hour>
+    <Hour><Name>17:00-18:00</Name></Hour>
+  </Hours_List>
+
+  <Subjects_List>
+    <Subject><Name>CSC 111 Programming Methodology</Name></Subject>
+    <Subject><Name>CSC 111 Practical Laboratory</Name></Subject>
+    <Subject><Name>MAT 112 Calculus I</Name></Subject>
+    <Subject><Name>MAT 112 Tutorial Session</Name></Subject>
+    <Subject><Name>BAF 201 Financial Accounting</Name></Subject>
+    <Subject><Name>ECO 101 Microeconomics</Name></Subject>
+    <Subject><Name>PHY 102 General Physics</Name></Subject>
+    <Subject><Name>PHY 102 Practical Physics Lab</Name></Subject>
+    <Subject><Name>EEE 210 Digital Electronics</Name></Subject>
+    <Subject><Name>ENG 201 Communication and Research</Name></Subject>
+  </Subjects_List>
+
+  <Teachers_List>
+    <Teacher><Name>Prof. Omondi</Name></Teacher>
+    <Teacher><Name>Dr. Wanjiku</Name></Teacher>
+    <Teacher><Name>Dr. Kimani</Name></Teacher>
+    <Teacher><Name>Prof. Achieng</Name></Teacher>
+    <Teacher><Name>Dr. Kiprono</Name></Teacher>
+  </Teachers_List>
+
+  <Rooms_List>
+    <Room><Name>Lecture Theatre 1 (LT1)</Name><Building>Science Complex</Building><Capacity>250</Capacity></Room>
+    <Room><Name>Lecture Theatre 2 (LT2)</Name><Building>Business Wing</Building><Capacity>150</Capacity></Room>
+    <Room><Name>Computing Lab 1</Name><Building>Tech Hub</Building><Capacity>60</Capacity></Room>
+    <Room><Name>Electronics Lab</Name><Building>Engineering Block</Building><Capacity>45</Capacity></Room>
+    <Room><Name>Seminar Room 101</Name><Building>Humanities</Building><Capacity>40</Capacity></Room>
+    <Room><Name>Seminar Room 102</Name><Building>Humanities</Building><Capacity>40</Capacity></Room>
+  </Rooms_List>
+
+  <Students_List>
+    <Year>
+      <Name>BSc Computer Science Y1S1</Name>
+      <Number_of_Students>120</Number_of_Students>
+    </Year>
+    <Year>
+      <Name>BSc Computer Science Y2S1</Name>
+      <Number_of_Students>95</Number_of_Students>
+    </Year>
+    <Year>
+      <Name>Bachelor of Commerce Y1S1</Name>
+      <Number_of_Students>180</Number_of_Students>
+    </Year>
+    <Year>
+      <Name>BSc Electrical Engineering Y2S1</Name>
+      <Number_of_Students>60</Number_of_Students>
+    </Year>
+  </Students_List>
+
+  <Activities_List>
+    <!-- 2-hour lecture block in LT1 -->
+    <Activity><Teacher>Prof. Omondi</Teacher><Subject>CSC 111 Programming Methodology</Subject><Students>BSc Computer Science Y1S1</Students><Duration>2</Duration><Total_Duration>2</Total_Duration><Id>1</Id><Activity_Group_Id>1</Activity_Group_Id><Active>true</Active></Activity>
+    <!-- 2-hour hands-on lab in Computing Lab 1 -->
+    <Activity><Teacher>Prof. Omondi</Teacher><Subject>CSC 111 Practical Laboratory</Subject><Students>BSc Computer Science Y1S1</Students><Duration>2</Duration><Total_Duration>2</Total_Duration><Id>2</Id><Activity_Group_Id>2</Activity_Group_Id><Active>true</Active></Activity>
+    <!-- 2-hour calculus lecture in LT1 -->
+    <Activity><Teacher>Dr. Wanjiku</Teacher><Subject>MAT 112 Calculus I</Subject><Students>BSc Computer Science Y1S1</Students><Duration>2</Duration><Total_Duration>2</Total_Duration><Id>3</Id><Activity_Group_Id>3</Activity_Group_Id><Active>true</Active></Activity>
+    <!-- 1-hour tutorial in Seminar Room 101 -->
+    <Activity><Teacher>Dr. Wanjiku</Teacher><Subject>MAT 112 Tutorial Session</Subject><Students>BSc Computer Science Y1S1</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>4</Id><Activity_Group_Id>4</Activity_Group_Id><Active>true</Active></Activity>
+    <!-- 2-hour accounting lecture in LT2 -->
+    <Activity><Teacher>Dr. Kimani</Teacher><Subject>BAF 201 Financial Accounting</Subject><Students>Bachelor of Commerce Y1S1</Students><Duration>2</Duration><Total_Duration>2</Total_Duration><Id>5</Id><Activity_Group_Id>5</Activity_Group_Id><Active>true</Active></Activity>
+    <!-- 3-hour engineering laboratory in Electronics Lab -->
+    <Activity><Teacher>Prof. Achieng</Teacher><Subject>EEE 210 Digital Electronics</Subject><Students>BSc Electrical Engineering Y2S1</Students><Duration>3</Duration><Total_Duration>3</Total_Duration><Id>6</Id><Activity_Group_Id>6</Activity_Group_Id><Active>true</Active></Activity>
+  </Activities_List>
+</fet>

@@ -96,16 +96,16 @@ echo "\n-- Room Conflicts --\n";
 
 // Two classes in the same physical room at the same time
 $slots = [
-    ['teacher_id' => 'T1', 'room_id' => 'Lab1', 'class_id' => 'Form3A', 'day' => 'Friday', 'period' => '11:00-11:40'],
-    ['teacher_id' => 'T2', 'room_id' => 'Lab1', 'class_id' => 'Form4B', 'day' => 'Friday', 'period' => '11:00-11:40'],
+    ['teacher_id' => 'T1', 'room_id' => 'Lab1', 'class_id' => 'Year 10A IGCSE', 'day' => 'Friday', 'period' => '11:00-11:40'],
+    ['teacher_id' => 'T2', 'room_id' => 'Lab1', 'class_id' => 'Year 11B IGCSE', 'day' => 'Friday', 'period' => '11:00-11:40'],
 ];
 $c = ClashDetector::findConflicts($slots);
 assertTrue(count($c) >= 1 && str_contains($c[0], 'Room'), 'Room double-booking detected');
 
 // Null rooms (e.g. PE outside) must NOT clash with each other
 $slots = [
-    ['teacher_id' => 'T_Coach1', 'room_id' => null, 'class_id' => 'Form1A', 'day' => 'Friday', 'period' => '14:00-14:40'],
-    ['teacher_id' => 'T_Coach2', 'room_id' => null, 'class_id' => 'Form2A', 'day' => 'Friday', 'period' => '14:00-14:40'],
+    ['teacher_id' => 'T_Coach1', 'room_id' => null, 'class_id' => 'BSc CS Year 1', 'day' => 'Friday', 'period' => '14:00-14:40'],
+    ['teacher_id' => 'T_Coach2', 'room_id' => null, 'class_id' => 'BSc CS Year 2', 'day' => 'Friday', 'period' => '14:00-14:40'],
 ];
 $c = ClashDetector::findConflicts($slots);
 assertTrue(count($c) === 0, 'Multiple classes with unassigned/null rooms do not trigger room conflict');
@@ -239,7 +239,7 @@ $overloadedTeachers = [
 ];
 $validClasses = [
     [
-        'name' => 'Form 1',
+        'name' => 'Year 10 IGCSE',
         'active' => true,
         'lessons_per_day' => 8,
         'subjects' => [
@@ -287,6 +287,45 @@ $fullValidSchedule = [
     ['teacher_id' => 'T2', 'room_id' => 'R2', 'class_id' => 'C2', 'day' => 'Tuesday', 'period' => '08:00-08:40'],
 ];
 assertTrue(ClashDetector::isScheduleValid($fullValidSchedule), 'Full multi-teacher/class schedule passes conflict validation');
+
+
+// ============================================================
+// 9. HIGHER EDUCATION (COLLEGE & UNIVERSITY) & IGCSE CURRICULUM
+// ============================================================
+echo "\n-- College/University Modular Scheduling & IGCSE Validation --\n";
+
+// Test 1: University Professor double-booking across lecture halls
+$uniSlots = [
+    ['teacher_id' => 'Prof_Omondi', 'room_id' => 'LT1', 'class_id' => 'BSc_CS_Y1', 'day' => 'Monday', 'period' => '08:00-10:00'],
+    ['teacher_id' => 'Prof_Omondi', 'room_id' => 'LT2', 'class_id' => 'BSc_CS_Y2', 'day' => 'Monday', 'period' => '08:00-10:00'],
+];
+$c = ClashDetector::findConflicts($uniSlots);
+assertTrue(count($c) >= 1 && str_contains($c[0], 'Teacher'), 'University Lecturer double-booking across lecture theatres rejected');
+
+// Test 2: University Lecture Theatre room collision
+$theatreCollision = [
+    ['teacher_id' => 'Prof_Omondi', 'room_id' => 'LT1', 'class_id' => 'BSc_CS_Y1', 'day' => 'Tuesday', 'period' => '10:00-12:00'],
+    ['teacher_id' => 'Dr_Wanjiku',   'room_id' => 'LT1', 'class_id' => 'BCom_Y1',   'day' => 'Tuesday', 'period' => '10:00-12:00'],
+];
+$c = ClashDetector::findConflicts($theatreCollision);
+assertTrue(count($c) >= 1 && str_contains($c[0], 'Room'), 'University Lecture Theatre double-booking rejected');
+
+// Test 3: IGCSE Double Science Lab collision
+$igcseLabCollision = [
+    ['teacher_id' => 'Dr_Henderson', 'room_id' => 'ScienceLab1', 'class_id' => 'Year10_IGCSE', 'day' => 'Wednesday', 'period' => '14:00-15:30'],
+    ['teacher_id' => 'Mrs_OConnor',  'room_id' => 'ScienceLab1', 'class_id' => 'Year11_IGCSE', 'day' => 'Wednesday', 'period' => '14:00-15:30'],
+];
+$c = ClashDetector::findConflicts($igcseLabCollision);
+assertTrue(count($c) >= 1 && str_contains($c[0], 'Room'), 'IGCSE double science laboratory collision rejected');
+
+// Test 4: Conflict-free University modular schedule passes
+$validUniSchedule = [
+    ['teacher_id' => 'Prof_Omondi', 'room_id' => 'LT1', 'class_id' => 'BSc_CS_Y1', 'day' => 'Monday', 'period' => '08:00-10:00'],
+    ['teacher_id' => 'Dr_Wanjiku',   'room_id' => 'LT2', 'class_id' => 'BCom_Y1',   'day' => 'Monday', 'period' => '08:00-10:00'],
+    ['teacher_id' => 'Prof_Omondi', 'room_id' => 'CompLab1', 'class_id' => 'BSc_CS_Y1', 'day' => 'Monday', 'period' => '10:00-12:00'],
+    ['teacher_id' => 'Dr_Henderson', 'room_id' => 'ScienceLab1', 'class_id' => 'Year10_IGCSE', 'day' => 'Monday', 'period' => '14:00-15:30'],
+];
+assertTrue(ClashDetector::isScheduleValid($validUniSchedule), 'Valid University modular & IGCSE multi-cohort schedule verified conflict-free');
 
 
 // ============================================================

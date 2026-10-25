@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Muregis/Educore-Ratiba/actions/workflows/ci.yml/badge.svg)](https://github.com/Muregis/Educore-Ratiba/actions/workflows/ci.yml)
 
-**Ratiba** (Swahili: timetable / schedule) — multi-school timetable management and automated scheduling for Kenyan CBC and legacy 8-4-4, built on PHP 8+, MySQL/PostgreSQL, and the open-source FET timetabling solver.
+**Ratiba** (Swahili: timetable / schedule) — comprehensive educational timetable management and automated scheduling engine supporting Competency-Based Curriculum (CBC), British International Curricula (Cambridge IGCSE, GCSE, A-Levels), TVET polytechnics, and Higher Education (Colleges & Universities), built on PHP 8+, MySQL/PostgreSQL, and the open-source FET timetabling solver.
 
 * **Live:** [educoreratiba.vercel.app](https://educoreratiba.vercel.app) · alternate: [educore-ratiba.onrender.com](https://educore-ratiba.onrender.com)
 * **Companion:** [EduCore](https://github.com/Muregis/educore-school-management-system) (school management SaaS; optional SSO bridge)
@@ -21,7 +21,7 @@ Kenyan schools need conflict-aware weekly timetables that respect grade-band les
 - **Manual adjustments** with live clash validation (teacher / room / class)
 - **PDF / print export** (Dompdf)
 - **Offline / local-install** patterns for low-connectivity schools
-- **CBC + 8-4-4** band templates (schools must configure real bells and loads)
+- **CBC, Cambridge IGCSE / GCSE, and College / University** modular band templates (supporting 30–45 min school periods and 60–180 min higher education lecture/lab blocks)
 
 ---
 

@@ -167,7 +167,9 @@ document.addEventListener('DOMContentLoaded',updateSubTypeOptions);
 
   <label for="school_type">School type</label>
   <select id="school_type" name="school_type" required onchange="updateSubTypeOptions()">
-   <option value="primary">Primary School</option>
+   <option value="university">University / Higher Education</option>
+    <option value="international">International School (IGCSE / GCSE & A-Levels)</option>
+    <option value="primary">Primary School (CBC PP1-Grade 6)</option>
    <option value="secondary">Secondary School</option>
    <option value="tvet">TVET College</option>
    <option value="private_academy">Private Academy</option>

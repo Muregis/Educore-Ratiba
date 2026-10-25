@@ -1,6 +1,6 @@
 {
     "name": "muregis/educore-ratiba",
-    "description": "Kenyan school timetable management and FET scheduling engine supporting CBC and 8-4-4",
+    "description": "Educational timetable management and FET scheduling engine supporting CBC, Cambridge IGCSE/GCSE, and College/University modular scheduling",
     "type": "project",
     "license": "proprietary",
     "require": {

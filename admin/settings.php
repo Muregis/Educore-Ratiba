@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_
     $timeLimit = (int) ($_POST['generation_time_limit'] ?? 300);
     $timeLimit = max(60, min(1800, $timeLimit));
     $preferSpread = isset($_POST['prefer_spread']);
-    $allowedTypes = ['primary', 'secondary', 'mixed', 'tertiary', 'international', 'other'];
+    $allowedTypes = ['university', 'college', 'tvet', 'international', 'secondary', 'primary', 'mixed', 'tertiary', 'other'];
     if (!in_array($schoolType, $allowedTypes, true)) {
         $schoolType = 'secondary';
     }
@@ -83,7 +83,17 @@ require __DIR__ . '/_header.php';
         <input type="hidden" name="action" value="save_settings">
         <label for="school_type">School type</label>
         <select id="school_type" name="school_type">
-            <?php foreach (['primary' => 'Primary', 'secondary' => 'Secondary', 'mixed' => 'Mixed (primary + secondary)', 'tertiary' => 'Tertiary / college', 'international' => 'International', 'other' => 'Other'] as $val => $lab): ?>
+            <?php
+        $typeOptions = [
+            'university' => 'University / Higher Education Institute',
+            'college' => 'College / TVET Polytechnic',
+            'international' => 'International (British Curriculum: IGCSE / GCSE & A-Levels)',
+            'secondary' => 'CBC Senior Secondary (Grade 10–12)',
+            'primary' => 'CBC Primary & Junior School (PP1–Grade 9)',
+            'mixed' => 'Comprehensive Dual-Curriculum Academy',
+            'other' => 'Other / Vocational'
+        ];
+        foreach ($typeOptions as $val => $lab): ?>
                 <option value="<?php echo $val; ?>" <?php echo $currentType === $val ? 'selected' : ''; ?>><?php echo $lab; ?></option>
             <?php endforeach; ?>
         </select>

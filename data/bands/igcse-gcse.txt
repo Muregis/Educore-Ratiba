@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fet version="6.0.0">
+  <Institution_Name>International British Academy</Institution_Name>
+  <Comments>British International Curriculum (Cambridge/Edexcel IGCSE, GCSE, and GCE A-Levels) — 9 periods/day, 40-45 min, supporting multi-slot laboratory practicals and elective subject blocks.</Comments>
+
+  <Days_List>
+    <Number_of_Days>5</Number_of_Days>
+    <Day><Name>Monday</Name></Day>
+    <Day><Name>Tuesday</Name></Day>
+    <Day><Name>Wednesday</Name></Day>
+    <Day><Name>Thursday</Name></Day>
+    <Day><Name>Friday</Name></Day>
+  </Days_List>
+
+  <Hours_List>
+    <Number_of_Hours>9</Number_of_Hours>
+    <Hour><Name>08:00-08:45</Name></Hour>
+    <Hour><Name>08:45-09:30</Name></Hour>
+    <Hour><Name>09:30-10:15</Name></Hour>
+    <Hour><Name>10:45-11:30</Name></Hour>
+    <Hour><Name>11:30-12:15</Name></Hour>
+    <Hour><Name>12:15-13:00</Name></Hour>
+    <Hour><Name>14:00-14:45</Name></Hour>
+    <Hour><Name>14:45-15:30</Name></Hour>
+    <Hour><Name>15:30-16:15</Name></Hour>
+  </Hours_List>
+
+  <Subjects_List>
+    <Subject><Name>English Language (0500)</Name></Subject>
+    <Subject><Name>English Literature (0475)</Name></Subject>
+    <Subject><Name>Mathematics Extended (0580)</Name></Subject>
+    <Subject><Name>Physics (0625)</Name></Subject>
+    <Subject><Name>Chemistry (0620)</Name></Subject>
+    <Subject><Name>Biology (0610)</Name></Subject>
+    <Subject><Name>Computer Science (0478)</Name></Subject>
+    <Subject><Name>Economics (0455)</Name></Subject>
+    <Subject><Name>Business Studies (0450)</Name></Subject>
+    <Subject><Name>Geography (0460)</Name></Subject>
+    <Subject><Name>History (0470)</Name></Subject>
+    <Subject><Name>French (0520)</Name></Subject>
+    <Subject><Name>Art and Design (0400)</Name></Subject>
+    <Subject><Name>Physical Education</Name></Subject>
+  </Subjects_List>
+
+  <Teachers_List>
+    <Teacher><Name>Dr. Henderson</Name></Teacher>
+    <Teacher><Name>Ms. Vance</Name></Teacher>
+    <Teacher><Name>Mr. Patel</Name></Teacher>
+    <Teacher><Name>Mrs. O'Connor</Name></Teacher>
+    <Teacher><Name>Mr. Mwangi</Name></Teacher>
+    <Teacher><Name>Madame Dubois</Name></Teacher>
+  </Teachers_List>
+
+  <Rooms_List>
+    <Room><Name>Science Lab 1</Name><Building>Science Block</Building><Capacity>28</Capacity></Room>
+    <Room><Name>Science Lab 2</Name><Building>Science Block</Building><Capacity>28</Capacity></Room>
+    <Room><Name>Computer Suite</Name><Building>Tech Wing</Building><Capacity>32</Capacity></Room>
+    <Room><Name>Art Studio</Name><Building>Creative Arts</Building><Capacity>25</Capacity></Room>
+    <Room><Name>Room 101</Name><Building>Main</Building><Capacity>30</Capacity></Room>
+    <Room><Name>Room 102</Name><Building>Main</Building><Capacity>30</Capacity></Room>
+  </Rooms_List>
+
+  <Students_List>
+    <Year>
+      <Name>Year 9</Name>
+      <Number_of_Students>26</Number_of_Students>
+    </Year>
+    <Year>
+      <Name>Year 10 IGCSE</Name>
+      <Number_of_Students>28</Number_of_Students>
+    </Year>
+    <Year>
+      <Name>Year 11 IGCSE</Name>
+      <Number_of_Students>25</Number_of_Students>
+    </Year>
+    <Year>
+      <Name>Year 12 A-Level</Name>
+      <Number_of_Students>20</Number_of_Students>
+    </Year>
+  </Students_List>
+
+  <Activities_List>
+    <Activity><Teacher>Dr. Henderson</Teacher><Subject>Mathematics Extended (0580)</Subject><Students>Year 10 IGCSE</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>1</Id><Activity_Group_Id>1</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>Dr. Henderson</Teacher><Subject>Physics (0625)</Subject><Students>Year 10 IGCSE</Students><Duration>2</Duration><Total_Duration>2</Total_Duration><Id>2</Id><Activity_Group_Id>2</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>Ms. Vance</Teacher><Subject>English Language (0500)</Subject><Students>Year 10 IGCSE</Students><Duration>1</Duration><Total_Duration>1</Total_Duration><Id>3</Id><Activity_Group_Id>3</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>Mr. Patel</Teacher><Subject>Computer Science (0478)</Subject><Students>Year 10 IGCSE</Students><Duration>2</Duration><Total_Duration>2</Total_Duration><Id>4</Id><Activity_Group_Id>4</Activity_Group_Id><Active>true</Active></Activity>
+    <Activity><Teacher>Mrs. O'Connor</Teacher><Subject>Chemistry (0620)</Subject><Students>Year 10 IGCSE</Students><Duration>2</Duration><Total_Duration>2</Total_Duration><Id>5</Id><Activity_Group_Id>5</Activity_Group_Id><Active>true</Active></Activity>
+  </Activities_List>
+</fet>

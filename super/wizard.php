@@ -383,7 +383,9 @@ $pageTitle = 'School Setup Wizard — Super Admin';
                 <label for="school_type">School Type</label>
                 <select id="school_type" name="data[school_type]" required onchange="updateSubTypeOptions()">
                     <option value="">-- Select --</option>
-                    <option value="primary" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'primary' ? 'selected' : ''; ?>>Primary School</option>
+                    <option value="university" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'university' ? 'selected' : ''; ?>>University / Higher Education</option>
+                    <option value="international" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'international' ? 'selected' : ''; ?>>International School (IGCSE / GCSE & A-Levels)</option>
+                    <option value="primary" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'primary' ? 'selected' : ''; ?>>Primary School (CBC PP1-Grade 6)</option>
                     <option value="secondary" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'secondary' ? 'selected' : ''; ?>>Secondary School</option>
                     <option value="tvet" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'tvet' ? 'selected' : ''; ?>>TVET College</option>
                     <option value="private_academy" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'private_academy' ? 'selected' : ''; ?>>Private Academy</option>
@@ -512,6 +514,11 @@ $pageTitle = 'School Setup Wizard — Super Admin';
 
 <script>
 const subTypeOptions = {
+    university: [
+        {value: 'faculties', label: 'Faculties & Departments'},
+        {value: 'constituent_college', label: 'Constituent College'},
+        {value: 'campus', label: 'Satellite Campus'}
+    ],
     primary: [
         {value: 'day', label: 'Day Primary'},
         {value: 'boarding', label: 'Boarding Primary'},
