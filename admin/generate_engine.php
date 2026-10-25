@@ -398,6 +398,19 @@ function buildWholeSchoolXml(int $schoolId, string $schoolName): string
     $basicSpace->addChild('Weight_Percentage', '100');
     $basicSpace->addChild('Active', 'true');
 
+    // Home room constraints: enforce designated default room for classes with room_id
+    $roomNameById = array_column($rooms, 'name', 'id');
+    foreach ($classes as $class) {
+        $rId = $class['room_id'] ?? null;
+        if ($rId !== null && isset($roomNameById[$rId])) {
+            $homeRoomEl = $spaceConstraints->addChild('ConstraintStudentsSetHomeRoom');
+            $homeRoomEl->addChild('Weight_Percentage', '100');
+            $homeRoomEl->addChild('Students', htmlspecialchars($class['name']));
+            $homeRoomEl->addChild('Room', htmlspecialchars($roomNameById[$rId]));
+            $homeRoomEl->addChild('Active', 'true');
+        }
+    }
+
     // Write to a temp file with unique entropy
     $tmpPath = sys_get_temp_dir() . '/fet_school_' . $schoolId . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.xml';
     $xml->asXML($tmpPath);
