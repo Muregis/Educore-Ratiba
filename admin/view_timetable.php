@@ -120,9 +120,10 @@ if ($latestAny && $latestAny['status'] === 'failed' && !empty($latestAny['failur
     }
 }
 
-$stmt = db()->prepare('SELECT * FROM classes WHERE school_id = ? AND active = TRUE ORDER BY name');
+$stmt = db()->prepare('SELECT c.*, b.band_key, b.label as band_label FROM classes c LEFT JOIN bands b ON c.band_id = b.id WHERE c.school_id = ? AND c.active = TRUE');
 $stmt->execute([$schoolId]);
 $classes = $stmt->fetchAll();
+sortClassesByLevel($classes);
 
 $selectedClassId = ($_GET['class_id'] ?? '') !== '' ? (int) $_GET['class_id'] : null;
 

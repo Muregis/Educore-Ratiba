@@ -64,6 +64,7 @@ $byClass = [];
 foreach ($rows as $r) {
     $byClass[$r['class_name']][] = $r;
 }
+uksort($byClass, static fn($a, $b) => compareClassesByLevel(['name' => $a], ['name' => $b]));
 foreach ($byClass as &$classRows) {
     usort($classRows, static function ($a, $b) use ($dayOrder) {
         $dayCmp = ($dayOrder[$a['day_of_week']] ?? 9) <=> ($dayOrder[$b['day_of_week']] ?? 9);

@@ -188,10 +188,11 @@ if ($search !== '' || $bandFilter !== 0 || $statusFilter !== '') {
     $stmt->execute([$schoolId]);
     $totalCount = $stmt->fetchColumn();
     
-    $stmt = db()->prepare('SELECT c.*, b.label as band_label, r.name as room_name FROM classes c LEFT JOIN bands b ON c.band_id = b.id LEFT JOIN rooms r ON c.room_id = r.id WHERE c.school_id = ? ORDER BY c.name LIMIT ? OFFSET ?');
+    $stmt = db()->prepare('SELECT c.*, b.label as band_label, b.band_key, r.name as room_name FROM classes c LEFT JOIN bands b ON c.band_id = b.id LEFT JOIN rooms r ON c.room_id = r.id WHERE c.school_id = ? ORDER BY c.name LIMIT ? OFFSET ?');
     $stmt->execute([$schoolId, $perPage, $offset]);
 }
 $classes = $stmt->fetchAll();
+sortClassesByLevel($classes);
 $totalPages = (int) ceil($totalCount / $perPage);
 
 $pageTitle = 'Classes — ' . $school['name'];

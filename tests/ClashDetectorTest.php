@@ -329,6 +329,44 @@ assertTrue(ClashDetector::isScheduleValid($validUniSchedule), 'Valid University 
 
 
 // ============================================================
+// 10. CLASS LEVEL PROGRESSION & DROPDOWN ORDERING
+// ============================================================
+echo "\n-- Class Level Dropdown Ordering --\n";
+
+require_once __DIR__ . '/../db/db.php';
+
+$testClasses = [
+    ['name' => 'Grade 10 STEM', 'band_key' => 'grade-10-12'],
+    ['name' => 'Grade 2 Green', 'band_key' => 'grade-1-3'],
+    ['name' => 'PP1 Red',       'band_key' => 'pp1-pp2'],
+    ['name' => 'Grade 12 Arts', 'band_key' => 'grade-10-12'],
+    ['name' => 'Grade 1 Blue',  'band_key' => 'grade-1-3'],
+    ['name' => 'PP2 Yellow',    'band_key' => 'pp1-pp2'],
+    ['name' => 'Grade 7 East',  'band_key' => 'grade-7-9'],
+    ['name' => 'Grade 7 West',  'band_key' => 'grade-7-9'],
+    ['name' => 'Grade 9 Turkana','band_key' => 'grade-7-9'],
+    ['name' => 'BSc CS Y1S1',   'band_key' => 'university'],
+];
+
+sortClassesByLevel($testClasses);
+$names = array_column($testClasses, 'name');
+
+// 1. PP1 and PP2 must be at the very top (before Grade 1)
+assertTrue($names[0] === 'PP1 Red' && $names[1] === 'PP2 Yellow', 'Pre-Primary classes (PP1, PP2) sort at the very top');
+
+// 2. Grade 1 and 2 must precede Grade 7, 9, 10
+$grade1Idx = array_search('Grade 1 Blue', $names, true);
+$grade2Idx = array_search('Grade 2 Green', $names, true);
+$grade7Idx = array_search('Grade 7 East', $names, true);
+$grade10Idx = array_search('Grade 10 STEM', $names, true);
+$grade12Idx = array_search('Grade 12 Arts', $names, true);
+$uniIdx = array_search('BSc CS Y1S1', $names, true);
+
+assertTrue($grade1Idx < $grade2Idx && $grade2Idx < $grade7Idx, 'Primary grades progress sequentially before Junior School (G1 < G2 < G7)');
+assertTrue($grade7Idx < $grade10Idx && $grade10Idx < $grade12Idx, 'Grade 10 does not precede Grade 7; Senior school follows Junior school (G7 < G10 < G12)');
+assertTrue($grade12Idx < $uniIdx, 'Higher education / University levels follow secondary levels');
+
+// ============================================================
 // SUMMARY
 // ============================================================
 echo "\n============================================\n";

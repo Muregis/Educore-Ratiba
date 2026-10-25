@@ -57,9 +57,11 @@ if ($reportType === 'room_utilization') {
     }
 } elseif ($reportType === 'class_coverage') {
     $title = 'Class Coverage';
-    $classes = $pdo->prepare('SELECT c.*, b.label AS band_label FROM classes c LEFT JOIN bands b ON b.id = c.band_id WHERE c.school_id = ? AND c.active = TRUE ORDER BY c.name');
+    $classes = $pdo->prepare('SELECT c.*, b.label AS band_label, b.band_key FROM classes c LEFT JOIN bands b ON b.id = c.band_id WHERE c.school_id = ? AND c.active = TRUE');
     $classes->execute([$schoolId]);
-    foreach ($classes->fetchAll() as $c) {
+    $classList = $classes->fetchAll();
+    sortClassesByLevel($classList);
+    foreach ($classList as $c) {
         $cid = (int)$c['id'];
         $sub = $pdo->prepare('SELECT COUNT(*), COALESCE(SUM(lessons_per_week),0) FROM subjects WHERE school_id = ? AND class_id = ?');
         $sub->execute([$schoolId, $cid]);

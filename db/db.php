@@ -228,14 +228,146 @@ function getBands(int $schoolId): array
     return $stmt->fetchAll();
 }
 
+/**
+ * Calculates a numeric level score for a class to sort by educational progression
+ * rather than alphabetical order.
+ *
+ * Hierarchy:
+ * - Playgroup / Daycare / Creche / Baby Class: 0.1
+ * - Pre-Primary 1 (PP1 / Nursery / KG1): 0.2
+ * - Pre-Primary 2 (PP2 / Kindergarten / KG2): 0.3
+ * - Primary (Grade 1 - 6): 1.0 - 6.0
+ * - Junior School (Grade 7 - 9 / Form 1 - 3): 7.0 - 9.0
+ * - Senior School (Grade 10 - 12 / Form 4): 10.0 - 12.0
+ * - British International (Year 1 - 13): 1.0 - 13.0
+ * - TVET / Tertiary: 15.0 - 19.0
+ * - University (Y1S1, Y1S2, Y2, Y3, Y4): 20.0+
+ */
+function classLevelScore(string $name, ?string $bandKey = null): float
+{
+    $n = trim($name);
+    $lower = strtolower($n);
+
+    // 1. Pre-Primary keywords
+    if (preg_match('/\b(playgroup|daycare|creche|baby)\b/i', $lower)) {
+        return 0.1;
+    }
+    if (preg_match('/\b(pp\s*1|pre[\s\-]?primary\s*1|nursery|kg\s*1)\b/i', $lower)) {
+        return 0.2;
+    }
+    if (preg_match('/\b(pp\s*2|pre[\s\-]?primary\s*2|kindergarten|kg\s*2|reception)\b/i', $lower)) {
+        return 0.3;
+    }
+
+    // 2. Numeric Grade / Class / Standard / Year / Form
+    if (preg_match('/\b(?:grade|class|standard|std|year|yr|form|f)\s*([0-9]{1,2})\b/i', $lower, $m)) {
+        $num = (int) $m[1];
+        if (preg_match('/\b(?:form|f)\s*([0-9]{1,2})\b/i', $lower)) {
+            return 8.0 + $num; // Form 1 -> 9, Form 4 -> 12
+        }
+        return (float) $num;
+    }
+
+    // 3. Standalone G-prefix (e.g. G7, G10)
+    if (preg_match('/\bg([0-9]{1,2})\b/i', $lower, $m)) {
+        return (float) $m[1];
+    }
+
+    // 4. University semester patterns (e.g. Y1S1, Y2S2, Year 1)
+    if (preg_match('/\by([1-6])s([1-3])\b/i', $lower, $m)) {
+        return 20.0 + (int) $m[1] + ((int) $m[2] * 0.1);
+    }
+    if (preg_match('/\b(?:year|y)\s*([1-6])\b/i', $lower, $m)) {
+        return 20.0 + (int) $m[1];
+    }
+
+    // 5. Band-based base score if available
+    if ($bandKey !== null && $bandKey !== '') {
+        $bandBase = [
+            'pp1-pp2' => 0.2,
+            'cbc-lower' => 1.0,
+            'grade-1-3' => 1.0,
+            'cbc-upper' => 4.0,
+            'grade-4-6' => 4.0,
+            'cbc-jss' => 7.0,
+            'grade-7-9' => 7.0,
+            'grade-10-12' => 10.0,
+            'igcse-gcse' => 9.0,
+            'tertiary' => 15.0,
+            'university' => 20.0,
+        ];
+        if (isset($bandBase[$bandKey])) {
+            return $bandBase[$bandKey];
+        }
+    }
+
+    // 6. Standalone digits anywhere in the name
+    if (preg_match('/([0-9]{1,2})/', $lower, $m)) {
+        return (float) $m[1];
+    }
+
+    return 50.0;
+}
+
+/**
+ * Compares two class records or objects by educational level progression.
+ */
+function compareClassesByLevel(array $a, array $b): int
+{
+    $scoreA = classLevelScore((string) ($a['name'] ?? ''), (string) ($a['band_key'] ?? ''));
+    $scoreB = classLevelScore((string) ($b['name'] ?? ''), (string) ($b['band_key'] ?? ''));
+
+    if ($scoreA < $scoreB) return -1;
+    if ($scoreA > $scoreB) return 1;
+
+    // Equal level (e.g. Grade 7 East vs Grade 7 West) -> Natural alphabetical sort
+    return strnatcasecmp((string) ($a['name'] ?? ''), (string) ($b['name'] ?? ''));
+}
+
+/**
+ * Sorts an array of class records in-place by educational level progression.
+ *
+ * @param array<int, array<string, mixed>> $classes
+ */
+function sortClassesByLevel(array &$classes): void
+{
+    usort($classes, 'compareClassesByLevel');
+}
+
+/**
+ * Sorts an array of records having 'class_name' (subjects, activities, remedials)
+ * by class level progression, then class name, then item name.
+ *
+ * @param array<int, array<string, mixed>> $items
+ */
+function sortItemsByClassLevel(array &$items): void
+{
+    usort($items, static function(array $a, array $b): int {
+        $classNameA = (string) ($a['class_name'] ?? '');
+        $classNameB = (string) ($b['class_name'] ?? '');
+        $scoreA = classLevelScore($classNameA);
+        $scoreB = classLevelScore($classNameB);
+
+        if ($scoreA < $scoreB) return -1;
+        if ($scoreA > $scoreB) return 1;
+
+        $classCmp = strnatcasecmp($classNameA, $classNameB);
+        if ($classCmp !== 0) return $classCmp;
+
+        return strnatcasecmp((string) ($a['name'] ?? ''), (string) ($b['name'] ?? ''));
+    });
+}
+
 function getClasses(int $schoolId): array
 {
-    $stmt = db()->prepare('SELECT c.*, b.lessons_per_day, b.lesson_length_minutes
+    $stmt = db()->prepare('SELECT c.*, b.lessons_per_day, b.lesson_length_minutes, b.band_key, b.label AS band_label
                            FROM classes c
                            JOIN bands b ON c.band_id = b.id
                            WHERE c.school_id = ?');
     $stmt->execute([$schoolId]);
-    return $stmt->fetchAll();
+    $classes = $stmt->fetchAll();
+    sortClassesByLevel($classes);
+    return $classes;
 }
 
 function getSubjectsForClass(int $schoolId, int $classId): array

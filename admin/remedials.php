@@ -13,9 +13,10 @@ $stmt->execute([$schoolId]);
 $school = $stmt->fetch();
 
 // Get classes and bands for dropdowns
-$stmt = db()->prepare('SELECT c.*, b.label as band_label FROM classes c JOIN bands b ON c.band_id = b.id WHERE c.school_id = ? AND c.active = TRUE ORDER BY c.name');
+$stmt = db()->prepare('SELECT c.*, b.label as band_label, b.band_key FROM classes c JOIN bands b ON c.band_id = b.id WHERE c.school_id = ? AND c.active = TRUE');
 $stmt->execute([$schoolId]);
 $classes = $stmt->fetchAll();
+sortClassesByLevel($classes);
 
 // Get teachers for dropdown
 $stmt = db()->prepare('SELECT * FROM teachers WHERE school_id = ? ORDER BY name');
@@ -31,6 +32,7 @@ $rooms = $stmt->fetchAll();
 $stmt = db()->prepare('SELECT s.*, c.name as class_name FROM subjects s JOIN classes c ON s.class_id = c.id WHERE s.school_id = ? ORDER BY c.name, s.name');
 $stmt->execute([$schoolId]);
 $subjects = $stmt->fetchAll();
+sortItemsByClassLevel($subjects);
 
 $error = null;
 $success = null;
