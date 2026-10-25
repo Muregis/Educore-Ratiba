@@ -88,9 +88,9 @@ require __DIR__ . '/_header.php';
             'university' => 'University / Higher Education Institute',
             'college' => 'College / TVET Polytechnic',
             'international' => 'International (British Curriculum: IGCSE / GCSE & A-Levels)',
-            'secondary' => 'CBC Senior Secondary (Grade 10–12)',
-            'primary' => 'CBC Primary & Junior School (PP1–Grade 9)',
-            'mixed' => 'Comprehensive Dual-Curriculum Academy',
+            'secondary' => 'CBC / CBE Senior School (Grade 10–12)',
+            'primary' => 'CBC / CBE Primary & Junior School (PP1–Grade 9)',
+            'mixed' => 'Comprehensive Dual-Curriculum Academy (CBC / CBE & IGCSE)',
             'other' => 'Other / Vocational'
         ];
         foreach ($typeOptions as $val => $lab): ?>

@@ -384,12 +384,11 @@ $pageTitle = 'School Setup Wizard — Super Admin';
                 <select id="school_type" name="data[school_type]" required onchange="updateSubTypeOptions()">
                     <option value="">-- Select --</option>
                     <option value="university" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'university' ? 'selected' : ''; ?>>University / Higher Education</option>
+                    <option value="tvet" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'tvet' ? 'selected' : ''; ?>>TVET College / Polytechnic</option>
                     <option value="international" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'international' ? 'selected' : ''; ?>>International School (IGCSE / GCSE & A-Levels)</option>
-                    <option value="primary" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'primary' ? 'selected' : ''; ?>>Primary School (CBC PP1-Grade 6)</option>
-                    <option value="secondary" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'secondary' ? 'selected' : ''; ?>>Secondary School</option>
-                    <option value="tvet" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'tvet' ? 'selected' : ''; ?>>TVET College</option>
-                    <option value="private_academy" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'private_academy' ? 'selected' : ''; ?>>Private Academy</option>
-                    <option value="international" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'international' ? 'selected' : ''; ?>>International School</option>
+                    <option value="secondary" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'secondary' ? 'selected' : ''; ?>>CBC / CBE Senior School (Grade 10–12)</option>
+                    <option value="primary" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'primary' ? 'selected' : ''; ?>>CBC / CBE Primary & Junior School (PP1–Grade 9)</option>
+                    <option value="private_academy" <?php echo ($wizard['data']['classification']['school_type'] ?? '') === 'private_academy' ? 'selected' : ''; ?>>Private Academy (Dual-Track CBC / CBE & IGCSE)</option>
                 </select>
 
                 <label for="school_sub_type">School Sub-type (optional)</label>
@@ -514,11 +513,6 @@ $pageTitle = 'School Setup Wizard — Super Admin';
 
 <script>
 const subTypeOptions = {
-    university: [
-        {value: 'faculties', label: 'Faculties & Departments'},
-        {value: 'constituent_college', label: 'Constituent College'},
-        {value: 'campus', label: 'Satellite Campus'}
-    ],
     primary: [
         {value: 'day', label: 'Day Primary'},
         {value: 'boarding', label: 'Boarding Primary'},
@@ -526,11 +520,18 @@ const subTypeOptions = {
         {value: 'private', label: 'Private Primary'}
     ],
     secondary: [
+        {value: 'senior_school', label: 'Senior School (Grade 10–12)'},
+        {value: 'junior_school', label: 'Junior School (Grade 7–9)'},
         {value: 'national', label: 'National School'},
         {value: 'extra_county', label: 'Extra-County School'},
         {value: 'county', label: 'County School'},
         {value: 'sub_county', label: 'Sub-County School'},
         {value: 'private', label: 'Private Secondary'}
+    ],
+    university: [
+        {value: 'public', label: 'Public University'},
+        {value: 'private', label: 'Private University'},
+        {value: 'constituent', label: 'Constituent College'}
     ],
     tvet: [
         {value: 'national', label: 'National TVET'},

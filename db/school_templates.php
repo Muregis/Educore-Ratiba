@@ -47,7 +47,7 @@ class SchoolTemplates {
             'scheduling_notes' => '9 periods per day, 45 minutes each, double science labs'
         ],
         'cbc_senior_secondary' => [
-            'name' => 'CBC Senior Secondary School (Grade 10–12)',
+            'name' => 'CBC / CBE Senior School (Grade 10–12)',
             'description' => 'KICD Senior School Pathways: STEM, Social Sciences, Arts & Sports Science',
             'school_type' => 'secondary',
             'school_sub_type' => 'senior_school',
@@ -59,7 +59,7 @@ class SchoolTemplates {
             'scheduling_notes' => '8-9 periods per day, 40 minutes each, pathway elective blocks'
         ],
         'cbc_junior_secondary' => [
-            'name' => 'CBC Junior Secondary School (Grade 7–9)',
+            'name' => 'CBC / CBE Junior School (Grade 7–9)',
             'description' => 'Junior School with integrated sciences, pre-technical and agriculture',
             'school_type' => 'secondary',
             'school_sub_type' => 'junior_school',
@@ -71,7 +71,7 @@ class SchoolTemplates {
             'scheduling_notes' => '8-9 periods per day, 40-45 minutes each'
         ],
         'cbc_primary' => [
-            'name' => 'CBC Primary & Comprehensive (PP1–Grade 6)',
+            'name' => 'CBC / CBE Primary & Comprehensive (PP1–Grade 6)',
             'description' => 'Early Years (PP1-PP2) and Middle School (Grade 1-6)',
             'school_type' => 'primary',
             'school_sub_type' => 'day',
@@ -83,7 +83,7 @@ class SchoolTemplates {
             'scheduling_notes' => '6-8 periods per day, 30-35 minutes each'
         ],
         'private_academy' => [
-            'name' => 'Private International Academy (Dual Track)',
+            'name' => 'Private International Academy (Dual Track CBC / CBE & IGCSE)',
             'description' => 'Comprehensive dual-track institution supporting CBC and British International (IGCSE) tracks',
             'school_type' => 'private_academy',
             'school_sub_type' => 'dual_curriculum',

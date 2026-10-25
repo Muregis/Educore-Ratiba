@@ -127,10 +127,11 @@ th{color:var(--muted);font-size:.7rem;text-transform:uppercase}
 <script>
 const subTypeOptions={
  primary:[{value:'day',label:'Day Primary'},{value:'boarding',label:'Boarding Primary'},{value:'day_boarding',label:'Day & Boarding'},{value:'private',label:'Private Primary'}],
- secondary:[{value:'national',label:'National'},{value:'extra_county',label:'Extra-County'},{value:'county',label:'County'},{value:'sub_county',label:'Sub-County'},{value:'private',label:'Private'}],
+ secondary:[{value:'senior_school',label:'Senior School (Grade 10–12)'},{value:'junior_school',label:'Junior School (Grade 7–9)'},{value:'national',label:'National'},{value:'extra_county',label:'Extra-County'},{value:'county',label:'County'},{value:'sub_county',label:'Sub-County'},{value:'private',label:'Private'}],
+ university:[{value:'public',label:'Public University'},{value:'private',label:'Private University'},{value:'constituent',label:'Constituent College'}],
  tvet:[{value:'national',label:'National TVET'},{value:'county',label:'County TVET'},{value:'private',label:'Private TVET'}],
- private_academy:[{value:'day',label:'Day'},{value:'boarding',label:'Boarding'},{value:'day_boarding',label:'Day & Boarding'}],
- international:[{value:'day',label:'Day'},{value:'boarding',label:'Boarding'},{value:'day_boarding',label:'Day & Boarding'}]
+ private_academy:[{value:'day',label:'Day Academy'},{value:'boarding',label:'Boarding Academy'},{value:'day_boarding',label:'Day & Boarding Academy'}],
+ international:[{value:'day',label:'Day International'},{value:'boarding',label:'Boarding International'},{value:'day_boarding',label:'Day & Boarding International'}]
 };
 function updateSubTypeOptions(){
  const st=document.getElementById('school_type').value;
@@ -168,12 +169,11 @@ document.addEventListener('DOMContentLoaded',updateSubTypeOptions);
   <label for="school_type">School type</label>
   <select id="school_type" name="school_type" required onchange="updateSubTypeOptions()">
    <option value="university">University / Higher Education</option>
-    <option value="international">International School (IGCSE / GCSE & A-Levels)</option>
-    <option value="primary">Primary School (CBC PP1-Grade 6)</option>
-   <option value="secondary">Secondary School</option>
-   <option value="tvet">TVET College</option>
-   <option value="private_academy">Private Academy</option>
-   <option value="international">International School</option>
+   <option value="tvet">TVET College / Polytechnic</option>
+   <option value="international">International School (IGCSE / GCSE & A-Levels)</option>
+   <option value="secondary">CBC / CBE Senior School (Grade 10–12)</option>
+   <option value="primary">CBC / CBE Primary & Junior School (PP1–Grade 9)</option>
+   <option value="private_academy">Private Academy (Dual-Track CBC / CBE & IGCSE)</option>
   </select>
 
   <label for="school_sub_type">Sub-type (optional)</label>
