@@ -41,6 +41,10 @@ $testSuites = [
         'name' => 'Priority 5: Teacher & Master Timetable Views',
         'file' => __DIR__ . '/TimetableViewTest.php',
     ],
+    [
+        'name' => 'Priority 6: Real-World Sample Timetable Compliance',
+        'file' => __DIR__ . '/SampleTimetableComplianceTest.php',
+    ],
 ];
 
 $suiteResults = [];
