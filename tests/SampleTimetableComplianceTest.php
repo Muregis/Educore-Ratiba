@@ -311,6 +311,150 @@ $expectedClassOrder = ['PP1 Daisy', 'PP2 Rose', 'Grade 7 Mara', 'Grade 8 Ambosel
 assertCondition($sortedClassNames === $expectedClassOrder, 'Educational progression ordering verified (PP1 -> PP2 -> G7 -> G8 -> G9 -> Form 4)');
 
 // -------------------------------------------------------------
+// 6. DYNAMIC START TIMES & DIFFERING BREAK VARIATIONS
+// -------------------------------------------------------------
+echo "\n-- 6. Dynamic Start Times & Differing Break Variations --\n";
+
+function simulateBandTimeline(array $band): array
+{
+    $prefix = (string) ($band['band_key'] ?? 'B');
+    $lessonsPerDay = (int) ($band['lessons_per_day'] ?? 8);
+    $lengthMin = max(15, (int) ($band['lesson_length_minutes'] ?? 40));
+    $dayStart = (string) ($band['day_start_time'] ?? '08:00');
+    if (!preg_match('/^\d{2}:\d{2}$/', $dayStart)) {
+        $dayStart = '08:00';
+    }
+    $breakConfig = [];
+    if (!empty($band['break_config'])) {
+        $decoded = is_string($band['break_config']) ? json_decode($band['break_config'], true) : $band['break_config'];
+        if (is_array($decoded)) {
+            $breakConfig = $decoded;
+        }
+    }
+
+    $parsedBreaks = [];
+    foreach ($breakConfig as $bc) {
+        [$bStart, $bEnd] = array_pad(explode('-', (string) ($bc['time'] ?? '')), 2, null);
+        if ($bStart === null || $bEnd === null) continue;
+        $parsedBreaks[] = [
+            'start_ts' => strtotime(trim($bStart)),
+            'end_ts' => strtotime(trim($bEnd)),
+            'start_label' => trim($bStart),
+            'end_label' => trim($bEnd),
+            'label' => (string) ($bc['label'] ?? 'BREAK'),
+        ];
+    }
+    usort($parsedBreaks, static fn($a, $b) => $a['start_ts'] <=> $b['start_ts']);
+
+    $periods = [];
+    $current = strtotime($dayStart);
+    $teachingCount = 0;
+    $safety = $lessonsPerDay + count($parsedBreaks) + 6;
+
+    for ($i = 0; $i < $safety; $i++) {
+        if ($teachingCount >= $lessonsPerDay) break;
+
+        $matchedBreak = null;
+        foreach ($parsedBreaks as $pb) {
+            if ($current >= $pb['start_ts'] && $current < $pb['end_ts']) {
+                $matchedBreak = $pb;
+                break;
+            }
+        }
+        if ($matchedBreak !== null) {
+            $key = "{$prefix}__{$matchedBreak['start_label']}-{$matchedBreak['end_label']} {$matchedBreak['label']}";
+            $periods[] = [
+                'key' => $key,
+                'label' => $matchedBreak['start_label'] . ' - ' . $matchedBreak['end_label'],
+                'is_break' => true,
+                'break_label' => strtoupper($matchedBreak['label']),
+            ];
+            $current = $matchedBreak['end_ts'];
+            continue;
+        }
+
+        $slotStart = date('H:i', $current);
+        $slotEndTs = $current + ($lengthMin * 60);
+        $slotEnd = date('H:i', $slotEndTs);
+        $key = "{$prefix}__{$slotStart}-{$slotEnd}";
+        $periods[] = [
+            'key' => $key,
+            'label' => $slotStart . ' - ' . $slotEnd,
+            'is_break' => false,
+            'break_label' => null,
+        ];
+        $teachingCount++;
+        $current = $slotEndTs;
+    }
+
+    return $periods;
+}
+
+// 6.1 Test School Starting at 08:00 Sharp (1 Tea Break + 1 Lunch)
+$band8amSharp = [
+    'band_key' => 'sec-8am',
+    'day_start_time' => '08:00',
+    'lesson_length_minutes' => 40,
+    'lessons_per_day' => 8,
+    'break_config' => [
+        ['time' => '10:00-10:30', 'label' => 'TEA BREAK'],
+        ['time' => '12:30-13:30', 'label' => 'LUNCH BREAK'],
+    ],
+];
+
+$timeline8am = simulateBandTimeline($band8amSharp);
+$teaching8am = array_values(array_filter($timeline8am, fn($p) => !$p['is_break']));
+$breaks8am = array_values(array_filter($timeline8am, fn($p) => $p['is_break']));
+
+assertCondition($teaching8am[0]['label'] === '08:00 - 08:40', '08:00 Sharp Start: Lesson 1 starts at 08:00 sharp and ends at 08:40');
+assertCondition($teaching8am[1]['label'] === '08:40 - 09:20', '08:00 Sharp Start: Lesson 2 is 08:40 - 09:20');
+assertCondition($teaching8am[2]['label'] === '09:20 - 10:00', '08:00 Sharp Start: Lesson 3 is 09:20 - 10:00');
+assertCondition($breaks8am[0]['label'] === '10:00 - 10:30' && $breaks8am[0]['break_label'] === 'TEA BREAK', '08:00 Sharp Start: Tea Break accurately locked at 10:00 - 10:30');
+assertCondition($teaching8am[3]['label'] === '10:30 - 11:10', '08:00 Sharp Start: Lesson 4 resumes promptly at 10:30 after Tea Break');
+assertCondition($breaks8am[1]['label'] === '12:30 - 13:30' && $breaks8am[1]['break_label'] === 'LUNCH BREAK', '08:00 Sharp Start: Lunch Break accurately locked at 12:30 - 13:30');
+assertCondition($teaching8am[6]['label'] === '13:30 - 14:10', '08:00 Sharp Start: Lesson 7 resumes at 13:30 after Lunch');
+assertCondition(count($teaching8am) === 8, '08:00 Sharp Start: Exactly 8 teaching lessons scheduled around breaks');
+
+// 6.2 Test School with 2 Tea Breaks + Lunch
+$band2TeaBreaks = [
+    'band_key' => 'pri-2tea',
+    'day_start_time' => '08:00',
+    'lesson_length_minutes' => 40,
+    'lessons_per_day' => 8,
+    'break_config' => [
+        ['time' => '09:20-09:40', 'label' => 'SHORT BREAK'],
+        ['time' => '11:00-11:30', 'label' => 'TEA BREAK'],
+        ['time' => '13:30-14:20', 'label' => 'LUNCH BREAK'],
+    ],
+];
+
+$timeline2Tea = simulateBandTimeline($band2TeaBreaks);
+$breaks2Tea = array_values(array_filter($timeline2Tea, fn($p) => $p['is_break']));
+
+assertCondition(count($breaks2Tea) === 3, 'Multiple Breaks: Exactly 3 breaks recognized (2 tea breaks + 1 lunch)');
+assertCondition($breaks2Tea[0]['break_label'] === 'SHORT BREAK' && $breaks2Tea[0]['label'] === '09:20 - 09:40', 'Multiple Breaks: Short Break locked at 09:20 - 09:40');
+assertCondition($breaks2Tea[1]['break_label'] === 'TEA BREAK' && $breaks2Tea[1]['label'] === '11:00 - 11:30', 'Multiple Breaks: Second Tea Break locked at 11:00 - 11:30');
+assertCondition($breaks2Tea[2]['break_label'] === 'LUNCH BREAK' && $breaks2Tea[2]['label'] === '13:30 - 14:20', 'Multiple Breaks: Lunch Break locked at 13:30 - 14:20');
+
+// 6.3 Test Early Start (07:45 Boarding School)
+$bandEarlyBoarding = [
+    'band_key' => 'board-745',
+    'day_start_time' => '07:45',
+    'lesson_length_minutes' => 40,
+    'lessons_per_day' => 9,
+    'break_config' => [
+        ['time' => '09:45-10:15', 'label' => 'TEA BREAK'],
+        ['time' => '12:15-13:15', 'label' => 'LUNCH BREAK'],
+    ],
+];
+
+$timelineEarly = simulateBandTimeline($bandEarlyBoarding);
+$teachingEarly = array_values(array_filter($timelineEarly, fn($p) => !$p['is_break']));
+
+assertCondition($teachingEarly[0]['label'] === '07:45 - 08:25', 'Early Boarding Start: Lesson 1 begins at 07:45 sharp');
+assertCondition(count($teachingEarly) === 9, 'Early Boarding Start: Full 9 lessons scheduled per day');
+
+// -------------------------------------------------------------
 // SUMMARY
 // -------------------------------------------------------------
 echo "\n======================================================\n";

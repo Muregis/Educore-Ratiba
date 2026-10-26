@@ -136,12 +136,12 @@ function getSchoolTimelinePeriods(int $schoolId, ?int $bandId = null, ?int $time
                 $norm = hourClockPart(formatHourSlotLabel($sh));
                 if (!isset($seenPeriodKeys[$norm])) {
                     $seenPeriodKeys[$norm] = true;
-                    $isBreak = (bool) preg_match('/\b(BREAK|LUNCH|TEA)\b/i', $sh);
+                    $isBreak = (bool) preg_match('/\b(BREAK|LUNCH|TEA|RECESS|INTERVAL|PRAYER)\b/i', $sh);
                     $periods[] = [
                         'key' => $sh,
                         'label' => formatHourSlotLabel($sh),
                         'is_break' => $isBreak,
-                        'break_label' => $isBreak ? (preg_match('/\b(LUNCH|BREAK|TEA)\b/i', $sh, $m) ? strtoupper($m[1]) : 'BREAK') : null,
+                        'break_label' => $isBreak ? (preg_match('/\b(LUNCH|BREAK|TEA|RECESS|INTERVAL|PRAYER)\b/i', $sh, $m) ? strtoupper($m[1]) : 'BREAK') : null,
                     ];
                 }
             }

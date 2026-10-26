@@ -82,10 +82,41 @@ function applyBandHourLocksToFetXml(string $xmlPath, int $schoolId): void
             continue;
         }
 
-        // Allowed = teaching hours for this prefix (exclude BREAK/LUNCH labels)
+        // Look up band record for this class to get its exact break_config
+        $bandRecord = null;
+        foreach ($bands as $b) {
+            if ((int) $b['id'] === $bandId) {
+                $bandRecord = $b;
+                break;
+            }
+        }
+        $configuredBreaks = [];
+        if ($bandRecord && !empty($bandRecord['break_config'])) {
+            $dec = is_string($bandRecord['break_config']) ? json_decode($bandRecord['break_config'], true) : $bandRecord['break_config'];
+            if (is_array($dec)) {
+                $configuredBreaks = $dec;
+            }
+        }
+
+        // Allowed = teaching hours for this prefix (strictly exclude all configured breaks)
         $allowed = [];
         foreach ($hoursByPrefix[$prefix] ?? [] as $hn) {
-            if (stripos($hn, 'BREAK') !== false || stripos($hn, 'LUNCH') !== false) {
+            $isBreak = (bool) preg_match('/\b(BREAK|LUNCH|TEA|RECESS|INTERVAL|PRAYER)\b/i', $hn);
+            if (!$isBreak) {
+                foreach ($configuredBreaks as $cb) {
+                    $cbLabel = trim((string) ($cb['label'] ?? ''));
+                    $cbTime = trim((string) ($cb['time'] ?? ''));
+                    if ($cbLabel !== '' && stripos($hn, $cbLabel) !== false) {
+                        $isBreak = true;
+                        break;
+                    }
+                    if ($cbTime !== '' && str_contains(str_replace(' ', '', $hn), str_replace(' ', '', $cbTime))) {
+                        $isBreak = true;
+                        break;
+                    }
+                }
+            }
+            if ($isBreak) {
                 continue;
             }
             $allowed[$hn] = true;
