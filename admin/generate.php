@@ -199,7 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'gener
                     $adminMessages[] = ['type' => 'success', 'text' => count($slotRows) . ' lessons scheduled. View or edit them from the View / Edit pages.'];
 
                     // Run authoritative conflict validation
-                    require_once __DIR__ . '/../tests/ClashDetector.php';
+                    require_once __DIR__ . '/ClashDetector.php';
                     $conflicts = ClashDetector::findConflicts($slotRows);
                     if (!empty($conflicts)) {
                         $adminMessages[] = [

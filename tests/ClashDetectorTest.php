@@ -18,7 +18,7 @@ declare(strict_types=1);
  * Exit code 0 = all pass (CI-friendly).
  */
 
-require_once __DIR__ . '/ClashDetector.php';
+require_once __DIR__ . '/../admin/ClashDetector.php';
 
 $passed = 0;
 $failed = 0;

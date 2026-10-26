@@ -18,7 +18,7 @@ if (!$latest) {
 $ttId = (int) $latest['id'];
 $action = $_POST['action'] ?? '';
 $adminId = (int) ($_SESSION['school_admin_id'] ?? $_SESSION['super_admin_id'] ?? 0);
-require_once __DIR__ . '/../tests/ClashDetector.php';
+require_once __DIR__ . '/ClashDetector.php';
 
 function clashExcluding(int $ttId, array $excludeIds, int $teacherId, ?int $roomId, int $classId, string $day, string $hour): ?string
 {

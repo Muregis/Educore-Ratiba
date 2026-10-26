@@ -7,7 +7,7 @@ require_once __DIR__ . '/generate_engine.php';
 require_once __DIR__ . '/fet_runtime.php';
 require_once __DIR__ . '/purge_cross_band_slots.php';
 require_once __DIR__ . '/apply_band_hour_locks.php';
-require_once __DIR__ . '/../tests/ClashDetector.php';
+require_once __DIR__ . '/ClashDetector.php';
 
 /**
  * Seeds authentic KICD CBC & JSS showcase data into a school and generates
