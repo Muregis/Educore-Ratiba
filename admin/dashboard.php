@@ -152,7 +152,9 @@ if ($latestGeneration) {
     <?php if ($latestGeneration['status'] === 'success'): ?>
     <div class="action-row" style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
         <a href="../export/export.php?scope=whole-school" target="_blank" class="btn">⬇ Download School PDF</a>
-        <a href="view_timetable.php" class="btn btn-secondary">📋 View by Class</a>
+        <a href="view_timetable.php?view=class" class="btn btn-secondary">📋 Class Timetables</a>
+        <a href="view_timetable.php?view=teacher" class="btn btn-secondary">👨‍🏫 Teacher Timetables</a>
+        <a href="view_timetable.php?view=master" class="btn btn-secondary">🌐 Master Timetable</a>
         <a href="edit-timetable.php" class="btn btn-secondary">✏️ Manual Edits</a>
         <a href="teachers.php" class="btn btn-secondary">👨‍🏫 Teachers</a>
         <a href="rooms.php" class="btn btn-secondary">🏫 Rooms</a>

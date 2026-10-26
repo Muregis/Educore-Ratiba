@@ -37,6 +37,10 @@ $testSuites = [
         'name' => 'Priority 4: Database Schema & Dialect Parity',
         'file' => __DIR__ . '/DatabaseCompatibilityTest.php',
     ],
+    [
+        'name' => 'Priority 5: Teacher & Master Timetable Views',
+        'file' => __DIR__ . '/TimetableViewTest.php',
+    ],
 ];
 
 $suiteResults = [];

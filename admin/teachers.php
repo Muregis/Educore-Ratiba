@@ -191,6 +191,7 @@ require __DIR__ . '/_header.php';
                         <td><?php echo htmlspecialchars((string) ($teacher['tsc_number'] ?? '—')); ?></td>
                         <td><?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : '—'; ?></td>
                         <td class="row-actions">
+                            <a href="view_timetable.php?view=teacher&teacher_id=<?php echo (int) $teacher['id']; ?>" class="btn-secondary" style="padding: 8px 12px; text-decoration: none; display: inline-block;">Timetable</a>
                             <button type="button" onclick="showEditForm(<?php echo (int) $teacher['id']; ?>, '<?php echo htmlspecialchars($teacher['name'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['staff_id'] ?? '', ENT_QUOTES); ?>', '<?php echo htmlspecialchars($teacher['tsc_number'] ?? '', ENT_QUOTES); ?>', <?php echo isset($teacher['max_lessons_per_week']) ? (int) $teacher['max_lessons_per_week'] : 'null'; ?>)" class="btn-secondary" style="padding: 8px 12px;">Edit</button>
                             <form method="post" onsubmit="return confirmDelete('Delete this teacher? They may be assigned to subjects.');">
     <?php echo csrfField(); ?>
