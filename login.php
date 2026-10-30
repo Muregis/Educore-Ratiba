@@ -192,6 +192,7 @@ getCsrfToken();
         </form>
 
         <div class="footer">
+            <div style="margin-bottom:8px">Engineered by MuregiScore Technologies • Systems by Victor Muregi</div>
             <a href="super/schools.php">Super Admin Portal →</a>
         </div>
     </div>
